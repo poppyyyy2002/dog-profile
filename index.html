@@ -1,195 +1,288 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>狗狗檔案 🐾</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Profile 🐾</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body { 
-            background-color: #fff9f0; 
-            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-            display: flex; justify-content: center; padding: 20px;
+            background-color: #faefba; 
+            font-family: 'Poppins', sans-serif;
+            display: flex; 
+            justify-content: center; 
+            padding: 20px;
+            margin: 0;
         }
+
         .card { 
-            background: white; width: 100%; max-width: 480px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.15);
-            padding: 40px; border: 3px solid #ffedda;
+            background: white; 
+            width: 100%; 
+            max-width: 550px;
+            border-radius: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            padding: 40px; 
+            border: 4px solid #fff;
+            box-sizing: border-box;
         }
 
-        /* 1. Logo 置中與放大 */
-        .dog-logo { text-align: center; margin-bottom: 20px; }
-        .dog-logo img { width: 180px; height: auto; }
+        .dog-logo { text-align: center; margin-bottom: 15px; }
+        .dog-logo img { width: 180px; height: auto; display: block; margin: 0 auto; }
 
-        h2 { text-align: center; color: #d35400; font-size: 28px; margin-bottom: 5px; }
+        h2 { 
+            text-align: center; 
+            color: #3ebc8e; 
+            font-family: 'Fredoka', sans-serif; 
+            font-size: 42px; 
+            margin: 10px 0 5px 0; 
+        }
         
-        /* 7. Made by Poppy H. 小字 */
         .author-tag { 
-            text-align: center; color: #BEBEBE; font-size: 12px; 
-            margin-bottom: 30px; display: block;
+            text-align: center; 
+            color: #BEBEBE; 
+            font-size: 13px; 
+            margin-bottom: 35px; 
+            display: block;
         }
 
         label { 
-            font-weight: bold; color: #7B7B7B; 
-            display: block; margin-top: 20px; font-size: 15px; 
+            font-weight: 600; 
+            color: #7B7B7B; 
+            display: block; 
+            margin-top: 22px; 
+            font-size: 14px; 
         }
         
         select, input { 
-            width: 100%; padding: 12px; margin-top: 8px;
-            border: 2px solid #ffedda; border-radius: 12px;
-            background-color: #fffaf5; font-size: 16px; outline: none;
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 10px;
+            border: 2px solid #fcf2d1; 
+            border-radius: 15px;
+            background-color: #fffdf5; 
+            font-size: 15px; 
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            color: #444;
+            box-sizing: border-box;
         }
 
         #result-box { 
-            margin-top: 30px; padding: 25px; border-radius: 15px;
-            background-color: #fff; border: 2px solid #ffedda;
-            color: #444; line-height: 1.8; display: none;
+            margin-top: 40px; 
+            padding: 30px; 
+            border-radius: 25px;
+            background-color: #fff; 
+            border: 2px dashed #3ebc8e;
+            color: #444; 
+            line-height: 1.8; 
+            display: none;
+            font-size: 15px;
         }
 
-        /* 2. 小小建議標題樣式 */
         .advice-header {
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
             color: #4F4F4F;
             background-color: #E0E0E0;
-            padding: 8px 20px;
-            border-radius: 20px; /* 圓弧長方形 */
+            padding: 10px 25px;
+            border-radius: 50px;
             display: block;
             width: fit-content;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 25px auto;
         }
 
-        .highlight {
-            background: linear-gradient(transparent 60%, #fff176 0%);
-            font-weight: bold;
+        .highlight-key {
+            color: #f7bf6e;
+            font-weight: 600;
+        }
+
+        .age-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        .age-table th, .age-table td {
+            border: 1px solid #eee;
+            padding: 8px;
+            text-align: center;
+        }
+        .age-table th {
+            background-color: #f9f9f9;
+            color: #7B7B7B;
+        }
+        .match-highlight {
+            background-color: rgba(247, 191, 110, 0.1);
+            color: #f7bf6e;
+            font-weight: 600;
+            border: 2px solid #f7bf6e !important;
         }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <!-- 1. Logo -->
     <div class="dog-logo">
         <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
     </div>
 
-    <!-- 7. 標題與署名 -->
-    <h2>狗狗檔案</h2>
+    <h2>Dog Profile</h2>
     <span class="author-tag">Made by Poppy H.</span>
 
-    <label>🐾 狗狗品種</label>
+    <label>🐾 Dog Breed</label>
     <select id="breed" onchange="generateAdvice()">
-        <option value="">請選擇...</option>
-        <option value="shiba">柴犬</option><option value="poodle">貴賓狗</option>
-        <option value="corgi">柯基</option><option value="maltese">馬爾濟斯</option>
-        <option value="golden">黃金獵犬</option><option value="labrador">拉不拉多</option>
-        <option value="frenchie">法鬥</option><option value="dachshund">臘腸狗</option>
-        <option value="schnauzer">雪納瑞</option><option value="pomeranian">博美狗</option>
-        <option value="husky">哈士奇</option><option value="beagle">米格魯</option>
-        <option value="border">邊境牧羊犬</option><option value="chihuahua">吉娃娃</option>
-        <option value="pug">巴哥</option><option value="shih-tzu">西施犬</option>
-        <option value="yorkshire">約克夏</option><option value="taiwan">台灣米克斯</option>
-        <option value="samoyed">薩摩耶</option><option value="bichon">比熊犬</option>
+        <option value="">Select Breed...</option>
+        <option value="shiba">Shiba Inu</option>
+        <option value="poodle">Poodle</option>
+        <option value="corgi">Corgi</option>
+        <option value="maltese">Maltese</option>
+        <option value="golden">Golden Retriever</option>
+        <option value="labrador">Labrador Retriever</option>
+        <option value="frenchie">French Bulldog</option>
+        <option value="dachshund">Dachshund</option>
+        <option value="schnauzer">Schnauzer</option>
+        <option value="pomeranian">Pomeranian</option>
+        <option value="husky">Husky</option>
+        <option value="beagle">Beagle</option>
+        <option value="border">Border Collie</option>
+        <option value="chihuahua">Chihuahua</option>
+        <option value="pug">Pug</option>
+        <option value="shih-tzu">Shih Tzu</option>
+        <option value="yorkshire">Yorkshire Terrier</option>
+        <option value="taiwan">Formosan Mountain Dog (Mix)</option>
+        <option value="samoyed">Samoyed</option>
+        <option value="bichon">Bichon Frise</option>
     </select>
 
-    <label>🎂 狗狗年齡</label>
+    <label>🎂 Dog Age</label>
     <select id="age" onchange="generateAdvice()">
-        <option value="">請選擇...</option>
-        <option value="幼犬">未滿 1 歲</option>
-        <option value="成犬">1 ~ 7 歲</option>
-        <option value="高齡犬">超過 7 歲</option>
+        <option value="">Select Age...</option>
+        <option value="1">0-1 year (A little baby, still growing)</option>
+        <option value="2">2 years (A young adult, maturing)</option>
+        <option value="4">3-5 years (The prime years)</option>
+        <option value="10">7-10 years (Entering the senior stage)</option>
+        <option value="15">10+ years (A super senior/elderly baby)</option>
     </select>
 
-    <!-- 3. 體型選項 -->
-    <label>🔢 體型</label>
+    <label>🔢 Body Size</label>
     <select id="bodySize" onchange="generateAdvice()">
-        <option value="">請選擇...</option>
-        <option value="mini">迷你型 (<4kg)</option>
-        <option value="small">小型 (<10kg)</option>
-        <option value="medium">中型 (11-25kg)</option>
-        <option value="large">大型 (26-45kg)</option>
-        <option value="giant">超大型/巨型 (>45kg)</option>
+        <option value="">Select Size...</option>
+        <option value="small">Small (<10kg)</option>
+        <option value="medium">Medium (10-25kg)</option>
+        <option value="large">Large/Giant (>25kg)</option>
     </select>
 
-    <!-- 5. 活動力選項 -->
-    <label>🐕‍🦺 活動力</label>
+    <label>🐕‍🦺 Activity</label>
     <select id="activity" onchange="generateAdvice()">
-        <option value="">請選擇...</option>
-        <option value="old">年紀太大了，走不動了</option>
-        <option value="lazy">懶惰的小豬，不愛運動或每日運動10min內</option>
-        <option value="good">正常乖寶寶，每天運動30min-90min</option>
-        <option value="hyper">過動兒，每天運動2HR以上</option>
-        <option value="boss">大魔王等級，每天都有用不完的體力</option>
+        <option value="">Select Level...</option>
+        <option value="old">Too old to walk far</option>
+        <option value="lazy">Lazy little piggy (Exercising < 10min/day)</option>
+        <option value="good">Good puppy (Daily exercise 30-90min)</option>
+        <option value="hyper">Hyperactive (Daily exercise 2hr+)</option>
+        <option value="boss">Boss level (Unlimited energy every day)</option>
     </select>
 
-    <label>🦴 目前體重 (kg)</label>
-    <input type="number" id="weight" placeholder="請輸入數字" oninput="generateAdvice()">
+    <label>🦴 Current Weight (kg)</label>
+    <input type="number" id="weight" placeholder="Enter weight" oninput="generateAdvice()">
 
     <div id="result-box"></div>
 </div>
 
 <script>
 const breedTips = {
-    shiba: "性格獨立的柴犬容易有皮膚問題，建議定期檢查毛囊並維持環境乾燥。",
-    poodle: "貴賓狗須注意關節保養與先天性氣管塌陷風險，定期梳理能預防皮膚發炎。",
-    corgi: "柯基犬脊椎負擔極重，必須嚴格控管體重以預防椎間盤疾病。",
-    maltese: "馬爾濟斯需留意心臟瓣膜問題，並維持眼周乾爽預防紅眼眶與細菌感染。",
-    golden: "黃金獵犬運動量極大，建議適度補充葡萄糖胺保護關節，並留意皮膚腫瘤。",
-    labrador: "拉不拉多代謝基因旺盛，容易攝取過多熱量導致代謝疾病。",
-    frenchie: "法鬥呼吸道結構特殊，需特別注意環境通風並避開正午時段散步。",
-    dachshund: "臘腸狗脊椎修長脆弱，日常應避免跳躍沙發或爬樓梯等衝擊動作。",
-    schnauzer: "雪納瑞有遺傳性高血脂風險，飲食建議以低脂肪、高纖維為主。",
-    pomeranian: "博美狗骨頭細小，需預防膝蓋骨脫位，建議家中鋪設止滑墊。",
-    husky: "哈士奇在台灣氣候易發生熱衰竭，需隨時補充水分並注意排解精力。",
-    beagle: "米格魯食慾強烈且活動力高，若體力未適度消耗容易產生破壞行為。",
-    border: "邊牧需要極高的心智刺激，除了體力訓練，嗅聞遊戲也是關鍵。",
-    chihuahua: "吉娃娃體溫調節較弱，冷熱溫差大時容易感冒，需多注意室內溫控。",
-    pug: "巴哥臉部皺褶深，需每天清潔避免潮濕發霉引起異味或感染。",
-    "shih-tzu": "西施犬眼睛大而突出，玩耍時應避開尖銳物品以防止眼球挫傷。",
-    yorkshire: "約克夏牙齦較敏感，需注意口腔健康，避免發生早發性掉牙。",
-    taiwan: "台灣米克斯體質強健，但仍需定期預防心絲蟲與壁蝨傳染病。",
-    samoyed: "薩摩耶毛量豐厚，洗澡後務必深層吹乾以防濕疹與黴菌感染。",
-    bichon: "比熊犬需定期修剪毛髮維持視覺清爽，也要注意分離焦慮的緩解。"
+    shiba: "Independent Shiba Inus are prone to skin issues; ensure a dry environment and regular grooming.",
+    poodle: "Poodles are highly intelligent but prone to luxating patella; keep their curly coats tangle-free.",
+    corgi: "Adorable Corgis face significant spinal strain; strict weight management is crucial to prevent injury.",
+    maltese: "Maltese dogs require careful heart health monitoring and dry eyes to prevent bacterial infection.",
+    golden: "Active Golden Retrievers may need joint supplements like glucosamine and regular health screenings.",
+    labrador: "Labradors have a metabolic drive to eat; monitor caloric intake carefully to prevent obesity.",
+    frenchie: "Frenchies have unique airways; avoid exercising them in peak heat and ensure good ventilation.",
+    dachshund: "Dachshunds have fragile spines; avoid letting them jump from high surfaces or climb steep stairs.",
+    schnauzer: "Schnauzers may have genetic predispositions to pancreatitis; a low-fat, high-fiber diet is best.",
+    pomeranian: "Small-boned Pomeranians are prone to tracheal collapse; use a harness instead of a collar.",
+    husky: "Huskies are vulnerable to heatstroke in humid climates; ensure they stay hydrated and cool.",
+    beagle: "Food-motivated Beagles have a high drive; ensure they have outlets for their powerful sense of smell.",
+    border: "Border Collies are geniuses; they need both intense physical exercise and mental sniff games.",
+    chihuahua: "Tiny Chihuahuas struggle with temperature regulation; keep them warm during cold snaps.",
+    pug: "Pugs have deep facial wrinkles that need daily cleaning to prevent moisture-related infections.",
+    "shih-tzu": "Shih Tzus have prominent eyes; be careful with sharp objects during play to prevent injury.",
+    yorkshire: "Yorkies have sensitive gums; establish a teeth-brushing routine early to prevent tooth loss.",
+    taiwan: "Taiwan Mixes are resilient but still need consistent heartworm and tick prevention.",
+    samoyed: "Fluffy Samoyeds have dense coats; ensure they are dried thoroughly after bathing to avoid hotspots.",
+    bichon: "Bichon Frises are prone to separation anxiety and need regular professional grooming."
 };
 
 function generateAdvice() {
     const breed = document.getElementById('breed');
-    const age = document.getElementById('age').value;
+    const ageVal = document.getElementById('age').value;
     const bodySize = document.getElementById('bodySize').value;
     const weight = parseFloat(document.getElementById('weight').value);
-    const activity = document.getElementById('activity').value;
+    const activityVal = document.getElementById('activity').value;
     const resultBox = document.getElementById('result-box');
 
-    if (!breed.value || !age || !bodySize || !activity) {
+    if (!breed.value || !ageVal || !bodySize || !activityVal) {
         resultBox.style.display = "none";
         return;
     }
 
-    const breedName = breed.options[breed.selectedIndex].text;
-    const activityName = document.getElementById('activity').options[document.getElementById('activity').selectedIndex].text;
-    
-    // 4. 體重超標判斷 (專業邏輯)
+    // Weight Overweight Logic
     let weightAdvice = "";
     if (weight) {
-        if (bodySize === "mini" && weight > 4) weightAdvice = "<span class='highlight'>目前體重已明顯超出迷你型標準</span>，建議減少零食給予並諮詢獸醫專業減重計畫。";
-        else if (bodySize === "small" && weight > 10) weightAdvice = "<span class='highlight'>目前體重略高於小型犬範疇</span>，需注意關節負荷，建議每日定時定量用餐。";
-        else if (bodySize === "medium" && weight > 25) weightAdvice = "<span class='highlight'>目前體重超出中型犬標準</span>，請適度調整飲食內容並維持穩定運動量。";
-        else if (bodySize === "large" && weight > 45) weightAdvice = "<span class='highlight'>大型犬體重過重會嚴重壓迫心肺系統</span>，務必進行嚴謹的卡路里控管。";
+        if (bodySize === "small" && weight > 10) weightAdvice = "<span class='highlight-key'>Weight is noticeably high for a small dog.</span> Consider a vet-approved weight loss plan.";
+        else if (bodySize === "medium" && weight > 25) weightAdvice = "<span class='highlight-key'>Weight exceeds the standard for medium breeds.</span> Increase activity levels.";
+        else if (bodySize === "large" && weight > 45) weightAdvice = "<span class='highlight-key'>Excess weight in large breeds puts high stress on the heart.</span> Strict calorie control is vital.";
     }
 
-    // 5. 活動力建議
+    // Activity Advice
     let activityAdvice = "";
-    if (activity === "old") activityAdvice = "因狗狗年事已高，活動應以慢走為主，不宜勉強運動。";
-    else if (activity === "lazy") activityAdvice = "狗狗活動量明顯不足，容易累積脂肪，建議循序漸進增加散步頻率。";
-    else if (activity === "good") activityAdvice = "狗狗擁有非常健康的運動習慣，請繼續維持目前的作息。";
-    else if (activity === "hyper" || activity === "boss") activityAdvice = "您的狗狗擁有驚人的精力，強烈建議每天安排高強度的跑跳或嗅聞遊戲。";
+    if (activityVal === "old") activityAdvice = "Since your dog is older, focus on gentle strolls and don't push them too hard.";
+    else if (activityVal === "lazy") activityAdvice = "Activity levels are quite low. Try increasing walk frequency slowly.";
+    else if (activityVal === "good") activityAdvice = "Your dog has a very healthy exercise habit. Keep up the great work!";
+    else if (activityVal === "hyper" || activityVal === "boss") activityAdvice = "With such high energy levels, daily interactive play or nose-work is highly recommended.";
 
-    // 整合文字
-    let intro = `您家中的 <b>${breedName}</b> 目前處於 <b>${age}</b> 階段，活動力表現為「${activityName}」。`;
-    let detail = `<br><br>根據主人提供的數據，狗狗需要注意：${breedTips[breed.value]} ${weightAdvice} ${activityAdvice}`;
+    // Table Logic
+    const tableData = [
+        {age: 1, s: 15, m: 15, l: 12},
+        {age: 2, s: 24, m: 24, l: 22},
+        {age: 3, s: 28, m: 28, l: 31}, // Representing 3-5
+        {age: 5, s: 36, m: 36, l: 45}, 
+        {age: 10, s: 56, m: 60, l: 79},
+        {age: 15, s: 76, m: 83, l: 114}
+    ];
+
+    let tableHTML = `<table class="age-table">
+        <thead>
+            <tr>
+                <th>Dog Age</th>
+                <th>Small (<10kg)</th>
+                <th>Medium (11-25kg)</th>
+                <th>Large (>25kg)</th>
+            </tr>
+        </thead>
+        <tbody>`;
+
+    tableData.forEach(row => {
+        const isAgeMatch = (parseInt(ageVal) === row.age) || (ageVal == "4" && (row.age == 3 || row.age == 5));
+        tableHTML += `<tr>
+            <td>${row.age == 3 ? '3-5' : (row.age == 15 ? '10+' : row.age)} year(s)</td>
+            <td class="${isAgeMatch && bodySize === 'small' ? 'match-highlight' : ''}">${row.s} yrs</td>
+            <td class="${isAgeMatch && bodySize === 'medium' ? 'match-highlight' : ''}">${row.m} yrs</td>
+            <td class="${isAgeMatch && bodySize === 'large' ? 'match-highlight' : ''}">${row.l} yrs</td>
+        </tr>`;
+    });
+    tableHTML += `</tbody></table>`;
+
+    // Final Detail Composition
+    let detail = `Based on the data provided, here are the key points to note: ${breedTips[breed.value]} ${weightAdvice} ${activityAdvice}`;
 
     resultBox.innerHTML = `
-        <span class="advice-header">⭐️小小建議</span>
-        ${intro}${detail}
+        <span class="advice-header">⭐️ Quick Advice</span>
+        ${detail}
+        <br><br><b>Age Comparison Table (Dog vs. Human Years):</b>
+        ${tableHTML}
+        <p style="font-size: 11px; color: #999; margin-top: 10px;">According to the data provided by the owner, the dog's requirements are based on size and age metrics.</p>
     `;
     resultBox.style.display = "block";
 }
