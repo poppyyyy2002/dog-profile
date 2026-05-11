@@ -2,37 +2,54 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>萌寵照護小手冊 🐾</title>
+    <title>狗狗檔案 🐾</title>
     <style>
-        /* 1. 頁面可愛風設計 */
         body { 
-            background-color: #fff9f0; /* 暖奶油色底 */
+            background-color: #fff9f0; 
             font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
             display: flex; justify-content: center; padding: 20px;
         }
         .card { 
             background: white; width: 100%; max-width: 450px;
-            border-radius: 30px; /* 超圓潤邊角 */
-            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.15); /* 橘色系柔和陰影 */
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.15);
             padding: 40px; border: 3px solid #ffedda;
         }
-        h2 { text-align: center; color: #d35400; font-size: 24px; margin-bottom: 30px; }
+        h2 { text-align: center; color: #d35400; font-size: 26px; margin-bottom: 30px; }
         
-        /* 選單美化 */
-        label { font-weight: bold; color: #8e44ad; display: block; margin-top: 15px; font-size: 14px; }
+        /* 標題字體顏色調整 */
+        label { 
+            font-weight: bold; 
+            color: #7B7B7B; /* 按照要求更改顏色 */
+            display: block; margin-top: 15px; font-size: 15px; 
+        }
+        
         select, input { 
             width: 100%; padding: 12px; margin-top: 8px;
             border: 2px solid #ffedda; border-radius: 12px;
             background-color: #fffaf5; font-size: 16px; outline: none;
-            transition: 0.3s;
         }
-        select:focus, input:focus { border-color: #ffb367; background-color: #fff; }
 
         /* 建議區塊美化 */
         #result-box { 
-            margin-top: 30px; padding: 20px; border-radius: 15px;
-            background-color: #fff0f0; border: 2px dashed #ffb3b3;
-            color: #444; line-height: 1.8; display: none; /* 初始隱藏 */
+            margin-top: 30px; padding: 25px; border-radius: 15px;
+            background-color: #fff; border: 2px solid #ffedda;
+            color: #444; line-height: 2; display: none;
+        }
+
+        /* 螢光筆效果 */
+        .highlight {
+            background: linear-gradient(transparent 60%, #fff176 0%); /* 黃色螢光筆 */
+            font-weight: bold;
+            padding: 0 2px;
+        }
+
+        .advice-header {
+            text-align: center; /* 置中 */
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 15px;
+            display: block;
         }
         .dog-emoji { font-size: 40px; text-align: center; margin-bottom: 10px; }
     </style>
@@ -41,7 +58,7 @@
 
 <div class="card">
     <div class="dog-emoji">🐶</div>
-    <h2>萌寵照護小手冊</h2>
+    <h2>狗狗檔案</h2>
 
     <label>🐾 狗狗品種</label>
     <select id="breed" onchange="generateAdvice()">
@@ -66,40 +83,40 @@
         <option value="高齡犬">超過 7 歲</option>
     </select>
 
-    <label>⚖️ 目前體重 (kg)</label>
-    <input type="number" id="weight" placeholder="請輸入體重" oninput="generateAdvice()">
-
-    <label>⚡ 活動力程度</label>
+    <label>🐕‍🦺 活動力程度</label>
     <select id="activity" onchange="generateAdvice()">
         <option value="低">懶洋洋 (不出門/散步極短)</option>
         <option value="中" selected>正常 (每天散步 30-60分)</option>
         <option value="高">過動兒 (需要大量奔跑)</option>
     </select>
 
+    <label>🦴 目前體重 (kg)</label>
+    <input type="number" id="weight" placeholder="請輸入數字" oninput="generateAdvice()">
+
     <div id="result-box"></div>
 </div>
 
 <script>
 const breedTips = {
-    shiba: "性格獨立的柴犬容易有皮膚問題，平時要保持居家乾燥。",
-    poodle: "聰明的貴賓狗要注意關節保養，毛髮要天天梳理才不會打結。",
-    corgi: "短腿萌萌的柯基要嚴格控制體重，避免脊椎受傷。",
-    maltese: "馬爾濟斯的心臟與淚腺需要細心呵護，保持眼周乾爽。",
-    golden: "暖男黃金獵犬運動量大，要留意髖關節與好發腫瘤。",
-    labrador: "拉不拉多是出了名的貪吃鬼，要小心過胖影響健康。",
-    frenchie: "法鬥呼吸道較窄，夏天千萬要注意防暑降溫。",
-    dachshund: "長長的臘腸狗絕對不能跳高，保護脊椎是首要任務。",
-    schnauzer: "雪納瑞要注意低脂飲食，預防常見的胰臟炎問題。",
-    pomeranian: "博美狗氣管脆弱，出門建議使用胸背帶代替頸圈。",
-    husky: "二哈雖然帥氣但極度怕熱，台灣夏天一定要開冷氣。",
-    beagle: "米格魯嗅覺靈敏容易分心，且長耳朵要定期清理。",
-    border: "邊牧是天才學生，除了體力消耗，更需要腦力遊戲。",
-    chihuahua: "小不點吉娃娃怕冷也怕摔，冬天要記得幫牠穿衣服。",
-    pug: "巴哥臉上的皺褶容易藏汙納垢，每天都要擦拭清潔。",
-    "shih-tzu": "西施犬眼睛大而突出，玩耍時要小心眼球受傷。",
-    yorkshire: "約克夏牙齒容易長牙結石，從小養成刷牙好習慣。",
-    taiwan: "強健的米克斯適應力好，但防心絲蟲與寄生蟲不能少。",
-    samoyed: "微笑天使薩摩耶毛量厚重，洗澡後務必徹底吹乾。",
+    shiba: "性格獨立的柴犬容易有<span class='highlight'>皮膚問題</span>，平時要保持居家乾燥。",
+    poodle: "聰明的貴賓狗要注意<span class='highlight'>關節保養</span>，毛髮要天天梳理才不會打結。",
+    corgi: "短腿萌萌的柯基要<span class='highlight'>嚴格控制體重</span>，避免脊椎受傷。",
+    maltese: "馬爾濟斯的心臟與淚腺需要細心呵護，保持<span class='highlight'>眼周乾爽</span>。",
+    golden: "暖男黃金獵犬運動量大，要留意<span class='highlight'>髖關節與好發腫瘤</span>。",
+    labrador: "拉不拉多是出了名的貪吃鬼，要小心<span class='highlight'>過胖影響健康</span>。",
+    frenchie: "法鬥呼吸道較窄，夏天千萬要注意<span class='highlight'>防暑降溫</span>。",
+    dachshund: "長長的臘腸狗<span class='highlight'>絕對不能跳高</span>，保護脊椎是首要任務。",
+    schnauzer: "雪納瑞要注意<span class='highlight'>低脂飲食</span>，預防常見的胰臟炎問題。",
+    pomeranian: "博美狗氣管脆弱，出門建議使用<span class='highlight'>胸背帶</span>代替頸圈。",
+    husky: "二哈雖然帥氣但極度怕熱，台灣夏天一定要<span class='highlight'>開冷氣</span>。",
+    beagle: "米格魯嗅覺靈敏容易分心，且長耳朵要<span class='highlight'>定期清理</span>。",
+    border: "邊牧是天才學生，除了體力消耗，更需要<span class='highlight'>腦力遊戲</span>。",
+    chihuahua: "小不點吉娃娃怕冷也怕摔，冬天要記得幫牠<span class='highlight'>穿衣服</span>。",
+    pug: "巴哥臉上的皺褶容易藏汙納垢，每天都要<span class='highlight'>擦拭清潔</span>。",
+    "shih-tzu": "西施犬眼睛大而突出，玩耍時要小心<span class='highlight'>眼球受傷</span>。",
+    yorkshire: "約克夏牙齒容易長牙結石，從小養成<span class='highlight'>刷牙好習慣</span>。",
+    taiwan: "強健的米克斯適應力好，但防<span class='highlight'>心絲蟲與寄生蟲</span>不能少。",
+    samoyed: "微笑天使薩摩耶毛量厚重，洗澡後務必<span class='highlight'>徹底吹乾</span>。",
     bichon: "比熊犬黏人且毛髮需修剪，適合喜歡陪伴的人。"
 };
 
@@ -120,17 +137,20 @@ function generateAdvice() {
     
     // 整合文字邏輯
     let intro = `您家中的 <b>${breedName}</b> 目前處於 <b>${age}</b> 階段。`;
-    let weightHint = weight ? `體重為 ${weight}kg，` : "";
+    let weightHint = weight ? `目前的體重為 <b>${weight}kg</b>，` : "";
     let activityHint = `屬於活動力<b>${activity}</b>的狗狗。`;
     
-    let summary = `依據這些資訊，建議您：${breedAdvice} `;
+    let summary = `<br>根據主人提供的狗狗數據，狗狗需要注意：${breedAdvice} `;
     
-    if (age === "幼犬") summary += "這個時期是發育關鍵，請提供高營養食物並注意社會化訓練。";
-    if (age === "高齡犬") summary += "老孩子代謝較慢，飲食要適量並增加健檢頻率。";
+    if (age === "幼犬") summary += "這個時期是發育關鍵，請提供<span class='highlight'>高營養食物</span>並注意社會化訓練。";
+    if (age === "高齡犬") summary += "老孩子代謝較慢，飲食要適量並<span class='highlight'>增加健檢頻率</span>。";
     
-    if (activity === "高") summary += "由於活力旺盛，每天需要充足的嗅聞與消耗體力，才不會破壞家具喔！";
+    if (activity === "高") summary += "由於活力旺盛，每天需要充足的<span class='highlight'>嗅聞與消耗體力</span>，才不會破壞家具喔！";
 
-    resultBox.innerHTML = `${intro}${weightHint}${activityHint}<br><br>✨ <b>專屬建議：</b><br>${summary}`;
+    resultBox.innerHTML = `
+        <span class="advice-header">⭐️小小建議</span>
+        ${intro}${weightHint}${activityHint}${summary}
+    `;
     resultBox.style.display = "block";
 }
 </script>
