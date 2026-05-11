@@ -10,18 +10,27 @@
             display: flex; justify-content: center; padding: 20px;
         }
         .card { 
-            background: white; width: 100%; max-width: 450px;
+            background: white; width: 100%; max-width: 480px;
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(230, 126, 34, 0.15);
             padding: 40px; border: 3px solid #ffedda;
         }
-        h2 { text-align: center; color: #4F4F4F; font-size: 26px; margin-bottom: 30px; }
+
+        /* 1. Logo 置中與放大 */
+        .dog-logo { text-align: center; margin-bottom: 20px; }
+        .dog-logo img { width: 180px; height: auto; }
+
+        h2 { text-align: center; color: #d35400; font-size: 28px; margin-bottom: 5px; }
         
-        /* 標題字體顏色調整 */
+        /* 7. Made by Poppy H. 小字 */
+        .author-tag { 
+            text-align: center; color: #BEBEBE; font-size: 12px; 
+            margin-bottom: 30px; display: block;
+        }
+
         label { 
-            font-weight: bold; 
-            color: #7B7B7B; /* 按照要求更改顏色 */
-            display: block; margin-top: 15px; font-size: 15px; 
+            font-weight: bold; color: #7B7B7B; 
+            display: block; margin-top: 20px; font-size: 15px; 
         }
         
         select, input { 
@@ -30,34 +39,42 @@
             background-color: #fffaf5; font-size: 16px; outline: none;
         }
 
-        /* 建議區塊美化 */
         #result-box { 
             margin-top: 30px; padding: 25px; border-radius: 15px;
             background-color: #fff; border: 2px solid #ffedda;
-            color: #444; line-height: 2; display: none;
+            color: #444; line-height: 1.8; display: none;
         }
 
-        /* 螢光筆效果 */
-        .highlight {
-            background: linear-gradient(transparent 60%, #fff176 0%); /* 黃色螢光筆 */
-            font-weight: bold;
-            padding: 0 2px;
-        }
-
+        /* 2. 小小建議標題樣式 */
         .advice-header {
-            text-align: center; /* 置中 */
+            text-align: center;
             font-weight: bold;
-            color: #e67e22;
-            margin-bottom: 15px;
+            color: #4F4F4F;
+            background-color: #E0E0E0;
+            padding: 8px 20px;
+            border-radius: 20px; /* 圓弧長方形 */
             display: block;
+            width: fit-content;
+            margin: 0 auto 20px auto;
         }
-        .dog-emoji { font-size: 40px; text-align: center; margin-bottom: 10px; }
+
+        .highlight {
+            background: linear-gradient(transparent 60%, #fff176 0%);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
-<img src="S__155754498-removebg-preview.png" alt="Logo" width="120">    <h2>狗狗檔案</h2>
+    <!-- 1. Logo -->
+    <div class="dog-logo">
+        <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
+    </div>
+
+    <!-- 7. 標題與署名 -->
+    <h2>狗狗檔案</h2>
+    <span class="author-tag">Made by Poppy H.</span>
 
     <label>🐾 狗狗品種</label>
     <select id="breed" onchange="generateAdvice()">
@@ -82,11 +99,26 @@
         <option value="高齡犬">超過 7 歲</option>
     </select>
 
-    <label>🐕‍🦺 活動力程度</label>
+    <!-- 3. 體型選項 -->
+    <label>🔢 體型</label>
+    <select id="bodySize" onchange="generateAdvice()">
+        <option value="">請選擇...</option>
+        <option value="mini">迷你型 (<4kg)</option>
+        <option value="small">小型 (<10kg)</option>
+        <option value="medium">中型 (11-25kg)</option>
+        <option value="large">大型 (26-45kg)</option>
+        <option value="giant">超大型/巨型 (>45kg)</option>
+    </select>
+
+    <!-- 5. 活動力選項 -->
+    <label>🐕‍🦺 活動力</label>
     <select id="activity" onchange="generateAdvice()">
-        <option value="低">懶洋洋 (不出門/散步極短)</option>
-        <option value="中" selected>正常 (每天散步 30-60分)</option>
-        <option value="高">過動兒 (需要大量奔跑)</option>
+        <option value="">請選擇...</option>
+        <option value="old">年紀太大了，走不動了</option>
+        <option value="lazy">懶惰的小豬，不愛運動或每日運動10min內</option>
+        <option value="good">正常乖寶寶，每天運動30min-90min</option>
+        <option value="hyper">過動兒，每天運動2HR以上</option>
+        <option value="boss">大魔王等級，每天都有用不完的體力</option>
     </select>
 
     <label>🦴 目前體重 (kg)</label>
@@ -97,58 +129,67 @@
 
 <script>
 const breedTips = {
-    shiba: "性格獨立的柴犬容易有<span class='highlight'>皮膚問題</span>，平時要保持居家乾燥。",
-    poodle: "聰明的貴賓狗要注意<span class='highlight'>關節保養</span>，毛髮要天天梳理才不會打結。",
-    corgi: "短腿萌萌的柯基要<span class='highlight'>嚴格控制體重</span>，避免脊椎受傷。",
-    maltese: "馬爾濟斯的心臟與淚腺需要細心呵護，保持<span class='highlight'>眼周乾爽</span>。",
-    golden: "暖男黃金獵犬運動量大，要留意<span class='highlight'>髖關節與好發腫瘤</span>。",
-    labrador: "拉不拉多是出了名的貪吃鬼，要小心<span class='highlight'>過胖影響健康</span>。",
-    frenchie: "法鬥呼吸道較窄，夏天千萬要注意<span class='highlight'>防暑降溫</span>。",
-    dachshund: "長長的臘腸狗<span class='highlight'>絕對不能跳高</span>，保護脊椎是首要任務。",
-    schnauzer: "雪納瑞要注意<span class='highlight'>低脂飲食</span>，預防常見的胰臟炎問題。",
-    pomeranian: "博美狗氣管脆弱，出門建議使用<span class='highlight'>胸背帶</span>代替頸圈。",
-    husky: "二哈雖然帥氣但極度怕熱，台灣夏天一定要<span class='highlight'>開冷氣</span>。",
-    beagle: "米格魯嗅覺靈敏容易分心，且長耳朵要<span class='highlight'>定期清理</span>。",
-    border: "邊牧是天才學生，除了體力消耗，更需要<span class='highlight'>腦力遊戲</span>。",
-    chihuahua: "小不點吉娃娃怕冷也怕摔，冬天要記得幫牠<span class='highlight'>穿衣服</span>。",
-    pug: "巴哥臉上的皺褶容易藏汙納垢，每天都要<span class='highlight'>擦拭清潔</span>。",
-    "shih-tzu": "西施犬眼睛大而突出，玩耍時要小心<span class='highlight'>眼球受傷</span>。",
-    yorkshire: "約克夏牙齒容易長牙結石，從小養成<span class='highlight'>刷牙好習慣</span>。",
-    taiwan: "強健的米克斯適應力好，但防<span class='highlight'>心絲蟲與寄生蟲</span>不能少。",
-    samoyed: "微笑天使薩摩耶毛量厚重，洗澡後務必<span class='highlight'>徹底吹乾</span>。",
-    bichon: "比熊犬黏人且毛髮需修剪，適合喜歡陪伴的人。"
+    shiba: "性格獨立的柴犬容易有皮膚問題，建議定期檢查毛囊並維持環境乾燥。",
+    poodle: "貴賓狗須注意關節保養與先天性氣管塌陷風險，定期梳理能預防皮膚發炎。",
+    corgi: "柯基犬脊椎負擔極重，必須嚴格控管體重以預防椎間盤疾病。",
+    maltese: "馬爾濟斯需留意心臟瓣膜問題，並維持眼周乾爽預防紅眼眶與細菌感染。",
+    golden: "黃金獵犬運動量極大，建議適度補充葡萄糖胺保護關節，並留意皮膚腫瘤。",
+    labrador: "拉不拉多代謝基因旺盛，容易攝取過多熱量導致代謝疾病。",
+    frenchie: "法鬥呼吸道結構特殊，需特別注意環境通風並避開正午時段散步。",
+    dachshund: "臘腸狗脊椎修長脆弱，日常應避免跳躍沙發或爬樓梯等衝擊動作。",
+    schnauzer: "雪納瑞有遺傳性高血脂風險，飲食建議以低脂肪、高纖維為主。",
+    pomeranian: "博美狗骨頭細小，需預防膝蓋骨脫位，建議家中鋪設止滑墊。",
+    husky: "哈士奇在台灣氣候易發生熱衰竭，需隨時補充水分並注意排解精力。",
+    beagle: "米格魯食慾強烈且活動力高，若體力未適度消耗容易產生破壞行為。",
+    border: "邊牧需要極高的心智刺激，除了體力訓練，嗅聞遊戲也是關鍵。",
+    chihuahua: "吉娃娃體溫調節較弱，冷熱溫差大時容易感冒，需多注意室內溫控。",
+    pug: "巴哥臉部皺褶深，需每天清潔避免潮濕發霉引起異味或感染。",
+    "shih-tzu": "西施犬眼睛大而突出，玩耍時應避開尖銳物品以防止眼球挫傷。",
+    yorkshire: "約克夏牙齦較敏感，需注意口腔健康，避免發生早發性掉牙。",
+    taiwan: "台灣米克斯體質強健，但仍需定期預防心絲蟲與壁蝨傳染病。",
+    samoyed: "薩摩耶毛量豐厚，洗澡後務必深層吹乾以防濕疹與黴菌感染。",
+    bichon: "比熊犬需定期修剪毛髮維持視覺清爽，也要注意分離焦慮的緩解。"
 };
 
 function generateAdvice() {
     const breed = document.getElementById('breed');
     const age = document.getElementById('age').value;
-    const weight = document.getElementById('weight').value;
+    const bodySize = document.getElementById('bodySize').value;
+    const weight = parseFloat(document.getElementById('weight').value);
     const activity = document.getElementById('activity').value;
     const resultBox = document.getElementById('result-box');
 
-    if (!breed.value || !age) {
+    if (!breed.value || !age || !bodySize || !activity) {
         resultBox.style.display = "none";
         return;
     }
 
     const breedName = breed.options[breed.selectedIndex].text;
-    const breedAdvice = breedTips[breed.value];
+    const activityName = document.getElementById('activity').options[document.getElementById('activity').selectedIndex].text;
     
-    // 整合文字邏輯
-    let intro = `您家中的 <b>${breedName}</b> 目前處於 <b>${age}</b> 階段。`;
-    let weightHint = weight ? `目前的體重為 <b>${weight}kg</b>，` : "";
-    let activityHint = `屬於活動力<b>${activity}</b>的狗狗。`;
-    
-    let summary = `<br>根據主人提供的狗狗數據，狗狗需要注意：${breedAdvice} `;
-    
-    if (age === "幼犬") summary += "這個時期是發育關鍵，請提供<span class='highlight'>高營養食物</span>並注意社會化訓練。";
-    if (age === "高齡犬") summary += "老孩子代謝較慢，飲食要適量並<span class='highlight'>增加健檢頻率</span>。";
-    
-    if (activity === "高") summary += "由於活力旺盛，每天需要充足的<span class='highlight'>嗅聞與消耗體力</span>，才不會破壞家具喔！";
+    // 4. 體重超標判斷 (專業邏輯)
+    let weightAdvice = "";
+    if (weight) {
+        if (bodySize === "mini" && weight > 4) weightAdvice = "<span class='highlight'>目前體重已明顯超出迷你型標準</span>，建議減少零食給予並諮詢獸醫專業減重計畫。";
+        else if (bodySize === "small" && weight > 10) weightAdvice = "<span class='highlight'>目前體重略高於小型犬範疇</span>，需注意關節負荷，建議每日定時定量用餐。";
+        else if (bodySize === "medium" && weight > 25) weightAdvice = "<span class='highlight'>目前體重超出中型犬標準</span>，請適度調整飲食內容並維持穩定運動量。";
+        else if (bodySize === "large" && weight > 45) weightAdvice = "<span class='highlight'>大型犬體重過重會嚴重壓迫心肺系統</span>，務必進行嚴謹的卡路里控管。";
+    }
+
+    // 5. 活動力建議
+    let activityAdvice = "";
+    if (activity === "old") activityAdvice = "因狗狗年事已高，活動應以慢走為主，不宜勉強運動。";
+    else if (activity === "lazy") activityAdvice = "狗狗活動量明顯不足，容易累積脂肪，建議循序漸進增加散步頻率。";
+    else if (activity === "good") activityAdvice = "狗狗擁有非常健康的運動習慣，請繼續維持目前的作息。";
+    else if (activity === "hyper" || activity === "boss") activityAdvice = "您的狗狗擁有驚人的精力，強烈建議每天安排高強度的跑跳或嗅聞遊戲。";
+
+    // 整合文字
+    let intro = `您家中的 <b>${breedName}</b> 目前處於 <b>${age}</b> 階段，活動力表現為「${activityName}」。`;
+    let detail = `<br><br>根據主人提供的數據，狗狗需要注意：${breedTips[breed.value]} ${weightAdvice} ${activityAdvice}`;
 
     resultBox.innerHTML = `
         <span class="advice-header">⭐️小小建議</span>
-        ${intro}${weightHint}${activityHint}${summary}
+        ${intro}${detail}
     `;
     resultBox.style.display = "block";
 }
