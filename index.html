@@ -2,140 +2,136 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>狗狗照護小幫手</title>
+    <title>萌寵照護小手冊 🐾</title>
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f9f9f9; padding: 20px; color: #333; line-height: 1.5; }
-        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #e67e22; margin-bottom: 25px; }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #d35400; }
-        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        #result { margin-top: 30px; padding: 20px; border-radius: 10px; background-color: #fff5e6; border-left: 5px solid #e67e22; }
-        .info-title { font-weight: bold; color: #c0392b; margin-bottom: 5px; }
+        /* 1. 頁面可愛風設計 */
+        body { 
+            background-color: #fff9f0; /* 暖奶油色底 */
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            display: flex; justify-content: center; padding: 20px;
+        }
+        .card { 
+            background: white; width: 100%; max-width: 450px;
+            border-radius: 30px; /* 超圓潤邊角 */
+            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.15); /* 橘色系柔和陰影 */
+            padding: 40px; border: 3px solid #ffedda;
+        }
+        h2 { text-align: center; color: #d35400; font-size: 24px; margin-bottom: 30px; }
+        
+        /* 選單美化 */
+        label { font-weight: bold; color: #8e44ad; display: block; margin-top: 15px; font-size: 14px; }
+        select, input { 
+            width: 100%; padding: 12px; margin-top: 8px;
+            border: 2px solid #ffedda; border-radius: 12px;
+            background-color: #fffaf5; font-size: 16px; outline: none;
+            transition: 0.3s;
+        }
+        select:focus, input:focus { border-color: #ffb367; background-color: #fff; }
+
+        /* 建議區塊美化 */
+        #result-box { 
+            margin-top: 30px; padding: 20px; border-radius: 15px;
+            background-color: #fff0f0; border: 2px dashed #ffb3b3;
+            color: #444; line-height: 1.8; display: none; /* 初始隱藏 */
+        }
+        .dog-emoji { font-size: 40px; text-align: center; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>狗狗照護評估 🐶</h2>
+<div class="card">
+    <div class="dog-emoji">🐶</div>
+    <h2>萌寵照護小手冊</h2>
 
-    <label>1. 狗狗品種</label>
-    <select id="breed" onchange="calculate()">
-        <option value="">請選擇品種</option>
-        <option value="shiba">柴犬</option>
-        <option value="poodle">貴賓狗</option>
-        <option value="corgi">柯基</option>
-        <option value="maltese">馬爾濟斯</option>
-        <option value="golden">黃金獵犬</option>
-        <option value="labrador">拉不拉多</option>
-        <option value="frenchie">法鬥</option>
-        <option value="dachshund">臘腸狗</option>
-        <option value="schnauzer">雪納瑞</option>
-        <option value="pomeranian">博美狗</option>
-        <option value="husky">哈士奇</option>
-        <option value="beagle">米格魯</option>
-        <option value="border">邊境牧羊犬</option>
-        <option value="chihuahua">吉娃娃</option>
-        <option value="pug">巴哥</option>
-        <option value="shih-tzu">西施犬</option>
-        <option value="yorkshire">約克夏</option>
-        <option value="taiwan">台灣米克斯</option>
-        <option value="samoyed">薩摩耶</option>
-        <option value="bichon">比熊犬</option>
+    <label>🐾 狗狗品種</label>
+    <select id="breed" onchange="generateAdvice()">
+        <option value="">請選擇...</option>
+        <option value="shiba">柴犬</option><option value="poodle">貴賓狗</option>
+        <option value="corgi">柯基</option><option value="maltese">馬爾濟斯</option>
+        <option value="golden">黃金獵犬</option><option value="labrador">拉不拉多</option>
+        <option value="frenchie">法鬥</option><option value="dachshund">臘腸狗</option>
+        <option value="schnauzer">雪納瑞</option><option value="pomeranian">博美狗</option>
+        <option value="husky">哈士奇</option><option value="beagle">米格魯</option>
+        <option value="border">邊境牧羊犬</option><option value="chihuahua">吉娃娃</option>
+        <option value="pug">巴哥</option><option value="shih-tzu">西施犬</option>
+        <option value="yorkshire">約克夏</option><option value="taiwan">台灣米克斯</option>
+        <option value="samoyed">薩摩耶</option><option value="bichon">比熊犬</option>
     </select>
 
-    <label>2. 狗狗年齡</label>
-    <select id="age" onchange="calculate()">
-        <option value="">請選擇</option>
-        <option value="0.5">未滿 1 歲 (幼犬)</option>
-        <option value="4">1 ~ 7 歲 (成犬)</option>
-        <option value="10">超過 7 歲 (高齡犬)</option>
+    <label>🎂 狗狗年齡</label>
+    <select id="age" onchange="generateAdvice()">
+        <option value="">請選擇...</option>
+        <option value="幼犬">未滿 1 歲</option>
+        <option value="成犬">1 ~ 7 歲</option>
+        <option value="高齡犬">超過 7 歲</option>
     </select>
 
-    <label>3. 狗狗體型</label>
-    <select id="size" onchange="calculate()">
-        <option value="small">小型犬 (10kg 以下)</option>
-        <option value="medium">中型犬 (10-25kg)</option>
-        <option value="large">大型犬 (25kg 以上)</option>
+    <label>⚖️ 目前體重 (kg)</label>
+    <input type="number" id="weight" placeholder="請輸入體重" oninput="generateAdvice()">
+
+    <label>⚡ 活動力程度</label>
+    <select id="activity" onchange="generateAdvice()">
+        <option value="低">懶洋洋 (不出門/散步極短)</option>
+        <option value="中" selected>正常 (每天散步 30-60分)</option>
+        <option value="高">過動兒 (需要大量奔跑)</option>
     </select>
 
-    <label>4. 狗狗性別</label>
-    <select id="gender" onchange="calculate()">
-        <option value="male">男生</option>
-        <option value="female">女生</option>
-    </select>
-
-    <label>5. 活動力</label>
-    <select id="activity" onchange="calculate()">
-        <option value="low">懶洋洋 (散步 30分內)</option>
-        <option value="mid">一般 (散步 1小時)</option>
-        <option value="high">精力充沛 (需要大量運動)</option>
-    </select>
-
-    <label>6. 目前體重 (kg)</label>
-    <input type="number" id="weight" placeholder="請輸入數字" oninput="calculate()">
-
-    <div id="result">
-        請填寫資訊以查看照護建議。
-    </div>
+    <div id="result-box"></div>
 </div>
 
 <script>
-const breedData = {
-    shiba: "柴犬容易有皮膚過敏與青光眼問題，需注意換毛季清潔。",
-    poodle: "貴賓狗需注意膝蓋骨脫位，且毛髮容易打結需經常梳理。",
-    corgi: "柯基脊椎負擔大，需控制體重並避免頻繁爬樓梯。",
-    maltese: "馬爾濟斯要注意淚腺清潔與心臟二尖瓣膜疾病。",
-    golden: "黃金獵犬需注意髖關節與好發腫瘤，需定期健檢。",
-    labrador: "拉不拉多天生胃口好，非常容易肥胖導致關節負擔。",
-    frenchie: "法鬥呼吸道較短，需注意中暑與皮膚皺褶處清潔。",
-    dachshund: "臘腸狗脊椎脆弱，嚴禁從高處跳下以防癱瘓。",
-    schnauzer: "雪納瑞容易有高血脂與胰臟炎，飲食應清淡。",
-    pomeranian: "博美狗氣管較弱，建議改用胸背帶而非頸圈。",
-    husky: "哈士奇在台灣需注意熱衰竭與皮膚潮濕發霉。",
-    beagle: "米格魯耳朵長易藏汙納垢，需每週清理耳垢。",
-    border: "邊牧活動量極大，若運動不足容易產生破壞行為。",
-    chihuahua: "吉娃娃腦部與心臟較脆弱，需注意冷熱溫差變化。",
-    pug: "巴哥需注意眼睛受傷與面部皮膚褶皺的感染。",
-    "shih-tzu": "西施犬需注意呼吸道問題與眼睛突出易受傷。",
-    yorkshire: "約克夏牙齒容易堆積牙垢，需從小養成刷牙習慣。",
-    taiwan: "米克斯適應力強，但仍需注意外寄生蟲與心絲蟲預防。",
-    samoyed: "薩摩耶毛量驚人，需長期開啟空調防止皮膚濕疹。",
-    bichon: "比熊犬需注意分離焦慮與淚腺管理。"
+const breedTips = {
+    shiba: "性格獨立的柴犬容易有皮膚問題，平時要保持居家乾燥。",
+    poodle: "聰明的貴賓狗要注意關節保養，毛髮要天天梳理才不會打結。",
+    corgi: "短腿萌萌的柯基要嚴格控制體重，避免脊椎受傷。",
+    maltese: "馬爾濟斯的心臟與淚腺需要細心呵護，保持眼周乾爽。",
+    golden: "暖男黃金獵犬運動量大，要留意髖關節與好發腫瘤。",
+    labrador: "拉不拉多是出了名的貪吃鬼，要小心過胖影響健康。",
+    frenchie: "法鬥呼吸道較窄，夏天千萬要注意防暑降溫。",
+    dachshund: "長長的臘腸狗絕對不能跳高，保護脊椎是首要任務。",
+    schnauzer: "雪納瑞要注意低脂飲食，預防常見的胰臟炎問題。",
+    pomeranian: "博美狗氣管脆弱，出門建議使用胸背帶代替頸圈。",
+    husky: "二哈雖然帥氣但極度怕熱，台灣夏天一定要開冷氣。",
+    beagle: "米格魯嗅覺靈敏容易分心，且長耳朵要定期清理。",
+    border: "邊牧是天才學生，除了體力消耗，更需要腦力遊戲。",
+    chihuahua: "小不點吉娃娃怕冷也怕摔，冬天要記得幫牠穿衣服。",
+    pug: "巴哥臉上的皺褶容易藏汙納垢，每天都要擦拭清潔。",
+    "shih-tzu": "西施犬眼睛大而突出，玩耍時要小心眼球受傷。",
+    yorkshire: "約克夏牙齒容易長牙結石，從小養成刷牙好習慣。",
+    taiwan: "強健的米克斯適應力好，但防心絲蟲與寄生蟲不能少。",
+    samoyed: "微笑天使薩摩耶毛量厚重，洗澡後務必徹底吹乾。",
+    bichon: "比熊犬黏人且毛髮需修剪，適合喜歡陪伴的人。"
 };
 
-function calculate() {
-    const breed = document.getElementById('breed').value;
+function generateAdvice() {
+    const breed = document.getElementById('breed');
     const age = document.getElementById('age').value;
-    const gender = document.getElementById('gender').value;
-    const activity = document.getElementById('activity').value;
     const weight = document.getElementById('weight').value;
+    const activity = document.getElementById('activity').value;
+    const resultBox = document.getElementById('result-box');
+
+    if (!breed.value || !age) {
+        resultBox.style.display = "none";
+        return;
+    }
+
+    const breedName = breed.options[breed.selectedIndex].text;
+    const breedAdvice = breedTips[breed.value];
     
-    let html = "";
+    // 整合文字邏輯
+    let intro = `您家中的 <b>${breedName}</b> 目前處於 <b>${age}</b> 階段。`;
+    let weightHint = weight ? `體重為 ${weight}kg，` : "";
+    let activityHint = `屬於活動力<b>${activity}</b>的狗狗。`;
+    
+    let summary = `依據這些資訊，建議您：${breedAdvice} `;
+    
+    if (age === "幼犬") summary += "這個時期是發育關鍵，請提供高營養食物並注意社會化訓練。";
+    if (age === "高齡犬") summary += "老孩子代謝較慢，飲食要適量並增加健檢頻率。";
+    
+    if (activity === "高") summary += "由於活力旺盛，每天需要充足的嗅聞與消耗體力，才不會破壞家具喔！";
 
-    // 1. 年齡狀態判斷
-    if (age) {
-        let ageStatus = age < 1 ? "幼犬" : (age > 7 ? "高齡犬" : "成犬");
-        html += `<div class="info-title">【生命階段：${ageStatus}】</div>`;
-        if(age < 1) html += "發育期需注意鈣質攝取，建議少量多餐。<br><br>";
-        else if(age > 7) html += "代謝變慢，建議增加健檢頻率與關節保養。<br><br>";
-        else html += "維持穩定運動與體位，注意牙齒清潔。<br><br>";
-    }
-
-    // 2. 品種提示
-    if (breed && breedData[breed]) {
-        html += `<div class="info-title">【品種專屬建議】</div>${breedData[breed]}<br><br>`;
-    }
-
-    // 3. 活動力與體重提示
-    if (activity === "high") {
-        html += `<div class="info-title">【活動力提醒】</div>高能量狗狗建議每日運動至少 90 分鐘，預防焦慮。<br><br>`;
-    }
-
-    if (weight > 30) {
-        html += `<div class="info-title">【體重提醒】</div>大型犬心臟負擔重，請務必監測關節負荷。<br>`;
-    }
-
-    document.getElementById('result').innerHTML = html || "請填寫資訊以查看照護建議。";
+    resultBox.innerHTML = `${intro}${weightHint}${activityHint}<br><br>✨ <b>專屬建議：</b><br>${summary}`;
+    resultBox.style.display = "block";
 }
 </script>
 
