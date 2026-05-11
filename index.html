@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>狗狗照顧小幫手</title>
+    <style>
+        body { font-family: sans-serif; background-color: #fdf6e3; padding: 20px; text-align: center; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; width: 300px; }
+        select { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        #result { margin-top: 20px; padding: 10px; border-top: 1px solid #eee; color: #555; line-height: 1.6; }
+        h2 { color: #d35400; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>狗狗照顧小幫手 🐶</h2>
+    
+    <label>選擇狗狗年齡：</label>
+    <select id="ageSelect" onchange="updateInfo()">
+        <option value="">請選擇</option>
+        <option value="junior">少於 1 歲 (幼犬)</option>
+        <option value="adult">1 ~ 7 歲 (成犬)</option>
+        <option value="senior">超過 7 歲 (高齡犬)</option>
+    </select>
+
+    <label>選擇狗狗品種：</label>
+    <select id="breedSelect" onchange="updateInfo()">
+        <option value="">請選擇</option>
+        <option value="schnauzer">雪納瑞</option>
+        <option value="dachshund">臘腸狗</option>
+        <option value="retriever">黃金獵犬</option>
+    </select>
+
+    <div id="result">請選擇上方選項來查看建議</div>
+</div>
+
+<script>
+function updateInfo() {
+    const age = document.getElementById('ageSelect').value;
+    const breed = document.getElementById('breedSelect').value;
+    const resultDiv = document.getElementById('result');
+
+    let ageText = "";
+    let breedText = "";
+
+    // 年齡邏輯
+    if(age === "junior") ageText = "<b>成長提醒：</b>幼犬需要高營養食物，注意疫苗接種時程。";
+    if(age === "adult") ageText = "<b>健康提醒：</b>成犬體能巔峰，建議每日適量運動保持肌肉量。";
+    if(age === "senior") ageText = "<b>照護提醒：</b>高齡犬建議每半年健檢，注意關節與視力。";
+
+    // 品種邏輯
+    const breedData = {
+        schnauzer: "<b>品種特點：</b>雪納瑞皮膚較敏感，飲食要注意脂肪含量以預防胰臟炎。",
+        dachshund: "<b>品種特點：</b>臘腸狗脊椎負擔大，應避免頻繁爬樓梯或從高處跳下。",
+        retriever: "<b>品種特點：</b>黃金獵犬容易有髖關節問題，且要注意體重控制預防肥胖。"
+    };
+    breedText = breedData[breed] || "";
+
+    if (age || breed) {
+        resultDiv.innerHTML = `<p>${ageText}</p><p>${breedText}</p>`;
+    } else {
+        resultDiv.innerHTML = "請選擇上方選項來查看建議";
+    }
+}
+</script>
+</body>
+</html>
