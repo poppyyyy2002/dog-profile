@@ -1,68 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>狗狗照顧小幫手</title>
+    <title>狗狗照護小幫手</title>
     <style>
-        body { font-family: sans-serif; background-color: #fdf6e3; padding: 20px; text-align: center; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; width: 300px; }
-        select { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        #result { margin-top: 20px; padding: 10px; border-top: 1px solid #eee; color: #555; line-height: 1.6; }
-        h2 { color: #d35400; }
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f9f9f9; padding: 20px; color: #333; line-height: 1.5; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #e67e22; margin-bottom: 25px; }
+        label { font-weight: bold; display: block; margin-top: 15px; color: #d35400; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        #result { margin-top: 30px; padding: 20px; border-radius: 10px; background-color: #fff5e6; border-left: 5px solid #e67e22; }
+        .info-title { font-weight: bold; color: #c0392b; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>狗狗照顧小幫手 🐶</h2>
-    
-    <label>選擇狗狗年齡：</label>
-    <select id="ageSelect" onchange="updateInfo()">
-        <option value="">請選擇</option>
-        <option value="junior">少於 1 歲 (幼犬)</option>
-        <option value="adult">1 ~ 7 歲 (成犬)</option>
-        <option value="senior">超過 7 歲 (高齡犬)</option>
-    </select>
+<div class="container">
+    <h2>狗狗照護評估 🐶</h2>
 
-    <label>選擇狗狗品種：</label>
-    <select id="breedSelect" onchange="updateInfo()">
-        <option value="">請選擇</option>
-        <option value="schnauzer">雪納瑞</option>
+    <label>1. 狗狗品種</label>
+    <select id="breed" onchange="calculate()">
+        <option value="">請選擇品種</option>
+        <option value="shiba">柴犬</option>
+        <option value="poodle">貴賓狗</option>
+        <option value="corgi">柯基</option>
+        <option value="maltese">馬爾濟斯</option>
+        <option value="golden">黃金獵犬</option>
+        <option value="labrador">拉不拉多</option>
+        <option value="frenchie">法鬥</option>
         <option value="dachshund">臘腸狗</option>
-        <option value="retriever">黃金獵犬</option>
+        <option value="schnauzer">雪納瑞</option>
+        <option value="pomeranian">博美狗</option>
+        <option value="husky">哈士奇</option>
+        <option value="beagle">米格魯</option>
+        <option value="border">邊境牧羊犬</option>
+        <option value="chihuahua">吉娃娃</option>
+        <option value="pug">巴哥</option>
+        <option value="shih-tzu">西施犬</option>
+        <option value="yorkshire">約克夏</option>
+        <option value="taiwan">台灣米克斯</option>
+        <option value="samoyed">薩摩耶</option>
+        <option value="bichon">比熊犬</option>
     </select>
 
-    <div id="result">請選擇上方選項來查看建議</div>
+    <label>2. 狗狗年齡</label>
+    <select id="age" onchange="calculate()">
+        <option value="">請選擇</option>
+        <option value="0.5">未滿 1 歲 (幼犬)</option>
+        <option value="4">1 ~ 7 歲 (成犬)</option>
+        <option value="10">超過 7 歲 (高齡犬)</option>
+    </select>
+
+    <label>3. 狗狗體型</label>
+    <select id="size" onchange="calculate()">
+        <option value="small">小型犬 (10kg 以下)</option>
+        <option value="medium">中型犬 (10-25kg)</option>
+        <option value="large">大型犬 (25kg 以上)</option>
+    </select>
+
+    <label>4. 狗狗性別</label>
+    <select id="gender" onchange="calculate()">
+        <option value="male">男生</option>
+        <option value="female">女生</option>
+    </select>
+
+    <label>5. 活動力</label>
+    <select id="activity" onchange="calculate()">
+        <option value="low">懶洋洋 (散步 30分內)</option>
+        <option value="mid">一般 (散步 1小時)</option>
+        <option value="high">精力充沛 (需要大量運動)</option>
+    </select>
+
+    <label>6. 目前體重 (kg)</label>
+    <input type="number" id="weight" placeholder="請輸入數字" oninput="calculate()">
+
+    <div id="result">
+        請填寫資訊以查看照護建議。
+    </div>
 </div>
 
 <script>
-function updateInfo() {
-    const age = document.getElementById('ageSelect').value;
-    const breed = document.getElementById('breedSelect').value;
-    const resultDiv = document.getElementById('result');
+const breedData = {
+    shiba: "柴犬容易有皮膚過敏與青光眼問題，需注意換毛季清潔。",
+    poodle: "貴賓狗需注意膝蓋骨脫位，且毛髮容易打結需經常梳理。",
+    corgi: "柯基脊椎負擔大，需控制體重並避免頻繁爬樓梯。",
+    maltese: "馬爾濟斯要注意淚腺清潔與心臟二尖瓣膜疾病。",
+    golden: "黃金獵犬需注意髖關節與好發腫瘤，需定期健檢。",
+    labrador: "拉不拉多天生胃口好，非常容易肥胖導致關節負擔。",
+    frenchie: "法鬥呼吸道較短，需注意中暑與皮膚皺褶處清潔。",
+    dachshund: "臘腸狗脊椎脆弱，嚴禁從高處跳下以防癱瘓。",
+    schnauzer: "雪納瑞容易有高血脂與胰臟炎，飲食應清淡。",
+    pomeranian: "博美狗氣管較弱，建議改用胸背帶而非頸圈。",
+    husky: "哈士奇在台灣需注意熱衰竭與皮膚潮濕發霉。",
+    beagle: "米格魯耳朵長易藏汙納垢，需每週清理耳垢。",
+    border: "邊牧活動量極大，若運動不足容易產生破壞行為。",
+    chihuahua: "吉娃娃腦部與心臟較脆弱，需注意冷熱溫差變化。",
+    pug: "巴哥需注意眼睛受傷與面部皮膚褶皺的感染。",
+    "shih-tzu": "西施犬需注意呼吸道問題與眼睛突出易受傷。",
+    yorkshire: "約克夏牙齒容易堆積牙垢，需從小養成刷牙習慣。",
+    taiwan: "米克斯適應力強，但仍需注意外寄生蟲與心絲蟲預防。",
+    samoyed: "薩摩耶毛量驚人，需長期開啟空調防止皮膚濕疹。",
+    bichon: "比熊犬需注意分離焦慮與淚腺管理。"
+};
 
-    let ageText = "";
-    let breedText = "";
+function calculate() {
+    const breed = document.getElementById('breed').value;
+    const age = document.getElementById('age').value;
+    const gender = document.getElementById('gender').value;
+    const activity = document.getElementById('activity').value;
+    const weight = document.getElementById('weight').value;
+    
+    let html = "";
 
-    // 年齡邏輯
-    if(age === "junior") ageText = "<b>成長提醒：</b>幼犬需要高營養食物，注意疫苗接種時程。";
-    if(age === "adult") ageText = "<b>健康提醒：</b>成犬體能巔峰，建議每日適量運動保持肌肉量。";
-    if(age === "senior") ageText = "<b>照護提醒：</b>高齡犬建議每半年健檢，注意關節與視力。";
-
-    // 品種邏輯
-    const breedData = {
-        schnauzer: "<b>品種特點：</b>雪納瑞皮膚較敏感，飲食要注意脂肪含量以預防胰臟炎。",
-        dachshund: "<b>品種特點：</b>臘腸狗脊椎負擔大，應避免頻繁爬樓梯或從高處跳下。",
-        retriever: "<b>品種特點：</b>黃金獵犬容易有髖關節問題，且要注意體重控制預防肥胖。"
-    };
-    breedText = breedData[breed] || "";
-
-    if (age || breed) {
-        resultDiv.innerHTML = `<p>${ageText}</p><p>${breedText}</p>`;
-    } else {
-        resultDiv.innerHTML = "請選擇上方選項來查看建議";
+    // 1. 年齡狀態判斷
+    if (age) {
+        let ageStatus = age < 1 ? "幼犬" : (age > 7 ? "高齡犬" : "成犬");
+        html += `<div class="info-title">【生命階段：${ageStatus}】</div>`;
+        if(age < 1) html += "發育期需注意鈣質攝取，建議少量多餐。<br><br>";
+        else if(age > 7) html += "代謝變慢，建議增加健檢頻率與關節保養。<br><br>";
+        else html += "維持穩定運動與體位，注意牙齒清潔。<br><br>";
     }
+
+    // 2. 品種提示
+    if (breed && breedData[breed]) {
+        html += `<div class="info-title">【品種專屬建議】</div>${breedData[breed]}<br><br>`;
+    }
+
+    // 3. 活動力與體重提示
+    if (activity === "high") {
+        html += `<div class="info-title">【活動力提醒】</div>高能量狗狗建議每日運動至少 90 分鐘，預防焦慮。<br><br>`;
+    }
+
+    if (weight > 30) {
+        html += `<div class="info-title">【體重提醒】</div>大型犬心臟負擔重，請務必監測關節負荷。<br>`;
+    }
+
+    document.getElementById('result').innerHTML = html || "請填寫資訊以查看照護建議。";
 }
 </script>
+
 </body>
 </html>
