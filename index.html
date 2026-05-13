@@ -32,7 +32,6 @@
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Logo and Speech Bubble */
         .dog-logo-container { position: relative; width: 180px; margin: 0 auto 15px auto; text-align: center; }
         .dog-logo img { width: 180px; height: auto; display: block; transition: transform 0.3s ease; cursor: pointer; }
         .dog-logo img:hover { animation: shake 0.5s ease-in-out; }
@@ -85,7 +84,6 @@
         }
 
         .advice-item { margin-bottom: 15px; padding-left: 10px; position: relative; }
-        /* Removed advice-item::before emoji */
 
         .age-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
         .age-table th, .age-table td { border: 1px solid #eee; padding: 10px; text-align: center; }
@@ -172,7 +170,7 @@
     <div id="result-box"></div>
 
     <div class="game-section">
-        <div class="game-title" data-i18n="game-title">✨ Doggy Mood Reader</div>
+        <div class="game-title" data-i18n="game-title">✨ Doggy Mood Quiz</div>
         <div class="game-desc" data-i18n="game-desc">Pick a number (0-100) to see how your dog feels!</div>
         <div class="game-input-group">
             <input type="number" id="moodNumber" class="game-input" placeholder="0-100" min="0" max="100">
@@ -207,7 +205,7 @@ const i18n = {
         "act-good": "Good puppy (30-90min/day)", 
         "act-hyper": "Hyperactive (2hr+/day)",
         "act-boss": "Boss level (Unlimited energy)", "label-weight": "🦴 Current Weight (kg)",
-        "game-title": "✨ Doggy Mood Reader", "game-desc": "Pick a number (0-100) to see how your dog feels!",
+        "game-title": "✨ Doggy Mood Quiz", "game-desc": "Pick a number (0-100) to see how your dog feels!",
         "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "⭐️ A small suggestion",
         "age-table-title": "Age Correlation Table", "weight-high": "Weight is high for size.", "error-num": "Please enter 0-100!",
         "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅",
@@ -225,7 +223,7 @@ const i18n = {
         "act-good": "正常乖寶寶 (30-90min/day)", 
         "act-hyper": "過動兒 (2HR以上)",
         "act-boss": "大魔王等級 (用不完的體力)", "label-weight": "🦴 目前體重 (kg)",
-        "game-title": "✨ 狗狗心情解讀器", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
+        "game-title": "✨ 小小測驗", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
         "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "⭐️ 小小建議",
         "age-table-title": "犬人類年齡對照表", "weight-high": "警告：體重已超出標準範圍。", "error-num": "請輸入 0-100 之間的數字！",
         "thanks-happy": "太棒了！🐾", "thanks-neutral": "我們會持續優化算法！🦴", "thanks-angry": "看來今天的電波不太對！😅",
@@ -290,7 +288,6 @@ function populateBreeds() {
 function updateBubbleText() {
     const bubble = document.getElementById('bubble');
     const texts = currentLang === 'en' ? ["Woof!", "Hi!"] : ["嗨！", "汪汪！"];
-    // Simple toggle between the two strings
     let currentText = bubble.innerText;
     bubble.innerText = currentText === texts[0] ? texts[1] : texts[0];
 }
@@ -343,7 +340,6 @@ function generateAdvice() {
     const tips = breedData[currentLang][breed] || ["No data."];
     let adviceHTML = `<span class="advice-header">${i18n[currentLang]['quick-advice']}</span>`;
     
-    // Advice items with no emoji
     tips.forEach(t => { adviceHTML += `<div class="advice-item" style="font-style: italic; color: #555;">「${t}」</div>`; });
     
     if (ageBonus) adviceHTML += `<div class="advice-item" style="color:#3ebc8e; font-weight:600;">${ageBonus}</div>`;
@@ -397,9 +393,8 @@ function submitFeedback(type) {
     thanks.innerText = i18n[currentLang][`thanks-${type.toLowerCase()}`];
 }
 
-// Initialize
 populateBreeds();
-setInterval(updateBubbleText, 3000); // Toggles Woof/Hi every 3s
+setInterval(updateBubbleText, 3000);
 </script>
 
 </body>
