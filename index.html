@@ -3,108 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dog Profile 🐾</title>
+    <title>Dog Profile Assistant 🐾</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* UI/UX 氛圍營造：加入背景圖案與動畫 */
         body { 
             background-color: #faefba; 
-            background-image: url('https://www.transparenttextures.com/patterns/paws.png'); /* 狗腳印背景 */
             font-family: 'Poppins', sans-serif;
             display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
-            transition: background-color 0.5s;
         }
 
-        /* 語言切換按鈕樣式 */
-        .lang-switch {
-            position: absolute; top: 20px; right: 20px;
-            display: flex; gap: 10px;
-        }
+        .lang-switch { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 100; }
         .lang-btn {
             background: white; border: 2px solid #3ebc8e; color: #3ebc8e;
-            padding: 5px 12px; border-radius: 20px; cursor: pointer;
-            font-weight: 600; font-size: 12px; transition: 0.3s;
+            padding: 6px 15px; border-radius: 20px; cursor: pointer;
+            font-weight: 600; font-size: 13px; transition: 0.3s;
         }
         .lang-btn.active { background: #3ebc8e; color: white; }
 
         .card { 
-            background: white; width: 100%; max-width: 550px;
-            border-radius: 35px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.96); width: 100%; max-width: 550px;
+            border-radius: 35px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
             padding: 40px; border: 4px solid #fff; box-sizing: border-box; margin-bottom: 20px;
-            position: relative; animation: fadeInUp 0.8s ease-out;
+            position: relative; animation: fadeInUp 0.6s ease-out;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .dog-logo { text-align: center; margin-bottom: 15px; }
-        .dog-logo img { width: 180px; height: auto; display: block; margin: 0 auto; transition: transform 0.3s; }
-        .dog-logo img:hover { transform: rotate(5deg) scale(1.05); } /* 微互動 */
-
-        h2 { 
-            text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; 
-            font-size: 42px; margin: 10px 0 5px 0; 
-        }
-        
+        h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
         .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
 
         label { font-weight: 600; color: #7B7B7B; display: block; margin-top: 22px; font-size: 14px; }
-        
         select, input { 
             width: 100%; padding: 14px; margin-top: 10px; border: 2px solid #fcf2d1; 
             border-radius: 15px; background-color: #fffdf5; font-size: 15px; outline: none;
-            font-family: 'Poppins', sans-serif; color: #444; box-sizing: border-box;
+            box-sizing: border-box; transition: 0.3s;
         }
 
-        #result-box { 
-            margin-top: 40px; padding: 30px; border-radius: 25px; background-color: #fff; 
-            border: 2px dashed #3ebc8e; color: #444; line-height: 1.8; display: none; font-size: 15px;
+        /* ✨ Doggy Mood Reader 原始正確版本視覺設定 */
+        .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
+        .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; }
+        
+        .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 25px; height: 70px; align-items: center; }
+        
+        .face-btn { 
+            width: 50px; height: 50px; border-radius: 50%; border: 3px solid #ccc; 
+            position: relative; cursor: pointer; transition: 0.3s;
         }
 
-        .advice-header {
-            text-align: center; font-weight: 600; color: #4F4F4F; background-color: #E0E0E0;
-            padding: 10px 25px; border-radius: 50px; display: block; width: fit-content; margin: 0 auto 25px auto;
+        /* 眼睛：確保出現在上半部 */
+        .face-btn::before, .face-btn::after {
+            content: ''; position: absolute; width: 6px; height: 6px; 
+            background: #999; border-radius: 50%; top: 14px;
         }
+        .face-btn::before { left: 12px; }
+        .face-btn::after { right: 12px; }
 
-        .highlight-key { color: #f7bf6e; font-weight: 600; }
-
-        /* Age Table */
-        .age-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
-        .age-table th, .age-table td { border: 1px solid #eee; padding: 8px; text-align: center; }
-        .age-table th { background-color: #f9f9f9; color: #7B7B7B; }
-        .match-highlight { background-color: rgba(247, 191, 110, 0.1); color: #f7bf6e; font-weight: 600; border: 2px solid #f7bf6e !important; }
-
-        /* Game Section */
-        .game-section { border-top: 2px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
-        .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 24px; margin-bottom: 10px; }
-        .game-desc { font-size: 13px; color: #999; margin-bottom: 20px; }
-        .game-input-group { display: flex; gap: 10px; justify-content: center; }
-        .game-input { width: 80px !important; margin-top: 0 !important; text-align: center; }
-        .game-btn { background-color: #f7bf6e; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .game-btn:hover { background-color: #e67e22; }
-        #mood-result { margin-top: 20px; font-weight: 600; color: #444; min-height: 40px; }
-
-        /* Feedback Symbols */
-        .feedback-section { margin-top: 25px; display: none; }
-        .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
-        .face-btn { width: 40px; height: 40px; border-radius: 50%; border: 3px solid #ccc; position: relative; cursor: pointer; transition: 0.3s; }
-        .face-btn:hover { transform: scale(1.15); }
         .face-happy { border-color: #3ebc8e; }
-        .face-happy::before, .face-happy::after { content: ''; position: absolute; width: 6px; height: 4px; border-radius: 50% 50% 0 0; border: 2px solid #3ebc8e; border-bottom: 0; top: 12px; }
-        .face-happy::before { left: 8px; } .face-happy::after { right: 8px; }
-        .face-happy .mouth { position: absolute; width: 16px; height: 8px; border-radius: 0 0 16px 16px; border: 2px solid #3ebc8e; border-top: 0; bottom: 8px; left: 10px; }
+        .face-happy::before, .face-happy::after { background: #3ebc8e; }
+        .face-happy .mouth { 
+            position: absolute; width: 22px; height: 11px; border-radius: 0 0 22px 22px; 
+            border: 3px solid #3ebc8e; border-top: 0; bottom: 8px; left: 11px; 
+        }
+
         .face-neutral { border-color: #999; }
-        .face-neutral::before, .face-neutral::after { content: ''; position: absolute; width: 4px; height: 4px; background: #999; border-radius: 50%; top: 14px; }
-        .face-neutral::before { left: 10px; } .face-neutral::after { right: 10px; }
-        .face-neutral .mouth { position: absolute; width: 16px; height: 2px; background: #999; bottom: 10px; left: 12px; }
+        .face-neutral .mouth { 
+            position: absolute; width: 18px; height: 3px; background: #999; bottom: 13px; left: 13px; 
+        }
+
         .face-angry { border-color: #f7bf6e; }
-        .face-angry::before, .face-angry::after { content: ''; position: absolute; width: 8px; height: 2px; background: #f7bf6e; top: 12px; }
-        .face-angry::before { left: 6px; transform: rotate(20deg); } .face-angry::after { right: 6px; transform: rotate(-20deg); }
-        .face-angry .mouth { position: absolute; width: 14px; height: 6px; border-radius: 14px 14px 0 0; border: 2px solid #f7bf6e; border-bottom: 0; bottom: 8px; left: 11px; }
+        .face-angry::before, .face-angry::after { background: #f7bf6e; }
+        .face-angry .mouth { 
+            position: absolute; width: 18px; height: 8px; border-radius: 18px 18px 0 0; 
+            border: 3px solid #f7bf6e; border-bottom: 0; bottom: 10px; left: 13px; 
+        }
+
+        #feedback-thanks { font-size: 14px; color: #3ebc8e; margin-top: 15px; font-weight: 600; min-height: 20px; }
     </style>
 </head>
 <body>
@@ -115,78 +90,31 @@
 </div>
 
 <div class="card">
-    <div class="dog-logo">
-        <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
+    <div class="dog-header">
+        <h2 data-i18n="title">Dog Profile</h2>
+        <span class="author-tag">Made by Poppy H.</span>
     </div>
 
-    <h2 data-i18n="title">Dog Profile</h2>
-    <span class="author-tag">Made by Poppy H.</span>
-
-    <label data-i18n="label-breed">🐾 Dog Breed</label>
-    <select id="breed" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-breed">Select Breed...</option>
-        <option value="shiba">Shiba Inu</option><option value="poodle">Poodle</option>
-        <option value="corgi">Corgi</option><option value="maltese">Maltese</option>
-        <option value="golden">Golden Retriever</option><option value="labrador">Labrador Retriever</option>
-        <option value="frenchie">French Bulldog</option><option value="dachshund">Dachshund</option>
-        <option value="schnauzer">Schnauzer</option><option value="pomeranian">Pomeranian</option>
-        <option value="husky">Husky</option><option value="beagle">Beagle</option>
-        <option value="border">Border Collie</option><option value="chihuahua">Chihuahua</option>
-        <option value="pug">Pug</option><option value="shih-tzu">Shih Tzu</option>
-        <option value="yorkshire">Yorkshire Terrier</option><option value="taiwan">Taiwan Dog (Mix)</option>
-        <option value="samoyed">Samoyed</option><option value="bichon">Bichon Frise</option>
-    </select>
-
     <label data-i18n="label-age">🎂 Dog Age</label>
-    <select id="age" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-age">Select Age...</option>
-        <option value="1" data-i18n="age-1">0-1 year (Still growing baby)</option>
-        <option value="2" data-i18n="age-2">2 years (Young adult)</option>
-        <option value="4" data-i18n="age-4">3-5 years (Prime years)</option>
-        <option value="10" data-i18n="age-10">7-10 years (Senior stage)</option>
-        <option value="15" data-i18n="age-15">10+ years (Super senior baby)</option>
-    </select>
+    <select id="age"></select>
 
     <label data-i18n="label-size">🔢 Body Size</label>
-    <select id="bodySize" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-size">Select Size...</option>
-        <option value="small" data-i18n="size-s">Small (<10kg)</option>
-        <option value="medium" data-i18n="size-m">Medium (10-25kg)</option>
-        <option value="large" data-i18n="size-l">Large/Giant (>25kg)</option>
-    </select>
+    <select id="size"></select>
 
     <label data-i18n="label-activity">🐕‍🦺 Activity</label>
-    <select id="activity" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-activity">Select Level...</option>
-        <option value="old" data-i18n="act-old">Too old to walk far</option>
-        <option value="lazy" data-i18n="act-lazy">Lazy piggy (< 10min/day)</option>
-        <option value="good" data-i18n="act-good">Good puppy (30-90min/day)</option>
-        <option value="hyper" data-i18n="act-hyper">Hyperactive (2hr+/day)</option>
-        <option value="boss" data-i18n="act-boss">Boss level (Unlimited energy)</option>
-    </select>
+    <select id="activity"></select>
 
     <label data-i18n="label-weight">🦴 Current Weight (kg)</label>
-    <input type="number" id="weight" placeholder="Enter weight" oninput="generateAdvice()">
-
-    <div id="result-box"></div>
+    <input type="number" id="weight">
 
     <div class="game-section">
         <div class="game-title" data-i18n="game-title">✨ Doggy Mood Reader</div>
-        <div class="game-desc" data-i18n="game-desc">Pick a number (0-100) to see how your dog feels!</div>
-        <div class="game-input-group">
-            <input type="number" id="moodNumber" class="game-input" placeholder="0-100" min="0" max="100">
-            <button class="game-btn" onclick="readDogMood()" data-i18n="game-btn">Check Mood</button>
+        <div class="symbol-container">
+            <div class="face-btn face-happy" onclick="submitFeedback('happy')"><div class="mouth"></div></div>
+            <div class="face-btn face-neutral" onclick="submitFeedback('neutral')"><div class="mouth"></div></div>
+            <div class="face-btn face-angry" onclick="submitFeedback('angry')"><div class="mouth"></div></div>
         </div>
-        <div id="mood-result"></div>
-        <div class="feedback-section" id="feedbackArea">
-            <p style="font-size: 12px; color: #7B7B7B; margin-bottom: 10px;" data-i18n="is-accurate">Is this accurate?</p>
-            <div class="symbol-container">
-                <div class="face-btn face-happy" onclick="submitFeedback('Happy')"><div class="mouth"></div></div>
-                <div class="face-btn face-neutral" onclick="submitFeedback('Neutral')"><div class="mouth"></div></div>
-                <div class="face-btn face-angry" onclick="submitFeedback('Angry')"><div class="mouth"></div></div>
-            </div>
-            <p id="feedback-thanks" style="font-size: 11px; color: #3ebc8e; margin-top: 15px; font-weight:600;"></p>
-        </div>
+        <p id="feedback-thanks"></p>
     </div>
 </div>
 
@@ -195,126 +123,95 @@ let currentLang = 'en';
 
 const i18n = {
     en: {
-        title: "Dog Profile", "label-breed": "🐾 Dog Breed", "opt-breed": "Select Breed...",
-        "label-age": "🎂 Dog Age", "opt-age": "Select Age...", "age-1": "0-1 year (Still growing baby)",
-        "age-2": "2 years (Young adult)", "age-4": "3-5 years (Prime years)", "age-10": "7-10 years (Senior stage)",
-        "age-15": "10+ years (Super senior baby)", "label-size": "🔢 Body Size", "opt-size": "Select Size...",
-        "size-s": "Small (<10kg)", "size-m": "Medium (10-25kg)", "size-l": "Large/Giant (>25kg)",
-        "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", "act-old": "Too old to walk far",
-        "act-lazy": "Lazy piggy (< 10min/day)", "act-good": "Good puppy (30-90min/day)", "act-hyper": "Hyperactive (2hr+/day)",
-        "act-boss": "Boss level (Unlimited energy)", "label-weight": "🦴 Current Weight (kg)",
-        "game-title": "✨ Doggy Mood Reader", "game-desc": "Pick a number (0-100) to see how your dog feels!",
-        "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "Quick Advice",
-        "age-table-title": "Age Table", "weight-high": "Weight is high for size.", "error-num": "Enter 0-100!",
-        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅"
+        title: "Dog Profile",
+        "label-age": "🎂 Dog Age",
+        "age-1": "0-1 year old, still a baby growing up",
+        "age-2": "2 years old, a young adult in the prime of youth",
+        "age-3-5": "3-5 years old, in their prime years",
+        "age-7-10": "7-10 years old, has entered the senior stage",
+        "age-10+": "Over 10 years old, a super old baby now",
+        "label-size": "🔢 Body Size",
+        "size-mini": "Mini (<4kg)", "size-small": "Small (<10kg)", "size-medium": "Medium (11-25kg)", "size-large": "Large (26-45kg)", "size-giant": "Extra Large/Giant (>45kg)",
+        "label-activity": "🐕‍🦺 Activity",
+        "act-1": "Too old to walk",
+        "act-2": "Lazy piggy, dislikes exercise or <10min daily",
+        "act-3": "Normal good puppy, 30min-90min exercise daily",
+        "act-4": "Hyperactive child, 2HR+ exercise daily",
+        "act-5": "Boss level, endless energy every day",
+        "label-weight": "🦴 Current Weight (kg)",
+        "game-title": "✨ Doggy Mood Reader",
+        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better!", "thanks-angry": "Sorry about that!"
     },
     zh: {
-        title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
-        "label-age": "🎂 狗狗年齡", "opt-age": "請選擇年齡...", "age-1": "0-1 歲（還是小寶寶正在長大中）",
-        "age-2": "2 歲（是個小大人了，正在青年成熟期）", "age-4": "3-5 歲（是狗狗們的壯年期）", "age-10": "7 歲-10 歲（已經進入熟齡期囉）",
-        "age-15": "10 歲以上（是超級老寶寶了）", "label-size": "🔢 體型", "opt-size": "請選擇體型...",
-        "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (10-25kg)", "size-l": "大型/超大型犬 (>25kg)",
-        "label-activity": "🐕‍🦺 活動力", "opt-activity": "請選擇活動力...", "act-old": "年紀太大了，走不動了",
-        "act-lazy": "懶惰的小豬，每日運動 10min 內", "act-good": "正常乖寶寶，每日運動 30-90min", "act-hyper": "過動兒，每日運動 2HR 以上",
-        "act-boss": "大魔王等級，用不完的體力", "label-weight": "🦴 目前體重 (kg)",
-        "game-title": "✨ 狗狗心情解讀器", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
-        "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "小小建議",
-        "age-table-title": "年齡對照表", "weight-high": "體型對照下體重偏重。", "error-num": "請輸入 0-100！",
-        "thanks-happy": "太好了！🐾", "thanks-neutral": "我們會再接再厲！🦴", "thanks-angry": "看來狗狗電波失靈了！😅"
+        title: "狗狗檔案",
+        "label-age": "🎂 狗狗年齡",
+        "age-1": "0-1歲，還是小寶寶正在長大中",
+        "age-2": "2 歲，是個小大人了，正在青年成熟期",
+        "age-3-5": "3-5 歲，是狗狗們的壯年期",
+        "age-7-10": "7 歲-10 歲，已經進入熟齡期囉",
+        "age-10+": "10歲以上是超級老寶寶了",
+        "label-size": "🔢 體型",
+        "size-mini": "迷你型（<4kg）", "size-small": "小型（<10kg）", "size-medium": "中型（11-25kg）", "size-large": "大型（26-45kg）", "size-giant": "超大型/巨型（>45kg）",
+        "label-activity": "🐕‍🦺 活動量",
+        "act-1": "年紀太大了，走不動了",
+        "act-2": "懶惰的小豬，不愛運動或是每日運動10min內",
+        "act-3": "正常乖寶寶，每天運動30min-90min",
+        "act-4": "過動兒，每天運動2HR以上",
+        "act-5": "大魔王等級，每天都有用不完的體力",
+        "label-weight": "🦴 目前體重 (kg)",
+        "game-title": "✨ 狗狗心情解讀器",
+        "thanks-happy": "太棒了，你也懂我！🐾", "thanks-neutral": "我們會再接再厲！", "thanks-angry": "下次會更準的！"
     }
 };
 
-const breedTips = {
-    en: { shiba: "Prone to skin issues; ensure a dry environment.", poodle: "Keep coats tangle-free; watch joint health.", corgi: "Spinal strain risk; strict weight control is key.", maltese: "Monitor heart health and keep eyes dry.", golden: "Needs joint supplements and lots of exercise.", labrador: "Prone to obesity; monitor food intake.", frenchie: "Avoid heat; ensure good ventilation.", dachshund: "Protect the spine; avoid jumping.", schnauzer: "Needs a low-fat diet to protect the pancreas.", pomeranian: "Tracheal collapse risk; use a harness.", husky: "Keep cool; needs huge amounts of exercise.", beagle: "Scent-driven; use sniff games to tire them out.", border: "Needs both physical and mental stimulation.", chihuahua: "Temperature sensitive; keep them warm.", pug: "Clean facial wrinkles daily to avoid infection.", "shih-tzu": "Large eyes need protection from injury.", yorkshire: "Early teeth brushing prevents tooth loss.", taiwan: "Resilient but needs parasite prevention.", samoyed: "Dry thick fur thoroughly after baths.", bichon: "Prone to separation anxiety; needs grooming." },
-    zh: { shiba: "易有皮膚問題，請保持居家乾燥。", poodle: "注意關節保養，毛髮需天天梳理。", corgi: "脊椎負擔重，必須嚴格控管體重。", maltese: "留意心臟與淚腺，保持眼周乾爽。", golden: "運動量大，需補充關節營養。", labrador: "出了名的貪吃，小心過胖影響健康。", frenchie: "呼吸道窄，夏天務必防暑降溫。", dachshund: "絕對不能跳高，保護脊椎是首要任務。", schnauzer: "注意低脂飲食，預防胰臟炎。", pomeranian: "氣管脆弱，出門建議使用胸背帶。", husky: "極度怕熱，需注意降溫與排解精力。", beagle: "嗅覺靈敏，長耳朵要定期清理。", border: "天才學生，需要大量腦力遊戲。", chihuahua: "怕冷也怕摔，冬天要記得穿衣服。", pug: "臉上皺褶多，每天都要擦拭清潔。", "shih-tzu": "眼睛大且突出，玩耍時小心受傷。", yorkshire: "容易長牙結石，養成刷牙習慣。", taiwan: "適應力好，但防心絲蟲不能少。", samoyed: "毛量厚重，洗完澡務必吹乾。", bichon: "黏人且毛髮需修剪，適合多陪伴。" }
-};
+function populateDropdowns() {
+    const ageSelect = document.getElementById('age');
+    const ageVal = ageSelect.value;
+    ageSelect.innerHTML = "";
+    ["age-1", "age-2", "age-3-5", "age-7-10", "age-10+"].forEach(key => {
+        const opt = document.createElement('option');
+        opt.value = key; opt.innerText = i18n[currentLang][key];
+        ageSelect.appendChild(opt);
+    });
+    if(ageVal) ageSelect.value = ageVal;
 
-// 擴充至 50 組心情描述 (EN/ZH)
-const dogMoods = {
-    en: [
-        "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️", "Take me to the park! 🐕", "Feeling a bit sleepy... 💤", "You are my favorite human. 🌟", "Ready for an adventure! 🗺️", "I love our long walks. 🐾", "Did you say 'WALK'? 🎾", "I feel so safe near you. 🏠", "Squirrel!! Where? 🐿️", "Can I have some of your food? 🍕", "I'm the happiest dog ever! 😊", "Life is good with you. ✨", "Let's play tug-of-war! 🧶", "I dream about treats. 💭", "Wagging my tail just for you! 🐕", "Feeling very loyal today. 🎖️", "You make my heart happy. 💖", "Sun's out, tongue's out! ☀️", "I'm your little shadow. 👥", "Can we play fetch? ⚾", "I love it when you rub my belly. 🙌", "You're home! Best day ever! 🎉", "Is it dinner time yet? 🍽️", "I'll protect you forever. 🛡️", "You give the best ear scratches. 👂", "I'm feeling extra fluffy today. ☁️", "Let's explore the world together. 🌍", "I trust you with all my heart. 🤝", "Best. Owners. Ever. 🥇", "I like your scent. 👃", "I'm your biggest fan! 📣", "Let's sit and watch the birds. 🐦", "I'm so glad we're friends. 👯", "Feeling super smart today! 🧠", "Wait, did a cat just pass by? 🐈", "I'll always be by your side. 🕯️", "Your smile is my favorite thing. 😁", "Let's go for a car ride! 🚗", "I like the way you talk to me. 💬", "Soft blankets and you - perfection. 🛌", "I'm feeling like a good boy! 😇", "I'll wait for you forever. ⏳", "Life is a ball! Literally! 🎾", "You are my sunshine. 🌤️", "So many smells, so little time! 👃", "I love you more than bacon! 🥓", "I'm just a happy pup today! 🌈", "Let's make some memories. 📸"
-    ],
-    zh: [
-        "我覺得今天我是冠軍！🏆", "我是不是聽到了零食聲？🦴", "我只想抱著你！❤️", "帶我去公園啦！🐕", "覺得有點睏了... 💤", "你是我最愛的人。🌟", "準備好去冒險了！🗺️", "我愛我們的散步時光。🐾", "你剛剛說「去散步」嗎？🎾", "在你身邊我覺得很安全。🏠", "松鼠！！在哪？🐿️", "可以給我一口你的食物嗎？🍕", "我是世界上最快樂的狗！😊", "有你在的生活真好。✨", "來玩拉繩遊戲吧！🧶", "我連做夢都在想零食。💭", "只為你搖尾巴！🐕", "今天覺得特別忠誠。🎖️", "你讓我的心好快樂。💖", "太陽出來了，舌頭也出來了！☀️", "我是你的小影子。👥", "可以玩接球嗎？⚾", "我喜歡你揉我肚肚。🙌", "你回來了！今天最棒了！🎉", "晚餐時間到了嗎？🍽️", "我會永遠保護你。🛡️", "你抓耳朵的技術最好了。👂", "我覺得我今天特別蓬鬆。☁️", "讓我們一起探索世界。🌍", "我全心全意信任你。🤝", "最棒的主人就是你了。🥇", "我喜歡你的味道。👃", "我是你的頭號粉絲！📣", "讓我們坐著看小鳥吧。🐦", "很高興我們是朋友。👯", "覺得今天我特別聰明！🧠", "等等，剛才有貓經過嗎？🐈", "我會永遠守候在你身邊。🕯️", "你的笑容是我最愛的東西。😁", "我們去坐車車兜風吧！🚗", "我喜歡你對我說話的樣子。💬", "軟軟的毯子加你，完美。🛌", "我覺得我今天超級乖！😇", "我會永遠等你。⏳", "生活就像顆球，好玩！🎾", "你是我的陽光。🌤️", "味道好多，時間太少！👃", "我愛你勝過愛培根！🥓", "今天就是隻快樂的小狗！🌈", "讓我們創造回憶吧。📸"
-    ]
-};
+    const sizeSelect = document.getElementById('size');
+    const sizeVal = sizeSelect.value;
+    sizeSelect.innerHTML = "";
+    ["size-mini", "size-small", "size-medium", "size-large", "size-giant"].forEach(key => {
+        const opt = document.createElement('option');
+        opt.value = key; opt.innerText = i18n[currentLang][key];
+        sizeSelect.appendChild(opt);
+    });
+    if(sizeVal) sizeSelect.value = sizeVal;
+
+    const actSelect = document.getElementById('activity');
+    const actVal = actSelect.value;
+    actSelect.innerHTML = "";
+    for(let i=1; i<=5; i++) {
+        const opt = document.createElement('option');
+        opt.value = `act-${i}`; opt.innerText = i18n[currentLang][`act-${i}`];
+        actSelect.appendChild(opt);
+    }
+    if(actVal) actSelect.value = actVal;
+}
 
 function changeLang(lang) {
     currentLang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        el.innerText = i18n[lang][key];
+        if(i18n[lang][key]) el.innerText = i18n[lang][key];
     });
-    document.getElementById('moodNumber').placeholder = lang === 'en' ? "0-100" : "0-100";
-    document.getElementById('weight').placeholder = lang === 'en' ? "Enter weight" : "輸入重量";
-    
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
-    
-    generateAdvice(); // 刷新建議語系
-}
-
-function generateAdvice() {
-    const breed = document.getElementById('breed');
-    const ageVal = document.getElementById('age').value;
-    const bodySize = document.getElementById('bodySize').value;
-    const weight = parseFloat(document.getElementById('weight').value);
-    const activityVal = document.getElementById('activity').value;
-    const resultBox = document.getElementById('result-box');
-
-    if (!breed.value || !ageVal || !bodySize || !activityVal) {
-        resultBox.style.display = "none";
-        return;
-    }
-
-    let weightAdvice = "";
-    if (weight) {
-        if (bodySize === "small" && weight > 10) weightAdvice = `<span class='highlight-key'>${i18n[currentLang]['weight-high']}</span>`;
-        else if (bodySize === "medium" && weight > 25) weightAdvice = `<span class='highlight-key'>${i18n[currentLang]['weight-high']}</span>`;
-        else if (bodySize === "large" && weight > 45) weightAdvice = `<span class='highlight-key'>${i18n[currentLang]['weight-high']}</span>`;
-    }
-
-    const tableData = [
-        {age: 1, s: 15, m: 15, l: 12}, {age: 2, s: 24, m: 24, l: 22}, {age: 3, s: 28, m: 28, l: 31},
-        {age: 5, s: 36, m: 36, l: 45}, {age: 10, s: 56, m: 60, l: 79}, {age: 15, s: 76, m: 83, l: 114}
-    ];
-
-    let tableHTML = `<table class="age-table"><thead><tr><th>${currentLang === 'en' ? 'Age' : '年齡'}</th><th>${i18n[currentLang]['size-s']}</th><th>${i18n[currentLang]['size-m']}</th><th>${i18n[currentLang]['size-l']}</th></tr></thead><tbody>`;
-    tableData.forEach(row => {
-        const isAgeMatch = (parseInt(ageVal) === row.age) || (ageVal == "4" && (row.age == 3 || row.age == 5));
-        tableHTML += `<tr><td>${row.age == 3 ? '3-5' : (row.age == 15 ? '10+' : row.age)}</td>
-            <td class="${isAgeMatch && bodySize === 'small' ? 'match-highlight' : ''}">${row.s}</td>
-            <td class="${isAgeMatch && bodySize === 'medium' ? 'match-highlight' : ''}">${row.m}</td>
-            <td class="${isAgeMatch && bodySize === 'large' ? 'match-highlight' : ''}">${row.l}</td></tr>`;
-    });
-    tableHTML += `</tbody></table>`;
-
-    resultBox.innerHTML = `<span class="advice-header">⭐️ ${i18n[currentLang]['quick-advice']}</span>${breedTips[currentLang][breed.value]} ${weightAdvice}<br><br><b>${i18n[currentLang]['age-table-title']}:</b>${tableHTML}`;
-    resultBox.style.display = "block";
-}
-
-function readDogMood() {
-    const num = document.getElementById('moodNumber').value;
-    const moodDisplay = document.getElementById('mood-result');
-    const feedbackArea = document.getElementById('feedbackArea');
-    if (num === "" || num < 0 || num > 100) {
-        moodDisplay.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
-        return;
-    }
-    
-    // 50 組結果隨機邏輯 (每 2 個數一個 unique 結果)
-    const list = dogMoods[currentLang];
-    const index = Math.min(Math.floor(num / 2), list.length - 1);
-    moodDisplay.innerHTML = `<span>" ${list[index]} "</span>`;
-    feedbackArea.style.display = "block";
-    document.getElementById('feedback-thanks').innerText = "";
+    populateDropdowns();
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`btn-${lang}`).classList.add('active');
 }
 
 function submitFeedback(type) {
-    const thanks = document.getElementById('feedback-thanks');
-    thanks.innerText = i18n[currentLang][`thanks-${type.toLowerCase()}`];
+    document.getElementById('feedback-thanks').innerText = i18n[currentLang][`thanks-${type}`];
 }
-</script>
 
+populateDropdowns();
+</script>
 </body>
 </html>
