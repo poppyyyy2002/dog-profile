@@ -31,9 +31,6 @@
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .dog-header { position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
-        .dog-logo img { width: 180px; height: auto; }
-        
         h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
         .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
 
@@ -44,28 +41,26 @@
             box-sizing: border-box; transition: 0.3s;
         }
 
-        #result-box { 
-            margin-top: 40px; padding: 30px; border-radius: 25px; background-color: #fff; 
-            border: 2px dashed #3ebc8e; display: none;
-        }
-
+        /* ✨ Doggy Mood Reader 原始正確版本視覺設定 */
         .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
         .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; }
-
-        /* ✨ Mood Reader 臉部修正：確保高度充足並精確繪製眼睛與嘴巴 */
-        .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 25px; height: 80px; align-items: center; }
+        
+        .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 25px; height: 70px; align-items: center; }
+        
         .face-btn { 
-            width: 50px; height: 50px; border-radius: 50%; border: 3.5px solid #ccc; 
-            position: relative; cursor: pointer; transition: 0.3s; box-sizing: border-box;
+            width: 50px; height: 50px; border-radius: 50%; border: 3px solid #ccc; 
+            position: relative; cursor: pointer; transition: 0.3s;
         }
-        /* 眼睛樣式 */
+
+        /* 眼睛：使用 pseudo-elements 確保穩定出現在臉部上半部 */
         .face-btn::before, .face-btn::after {
             content: ''; position: absolute; width: 6px; height: 6px; 
-            background: #999; border-radius: 50%; top: 15px;
+            background: #999; border-radius: 50%; top: 14px;
         }
         .face-btn::before { left: 12px; }
         .face-btn::after { right: 12px; }
 
+        /* Happy */
         .face-happy { border-color: #3ebc8e; }
         .face-happy::before, .face-happy::after { background: #3ebc8e; }
         .face-happy .mouth { 
@@ -73,17 +68,21 @@
             border: 3px solid #3ebc8e; border-top: 0; bottom: 8px; left: 11px; 
         }
 
+        /* Neutral */
         .face-neutral { border-color: #999; }
-        .face-neutral .mouth { position: absolute; width: 18px; height: 3px; background: #999; bottom: 13px; left: 15px; }
+        .face-neutral .mouth { 
+            position: absolute; width: 18px; height: 3px; background: #999; bottom: 13px; left: 13px; 
+        }
 
+        /* Angry */
         .face-angry { border-color: #f7bf6e; }
         .face-angry::before, .face-angry::after { background: #f7bf6e; }
         .face-angry .mouth { 
             position: absolute; width: 18px; height: 8px; border-radius: 18px 18px 0 0; 
             border: 3px solid #f7bf6e; border-bottom: 0; bottom: 10px; left: 13px; 
         }
-        
-        #feedback-thanks { font-size: 13px; color: #3ebc8e; margin-top: 15px; font-weight:600; min-height: 20px; }
+
+        #feedback-thanks { font-size: 14px; color: #3ebc8e; margin-top: 15px; font-weight: 600; min-height: 20px; }
     </style>
 </head>
 <body>
@@ -99,22 +98,17 @@
         <span class="author-tag">Made by Poppy H.</span>
     </div>
 
-    <label data-i18n="label-breed">🐾 Dog Breed</label>
-    <select id="breed" onchange="generateAdvice()"></select>
-
     <label data-i18n="label-age">🎂 Dog Age</label>
-    <select id="age" onchange="generateAdvice()"></select>
+    <select id="age"></select>
 
     <label data-i18n="label-size">🔢 Body Size</label>
-    <select id="size" onchange="generateAdvice()"></select>
+    <select id="size"></select>
 
     <label data-i18n="label-activity">🐕‍🦺 Activity</label>
-    <select id="activity" onchange="generateAdvice()"></select>
+    <select id="activity"></select>
 
     <label data-i18n="label-weight">🦴 Current Weight (kg)</label>
-    <input type="number" id="weight" oninput="generateAdvice()">
-
-    <div id="result-box"></div>
+    <input type="number" id="weight">
 
     <div class="game-section">
         <div class="game-title" data-i18n="game-title">✨ Doggy Mood Reader</div>
@@ -132,41 +126,43 @@ let currentLang = 'en';
 
 const i18n = {
     en: {
-        title: "Dog Profile", "label-breed": "🐾 Dog Breed", "opt-breed": "Select Breed...",
-        "label-age": "🎂 Dog Age", "opt-age": "Select Age...",
+        title: "Dog Profile",
+        "label-age": "🎂 Dog Age",
         "age-1": "0-1 year old, still a baby growing up",
         "age-2": "2 years old, a young adult in the prime of youth",
         "age-3-5": "3-5 years old, in their prime years",
         "age-7-10": "7-10 years old, has entered the senior stage",
         "age-10+": "Over 10 years old, a super old baby now",
-        "label-size": "🔢 Body Size", "opt-size": "Select Size...",
+        "label-size": "🔢 Body Size",
         "size-mini": "Mini (<4kg)", "size-small": "Small (<10kg)", "size-medium": "Medium (11-25kg)", "size-large": "Large (26-45kg)", "size-giant": "Extra Large/Giant (>45kg)",
-        "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Activity...",
+        "label-activity": "🐕‍🦺 Activity",
         "act-1": "Too old to walk",
         "act-2": "Lazy piggy, dislikes exercise or <10min daily",
         "act-3": "Normal good puppy, 30min-90min exercise daily",
         "act-4": "Hyperactive child, 2HR+ exercise daily",
         "act-5": "Boss level, endless energy every day",
-        "label-weight": "🦴 Current Weight (kg)", "game-title": "✨ Doggy Mood Reader",
+        "label-weight": "🦴 Current Weight (kg)",
+        "game-title": "✨ Doggy Mood Reader",
         "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better!", "thanks-angry": "Sorry about that!"
     },
     zh: {
-        title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
-        "label-age": "🎂 狗狗年齡", "opt-age": "請選擇年齡...",
+        title: "狗狗檔案",
+        "label-age": "🎂 狗狗年齡",
         "age-1": "0-1歲，還是小寶寶正在長大中",
         "age-2": "2 歲，是個小大人了，正在青年成熟期",
         "age-3-5": "3-5 歲，是狗狗們的壯年期",
         "age-7-10": "7 歲-10 歲，已經進入熟齡期囉",
         "age-10+": "10歲以上是超級老寶寶了",
-        "label-size": "🔢 體型", "opt-size": "請選擇體型...",
+        "label-size": "🔢 體型",
         "size-mini": "迷你型（<4kg）", "size-small": "小型（<10kg）", "size-medium": "中型（11-25kg）", "size-large": "大型（26-45kg）", "size-giant": "超大型/巨型（>45kg）",
-        "label-activity": "🐕‍🦺 活動量", "opt-activity": "請選擇活動量...",
+        "label-activity": "🐕‍🦺 活動量",
         "act-1": "年紀太大了，走不動了",
         "act-2": "懶惰的小豬，不愛運動或是每日運動10min內",
         "act-3": "正常乖寶寶，每天運動30min-90min",
         "act-4": "過動兒，每天運動2HR以上",
         "act-5": "大魔王等級，每天都有用不完的體力",
-        "label-weight": "🦴 目前體重 (kg)", "game-title": "✨ 狗狗心情解讀器",
+        "label-weight": "🦴 目前體重 (kg)",
+        "game-title": "✨ 狗狗心情解讀器",
         "thanks-happy": "太棒了，你也懂我！🐾", "thanks-neutral": "我們會再接再厲！", "thanks-angry": "下次會更準的！"
     }
 };
@@ -174,36 +170,30 @@ const i18n = {
 function populateDropdowns() {
     // Age
     const ageSelect = document.getElementById('age');
-    const ageVal = ageSelect.value;
-    ageSelect.innerHTML = `<option value="">${i18n[currentLang]['opt-age']}</option>`;
+    ageSelect.innerHTML = "";
     ["age-1", "age-2", "age-3-5", "age-7-10", "age-10+"].forEach(key => {
         const opt = document.createElement('option');
         opt.value = key; opt.innerText = i18n[currentLang][key];
         ageSelect.appendChild(opt);
     });
-    ageSelect.value = ageVal;
 
     // Size
     const sizeSelect = document.getElementById('size');
-    const sizeVal = sizeSelect.value;
-    sizeSelect.innerHTML = `<option value="">${i18n[currentLang]['opt-size']}</option>`;
+    sizeSelect.innerHTML = "";
     ["size-mini", "size-small", "size-medium", "size-large", "size-giant"].forEach(key => {
         const opt = document.createElement('option');
         opt.value = key; opt.innerText = i18n[currentLang][key];
         sizeSelect.appendChild(opt);
     });
-    sizeSelect.value = sizeVal;
 
     // Activity
     const actSelect = document.getElementById('activity');
-    const actVal = actSelect.value;
-    actSelect.innerHTML = `<option value="">${i18n[currentLang]['opt-activity']}</option>`;
+    actSelect.innerHTML = "";
     for(let i=1; i<=5; i++) {
         const opt = document.createElement('option');
         opt.value = `act-${i}`; opt.innerText = i18n[currentLang][`act-${i}`];
         actSelect.appendChild(opt);
     }
-    actSelect.value = actVal;
 }
 
 function changeLang(lang) {
@@ -221,7 +211,7 @@ function submitFeedback(type) {
     document.getElementById('feedback-thanks').innerText = i18n[currentLang][`thanks-${type}`];
 }
 
-// 初始調用
+// Initial setup
 populateDropdowns();
 </script>
 </body>
