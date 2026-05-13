@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* 1. 優化浮水印背景：交錯的腳印與骨頭圖案 */
+        /* 1. 優化背景：加入淡淡的腳印與骨頭浮水印 */
         body { 
             background-color: #faefba; 
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='%23f7bf6e' fill-opacity='0.15'%3E%3Cpath d='M20 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-8 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM20 32c3.3 0 6-2.7 6-6s-2.7-6-6-6-6 2.7-6 6 2.7 6 6 6z'/%3E%3Cpath d='M75 70h-6c-1.1 0-2 .9-2 2s.9 2 2 2h1.2c.4.6.4 1.4 0 2H69c-1.1 0-2 .9-2 2s.9 2 2 2h6c2.2 0 4-1.8 4-4s-1.8-4-4-4zm-12 4c0-2.2-1.8-4-4-4h-6c-1.1 0-2 .9-2 2s.9 2 2 2h1.2c-.4.6-.4 1.4 0 2H53c-1.1 0-2 .9-2 2s.9 2 2 2h6c2.2 0 4-1.8 4-4z'/%3E%3C/g%3E%3C/svg%3E");
@@ -35,7 +35,6 @@
 
         .dog-logo { text-align: center; margin-bottom: 15px; }
         .dog-logo img { width: 180px; height: auto; display: block; margin: 0 auto; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .dog-logo img:hover { transform: scale(1.1) rotate(3deg); }
 
         h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
         .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
@@ -54,14 +53,12 @@
         }
 
         .advice-header {
-            text-align: center; font-weight: 600; color: #4F4F4F; background-color: #E0E0E0;
-            padding: 8px 20px; border-radius: 50px; display: block; width: fit-content; margin: 0 auto 20px auto; font-size: 14px;
+            text-align: center; font-weight: 600; padding: 10px 20px; border-radius: 50px; 
+            display: block; width: fit-content; margin: 0 auto 20px auto; font-size: 14px;
         }
 
         .advice-item { margin-bottom: 15px; padding-left: 20px; position: relative; }
-        .advice-item::before { content: '•'; position: absolute; left: 0; color: #3ebc8e; font-weight: bold; }
-
-        .highlight-key { color: #f7bf6e; font-weight: 600; }
+        .advice-item::before { content: '☕️'; position: absolute; left: -5px; font-size: 12px; }
 
         /* Age Table */
         .age-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
@@ -79,7 +76,6 @@
         .game-btn:hover { background-color: #e67e22; transform: translateY(-2px); }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
 
-        /* Feedback Symbols */
         .feedback-section { margin-top: 25px; display: none; }
         .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
         .face-btn { width: 42px; height: 42px; border-radius: 50%; border: 3.5px solid #ccc; position: relative; cursor: pointer; transition: 0.3s; }
@@ -147,7 +143,6 @@
 
     <div id="result-box"></div>
 
-    <!-- Mood Reader Section (No changes as requested) -->
     <div class="game-section">
         <div class="game-title" data-i18n="game-title">✨ Doggy Mood Reader</div>
         <div class="game-desc" data-i18n="game-desc">Pick a number (0-100) to see how your dog feels!</div>
@@ -177,32 +172,36 @@ const i18n = {
         "label-age": "🎂 Dog Age", "opt-age": "Select Age...", "age-1": "0-1 year (Baby)",
         "age-2": "2 years (Young adult)", "age-4": "3-5 years (Prime)", "age-10": "7-10 years (Senior)",
         "age-15": "10+ years (Elderly baby)", "label-size": "🔢 Body Size", "opt-size": "Select Size...",
-        "size-mini": "Mini (<4kg)", "size-s": "Small (<10kg)", "size-m": "Medium (11-25kg)", 
-        "size-l": "Large (26-45kg)", "size-giant": "Giant (>45kg)",
+        "size-mini": "Mini (<4kg)", "size-s": "Small (<10kg)", "size-m": "Medium (11-25kg)", "size-l": "Large (26-45kg)", "size-giant": "Giant (>45kg)",
         "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", 
-        "act-old": "Too old to walk", "act-lazy": "Lazy piggy, no exercise or < 10min/day", 
-        "act-good": "Good puppy, exercise 30-90min/day", "act-hyper": "Hyperactive, exercise 2hr+/day",
+        "act-old": "Too old to walk", 
+        "act-lazy": "Lazy piggy, no exercise or < 10min/day", 
+        "act-good": "Good puppy, exercise 30-90min/day", 
+        "act-hyper": "Hyperactive, exercise 2hr+/day",
         "act-boss": "Boss level, unlimited energy", "label-weight": "🦴 Current Weight (kg)",
         "game-title": "✨ Doggy Mood Reader", "game-desc": "Pick a number (0-100) to see how your dog feels!",
         "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "Comprehensive Advice",
         "age-table-title": "Age Correlation Table", "weight-high": "Weight is high for size.", "error-num": "Please enter 0-100!",
-        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅"
+        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅",
+        "vet-intro": "☕️ Just a few things I wanted to mention about your pup over coffee:"
     },
     zh: {
         title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
         "label-age": "🎂 狗狗年齡", "opt-age": "請選擇年齡...", "age-1": "0-1 歲 (幼犬期)",
         "age-2": "2 歲 (青年期)", "age-4": "3-5 歲 (壯年期)", "age-10": "7-10 歲 (熟齡期)",
         "age-15": "10 歲以上 (高齡老寶寶)", "label-size": "🔢 體型", "opt-size": "請選擇體型...",
-        "size-mini": "迷你型 (<4kg)", "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (11-25kg)", 
-        "size-l": "大型犬 (26-45kg)", "size-giant": "巨型犬 (>45kg)",
-        "label-activity": "🐕‍🦺 活動量", "opt-activity": "請選擇活動量...", 
-        "act-old": "年紀太大了，走不動了", "act-lazy": "懶惰的小豬，不愛運動或是每日運動10min內", 
-        "act-good": "正常乖寶寶，每天運動30min-90min", "act-hyper": "過動兒，每天運動2HR以上",
+        "size-mini": "迷你型 (<4kg)", "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (11-25kg)", "size-l": "大型犬 (26-45kg)", "size-giant": "巨型犬 (>45kg)",
+        "label-activity": "🐕‍發 活動量", "opt-activity": "請選擇活動量...", 
+        "act-old": "年紀太大了，走不動了", 
+        "act-lazy": "懶惰的小豬，不愛運動或是每日運動10min內", 
+        "act-good": "正常乖寶寶，每天運動30min-90min", 
+        "act-hyper": "過動兒，每天運動2HR以上",
         "act-boss": "大魔王等級，每天都有用不完的體力", "label-weight": "🦴 目前體重 (kg)",
         "game-title": "✨ 狗狗心情解讀器", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
         "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "專業護理建議",
         "age-table-title": "犬人類年齡對照表", "weight-high": "警告：體重已超出標準範圍。", "error-num": "請輸入 0-100 之間的數字！",
-        "thanks-happy": "太棒了！🐾", "thanks-neutral": "我們會持續優化算法！🦴", "thanks-angry": "看來今天的電波不太對！😅"
+        "thanks-happy": "太棒了！🐾", "thanks-neutral": "我們會持續優化算法！🦴", "thanks-angry": "看來今天的電波不太對！😅",
+        "vet-intro": "☕️ 剛好跟你聊到，我們一起注意這些小地方，讓狗狗過得更舒服："
     }
 };
 
@@ -221,18 +220,18 @@ const breeds = {
 
 const breedData = {
     en: {
-        shiba: ["Independent personality; prone to skin allergies and dermatitis.", "Common issues: Luxating patella and glaucoma.", "Needs consistent socialization; keep indoor air dry."],
-        poodle: ["Highly intelligent and easy to train; low shedding.", "Vulnerable to: Addison's disease and tracheal collapse.", "Maintain high-quality protein diet; regular grooming is a must."],
-        corgi: ["Affectionate but stubborn; high exercise needs.", "Major risk: Intervertebral Disc Disease (IVDD).", "Strict weight control is vital; avoid stairs and jumping."],
-        maltese: ["Fearless and gentle; perfect lap dog.", "Prone to: Heart valve issues and tear staining.", "Use filtered water to reduce staining; check heart sounds annually."],
-        golden: ["Friendly and devoted; high energy levels.", "Health focus: Hip dysplasia and various cancers.", "Needs joint supplements (Glucosamine) early on; regular swimming is great."]
+        shiba: ["They are such independent thinkers, aren't they? Just keep an eye on their skin; Shibas can be a bit sensitive to humidity. Try to keep their paws dry after walks to prevent dermatitis.", "Their joints can sometimes be a weak spot, especially those patellas. Let's keep them lean to reduce the load!", "Early socialization is key for these brave ones—it helps them stay relaxed and happy when meeting new friends."],
+        poodle: ["Such clever companions! Since they're so smart, they need lots of mental puzzles to stay happy.", "Watch their breathing—if you notice any honking sounds, let's chat about tracheal health. A harness is usually better than a collar for them.", "Their coats are gorgeous but do tangle easily. A daily brush is a great way to bond and keep them comfy."],
+        corgi: ["Those short legs and long backs are adorable, but they do put extra stress on the spine. We really want to avoid jumping off couches or running up stairs to protect those discs (IVDD).", "Weight control is our top priority here. Even an extra kilo can be a lot for a Corgi's back!", "They have so much energy! Plenty of sniff-walks will help tire them out without overworking their joints."],
+        maltese: ["The ultimate lap dogs! Just a heads-up on their heart health as they get older—listening for any little murmurs during our check-ups is a good habit.", "Those tear stains are often related to water quality; maybe try filtered water to keep those eyes bright.", "They can be a bit pickier with food, so high-quality protein is the way to go to keep their energy steady."],
+        golden: ["The world's biggest sweethearts! Since they love to play hard, joint support (like glucosamine) is something we should start early on.", "They're prone to certain lumps and bumps, so give them a good 'all-over massage' once a week to check for anything new.", "Swimming is the perfect exercise for them—it burns off that Golden energy without hurting their hips!"]
     },
     zh: {
-        shiba: ["個性獨立且固執；皮膚屏障較弱，易患異位性皮膚炎。", "常見遺傳病：膝蓋骨脫位、青光眼。", "需要早期社會化訓練；居家環境務必保持乾燥除濕。"],
-        poodle: ["智商極高，極易訓練；不愛掉毛適合過敏體質。", "易患疾病：愛迪生氏症、氣管塌陷。", "需提供高品質蛋白質；毛髮需每日梳理避免打結。"],
-        corgi: ["性格開朗但自尊心強；活動量需求大。", "健康紅燈：椎間盤疾病 (IVDD)，脊椎極易受傷。", "嚴禁跳躍與爬樓梯；體重增加 1kg 即會造成脊椎巨大壓力。"],
-        maltese: ["優雅且勇敢；對主人依賴性極高。", "易患疾病：心臟瓣膜退化、淚腺阻塞。", "建議飲用過濾水減少淚痕；熟齡後需每年進行心臟超音波檢查。"],
-        golden: ["天生的暖男；極度愛好社交與玩水。", "好發疾病：髖關節發育不良、血管肉瘤。", "幼犬期即建議補充葡萄糖胺；需大量運動排解精力避免拆家。"]
+        shiba: ["柴柴的個性真的很像小貓，獨立又迷人。我們要一起多留意他的皮膚，特別是台灣比較潮濕，散步回來記得把腳縫吹乾，才不會讓趾間炎找上門喔。", "膝蓋骨脫位是這孩子比較常見的狀況，我們盡量維持他的理想體重，別讓關節負擔太重。", "柴柴很有主見，趁年輕多帶他出門社交、見見世面，他長大後會更放鬆、更信任這個世界。"],
+        poodle: ["貴賓真的是小天才！因為太聰明了，記得多給他一些益智玩具，別讓他的大腦閒下來。", "如果聽到他呼吸有類似『鵝叫』的聲音，記得跟我說，我們要一起留意氣管塌陷的問題，出門改用胸背帶會比項圈更舒服喔。", "他的毛髮不太會掉，但很容易打結，每天撥個五分鐘幫他梳梳毛，除了漂亮也能讓皮膚更透氣。"],
+        corgi: ["柯基的小短腿真的很有魔力，但也因為脊椎長，我們要特別保護他的小腰。盡量別讓他玩『跳沙發』或『爬樓梯』的遊戲，椎間盤疾病 (IVDD) 是我們要一起守護的紅線。", "體重控制對柯基來說就是命根子，多重一公斤，對脊椎的壓力都是倍增的，我們一起管住他的嘴。", "這孩子體力驚人，多帶他去草地嗅聞，這比單純跑動更能讓心情平靜。"],
+        maltese: ["瑪爾真的是最貼心的伴侶犬。隨著年紀增長，我們要多留意他的心臟瓣膜功能，每年的心臟超音波檢查是送給他最好的健康禮物。", "淚腺問題通常跟水質有關，可以試試看讓他喝過濾水，觀察看看眼睛周圍會不會更清爽。", "他們有時會比較挑食，建議選高品質且好吸收的蛋白質，讓他維持滿滿的活力，也能保護肌肉量。"],
+        golden: ["黃金獵犬真的是家裡的暖男。因為他們活動量大，關節保養（像是葡萄糖胺）建議從年輕就開始補充，預防勝於治療。", "這孩子比較容易長一些贅生物或腫塊，幫他洗澡或按摩時多摸摸全身，有發現異常我們隨時追蹤。", "游泳對黃金來說是最好的運動，既能排解體力又不會傷到髖關節，夏天多帶他去玩水吧！"]
     }
 };
 
@@ -243,7 +242,7 @@ const moodDatabase = {
     ],
     zh: [
         "今天我覺得我簡直是國王！👑", "那是開零食包裝的聲音嗎？🦴", "我現在只想黏在你身邊。❤️", "帶我去公園跑跑好嗎？🐕", "眼皮有點沉...想睡了。💤", "你是我這輩子最愛的人。🌟", "走吧！我們去外面大冒險！🗺️", "我最喜歡跟你散步的時候。🐾", "你剛剛是不是說「去玩」？🎾", "在你身邊我感到無比安全。🏠", "看！那邊有松鼠！🐿️", "你盤子裡的食物看起來好香。🍕", "我是世界上最幸福的小狗！😊", "跟你在一起的生活真精彩。✨", "快來跟我玩拔河遊戲！🧶", "我夢到我們在零食山上。💭", "看我的尾巴搖得多快！🐕", "我會永遠對你忠誠。🎖️", "你的出現讓我很開心。💖", "陽光好舒服，舌頭收不回來。☀️", "我是你最忠實的小影子。👥", "快把球丟出去讓我接！⚾", "我最喜歡你幫我揉肚肚了。🙌", "你終於回來了！最好的時刻！🎉", "放飯時間是不是到了？🍽️", "我會一輩子守護這家。🛡️", "你抓耳朵的技術是世界第一。👂", "今天我覺得我毛澎澎的很帥。☁️", "讓我們一起看遍世界。🌍", "我把整顆心都交給你了。🤝", "你是全世界最棒的主人。🥇", "我最喜歡你身上的味道。👃", "我是你的超級頭號粉絲！📣", "我們一起靜靜看窗外小鳥。🐦", "很高興能成為你的家人。👯", "今天我覺得我聽得懂你說的話！🧠", "噓！剛才外面是不是有貓？🐈", "無論如何我都會陪著你。🕯️", "你的笑容是我動力的來源。😁", "可以坐車車出去兜風嗎？🚗", "我喜歡你對我溫柔說話的聲音。💬", "軟軟的毯子和你，絕配。🛌", "今天我覺得我是個乖寶寶。😇", "我會在這裡一直等你回來。⏳", "生活就像顆網球，充滿樂趣！🎾", "你是照亮我生命的陽光。🌤️", "外面的味道好豐富，聞不完！👃", "我愛你勝過愛肉乾。🥓", "今天就是一個快樂小狗日！🌈", "讓我們一起留下更多回憶。📸",
-        "我覺得我今天帥呆了！😎", "那是什麼味道？好香！👃", "我想聽你跟我說話。💬", "快點快點，我們走！🏃", "午睡時間到了。😴", "你是我的唯一。☝️", "好興奮啊啊啊！😆", "我的玩具去哪了？🧸", "我最愛你了。🤟", "抱我一下。🤗", "肚子餓得咕嚕叫。🥩", "外面有奇怪的聲音。👂", "我是不是最乖的？🐕", "我想吃起司！🧀", "門開了！要出去嗎？🚪", "開心到想轉圈圈！😄", "你是我的超人。🦸", "這裡抓不到，幫我抓抓。🐾", "別玩手機了，玩我！🧸", "睏到不行了。🥱", "草地的味道真好。🌱", "時間到了嗎？吃飯嗎？🕒", "我是你的好夥伴。🐶", "我們去那邊看看。🌲", "我想念我的骨頭。🍪", "你好逗趣喔。😂", "我跑得跟閃電一樣快。⚡", "我會勇敢保護你。🦁", "這是我的寶貝玩具。🦴", "我是閃亮的小明星。⭐", "陽光灑在毛上好舒服。☀️", "我會一直等你。❤️", "我今天心情超酷。😎", "玩水時間到了嗎？💧", "我有幫上忙嗎？🆘", "再揉一下肚肚。✋", "我覺得我聽得懂指令。🎓", "看我精準的狩獵動作。🏹", "我是你最好的朋友。🤝", "我永遠屬於你。🔗", "心跳好快，因為見到你。💓", "我一直都在這裡。📍", "我準備好要出發了。🏁", "我是個甜心小狗。🍭", "我會對每個人都很友善。🕊️", "今天我有滿滿的勇氣。💥", "那是什麼？讓我看看。🔍", "我有在認真看門喔。🚨", "心靈平靜的時刻。🧘", "有你在的地方就是家。🏘️"
+        "我覺得我今天帥呆了！😎", "那是什麼味道？好香！👃", "我想聽你跟我說話。💬", "快點快點，我們走！🏃", "午睡時間到了。😴", "你是我的唯一。☝️", "好興奮啊啊啊！😆", "我的玩具去哪了？🧸", "我最愛你了。🤟", "抱我一下。🤗", "肚子餓得咕嚕叫。🥩", "外面有奇怪的聲音。👂", "我是是不是最乖的？🐕", "我想吃起司！🧀", "門開了！要出去嗎？🚪", "開心到想轉圈圈！😄", "你是我的超人。🦸", "這裡抓不到，幫我抓抓。🐾", "別玩手機了，玩我！🧸", "睏到不行了。🥱", "草地的味道真好。🌱", "時間到了嗎？吃飯嗎？🕒", "我是你的好夥伴。🐶", "我們去那邊看看。🌲", "我想念我的骨頭。🍪", "你好逗趣喔。😂", "我跑得跟閃電一樣快。⚡", "我會勇敢保護你。🦁", "這是我的寶貝玩具。🦴", "我是閃亮的小明星。⭐", "陽光灑在毛上好舒服。☀️", "我會一直等你。❤️", "我今天心情超酷。😎", "玩水時間到了嗎？💧", "我有幫上忙嗎？🆘", "再揉一下肚肚。✋", "我覺得我聽得懂指令。🎓", "看我精準的狩獵動作。🏹", "我是你最好的朋友。🤝", "我永遠屬於你。🔗", "心跳好快，因為見到你。💓", "我一直都在這裡。📍", "我準備好要出發了。🏁", "我是個甜心小狗。🍭", "我會對每個人都很友善。🕊️", "今天我有滿滿的勇氣。💥", "那是什麼？讓我看看。🔍", "我有在認真看門喔。🚨", "心靈平靜的時刻。🧘", "有你在的地方就是家。🏘️"
     ]
 };
 
@@ -268,10 +267,8 @@ function changeLang(lang) {
     });
     document.getElementById('moodNumber').placeholder = "0-100";
     document.getElementById('weight').placeholder = lang === 'en' ? "Enter weight" : "輸入重量";
-    
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
-    
     populateBreeds();
     generateAdvice();
 }
@@ -291,7 +288,6 @@ function generateAdvice() {
 
     let weightAdvice = "";
     if (weight) {
-        // 更新體重警告邏輯以符合新分級
         if ((bodySize === "mini" && weight > 4) || 
             (bodySize === "small" && weight > 10) || 
             (bodySize === "medium" && weight > 25) || 
@@ -301,12 +297,21 @@ function generateAdvice() {
         }
     }
 
+    let ageBonus = "";
+    if (ageVal === "1") {
+        ageBonus = currentLang === 'zh' ? "現在是這孩子的黃金成長期，營養要均衡，也要多帶他探索世界喔！" : "It's the golden age for growth! Focus on balanced nutrition and curiosity.";
+    } else if (ageVal === "10" || ageVal === "15") {
+        ageBonus = currentLang === 'zh' ? "孩子年紀漸漸大了，動作慢一點也沒關係，我們就陪著他慢慢享受生活。" : "As they get older, it's okay to slow down. Just enjoy the gentle pace together.";
+    }
+
     const tips = breedData[currentLang][breed] || ["No data."];
-    let adviceHTML = `<span class="advice-header">⭐️ ${i18n[currentLang]['quick-advice']}</span>`;
-    tips.forEach(t => { adviceHTML += `<div class="advice-item">${t}</div>`; });
+    let adviceHTML = `<span class="advice-header" style="background-color:#fef4d1; color:#b58105; border: 1px solid #f7bf6e;">${i18n[currentLang]['vet-intro']}</span>`;
+    
+    tips.forEach(t => { adviceHTML += `<div class="advice-item" style="font-style: italic; color: #555;">「${t}」</div>`; });
+    
+    if (ageBonus) adviceHTML += `<div class="advice-item" style="color:#3ebc8e; font-weight:600;">✨ ${ageBonus}</div>`;
     adviceHTML += weightAdvice;
 
-    // 年齡對照表 (維持 S/M/L 大類顯示)
     const tableData = [
         {age: 1, s: 15, m: 15, l: 12}, {age: 2, s: 24, m: 24, l: 22}, {age: 3, s: 28, m: 28, l: 31},
         {age: 5, s: 36, m: 36, l: 45}, {age: 10, s: 56, m: 60, l: 79}, {age: 15, s: 76, m: 83, l: 114}
@@ -315,7 +320,6 @@ function generateAdvice() {
     let tableHTML = `<table class="age-table"><thead><tr><th>Age</th><th>S</th><th>M</th><th>L</th></tr></thead><tbody>`;
     tableData.forEach(row => {
         const isAgeMatch = (parseInt(ageVal) === row.age) || (ageVal == "4" && (row.age == 3 || row.age == 5));
-        // 將迷你/小型對應到 S, 大型/巨型對應到 L
         const colS = (bodySize === 'mini' || bodySize === 'small');
         const colM = (bodySize === 'medium');
         const colL = (bodySize === 'large' || bodySize === 'giant');
@@ -327,7 +331,7 @@ function generateAdvice() {
     });
     tableHTML += `</tbody></table>`;
 
-    resultBox.innerHTML = adviceHTML + `<br><b>${i18n[currentLang]['age-table-title']}</b>` + tableHTML;
+    resultBox.innerHTML = adviceHTML + `<br><b style="color:#7B7B7B;">${i18n[currentLang]['age-table-title']}</b>` + tableHTML;
     resultBox.style.display = "block";
 }
 
@@ -335,22 +339,18 @@ function readDogMood() {
     const num = parseInt(document.getElementById('moodNumber').value);
     const moodDisplay = document.getElementById('mood-result');
     const feedbackArea = document.getElementById('feedbackArea');
-    
     if (isNaN(num) || num < 0 || num > 100) {
         moodDisplay.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
         return;
     }
-    
     const list = moodDatabase[currentLang];
     const index = Math.min(num, list.length - 1);
-    
     moodDisplay.style.opacity = 0;
     setTimeout(() => {
         moodDisplay.innerHTML = `<span>" ${list[index]} "</span>`;
         moodDisplay.style.opacity = 1;
         moodDisplay.style.transition = "0.5s";
     }, 200);
-
     feedbackArea.style.display = "block";
     document.getElementById('feedback-thanks').innerText = "";
 }
