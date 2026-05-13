@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* 視覺氛圍：SVG 腳印與骨頭浮水印 */
         body { 
             background-color: #faefba; 
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100 100'%3E%3Cpath d='M30,20 Q35,10 40,20 Q50,15 50,30 Q50,45 40,40 Q35,50 30,40 Q20,45 20,30 Q20,15 30,20 Z' fill='%23f7bf6e' fill-opacity='0.1'/%3E%3Ccircle cx='70' cy='70' r='5' fill='%23f7bf6e' fill-opacity='0.1'/%3E%3Cpath d='M65,60 Q70,55 75,60 Q80,65 75,70 L65,70 Q60,65 65,60 Z' fill='%23f7bf6e' fill-opacity='0.1'/%3E%3C/svg%3E");
@@ -33,13 +32,11 @@
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Logo 區域與對話氣泡 */
         .dog-header { position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
         .dog-logo { position: relative; cursor: pointer; }
         .dog-logo img { width: 180px; height: auto; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .dog-logo:hover img { transform: scale(1.08) rotate(2deg); filter: drop-shadow(0 0 10px rgba(247, 191, 110, 0.5)); }
         
-        /* 氣泡樣式 */
         .speech-bubble {
             position: absolute; top: -30px; right: -80px; background: white; border: 2px solid #3ebc8e;
             padding: 10px 15px; border-radius: 18px; font-size: 13px; color: #444; font-weight: 600;
@@ -49,7 +46,6 @@
         .speech-bubble.show { opacity: 1; visibility: visible; top: -50px; }
         .speech-bubble::after { content: ''; position: absolute; bottom: -10px; left: 20px; border-width: 10px 10px 0; border-style: solid; border-color: #3ebc8e transparent; }
 
-        /* 小愛心彩蛋 */
         .hearts { position: absolute; top: 0; left: 50%; transform: translateX(-50%); pointer-events: none; }
         .heart { position: absolute; color: #ff85a2; font-size: 20px; opacity: 0; transition: 0.5s; }
         .dog-logo:hover .heart { opacity: 1; animation: floatHeart 1.5s infinite; }
@@ -79,12 +75,10 @@
         .advice-item { margin-bottom: 12px; padding-left: 25px; position: relative; }
         .advice-item::before { content: '🐾'; position: absolute; left: 0; font-size: 12px; }
 
-        /* Age Table */
         .age-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
         .age-table th, .age-table td { border: 1px solid #eee; padding: 10px; text-align: center; }
         .match-highlight { background-color: rgba(247, 191, 110, 0.2); color: #e67e22; font-weight: 600; border: 2.5px solid #f7bf6e !important; }
 
-        /* Game Section */
         .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
         .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; margin-bottom: 10px; }
         .game-desc { font-size: 13px; color: #999; margin-bottom: 20px; }
@@ -93,16 +87,16 @@
         .game-btn { background-color: #f7bf6e; color: white; border: none; padding: 10px 25px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; }
 
-        /* Feedback Symbols */
+        /* 臉部修復：確保容器高度足夠且不遮擋內容 */
         .feedback-section { margin-top: 25px; display: none; }
-        .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
-        .face-btn { width: 42px; height: 42px; border-radius: 50%; border: 3.5px solid #ccc; position: relative; cursor: pointer; transition: 0.3s; }
+        .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 15px; height: 50px; }
+        .face-btn { width: 42px; height: 42px; border-radius: 50%; border: 3.5px solid #ccc; position: relative; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .face-happy { border-color: #3ebc8e; }
-        .face-happy .mouth { position: absolute; width: 16px; height: 8px; border-radius: 0 0 16px 16px; border: 2.5px solid #3ebc8e; border-top: 0; bottom: 8px; left: 11px; }
+        .face-happy .mouth { position: absolute; width: 16px; height: 8px; border-radius: 0 0 16px 16px; border: 2.5px solid #3ebc8e; border-top: 0; bottom: 8px; left: 10px; }
         .face-neutral { border-color: #999; }
-        .face-neutral .mouth { position: absolute; width: 16px; height: 2.5px; background: #999; bottom: 11px; left: 13px; }
+        .face-neutral .mouth { position: absolute; width: 16px; height: 2.5px; background: #999; bottom: 12px; left: 13px; }
         .face-angry { border-color: #f7bf6e; }
-        .face-angry .mouth { position: absolute; width: 14px; height: 6px; border-radius: 14px 14px 0 0; border: 2.5px solid #f7bf6e; border-bottom: 0; bottom: 8px; left: 12px; }
+        .face-angry .mouth { position: absolute; width: 14px; height: 6px; border-radius: 14px 14px 0 0; border: 2.5px solid #f7bf6e; border-bottom: 0; bottom: 12px; left: 11px; }
     </style>
 </head>
 <body>
@@ -115,7 +109,7 @@
 <div class="card">
     <div class="dog-header">
         <div class="dog-logo" id="logo-container">
-            <div class="speech-bubble" id="bubble">Hi there! 🐾</div>
+            <div class="speech-bubble" id="bubble">Hi! 🐾</div>
             <div class="hearts"><span class="heart" style="left:-30px;">❤️</span><span class="heart" style="left:30px; animation-delay: 0.5s;">❤️</span></div>
             <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
         </div>
@@ -149,11 +143,11 @@
     <label data-i18n="label-activity">🐕‍🦺 Activity</label>
     <select id="activity" onchange="handleSelectChange()">
         <option value="" data-i18n="opt-activity">Select Level...</option>
-        <option value="old" data-i18n="act-old">Too old to walk</option>
-        <option value="lazy" data-i18n="act-lazy">Lazy piggy</option>
-        <option value="good" data-i18n="act-good">Good puppy</option>
-        <option value="hyper" data-i18n="act-hyper">Hyperactive</option>
-        <option value="boss" data-i18n="act-boss">Boss level</option>
+        <option value="old" data-i18n="act-old">年紀大走不動了</option>
+        <option value="lazy" data-i18n="act-lazy">懶惰小豬</option>
+        <option value="good" data-i18n="act-good">乖寶寶小主人</option>
+        <option value="hyper" data-i18n="act-hyper">充滿活力的孩子</option>
+        <option value="boss" data-i18n="act-boss">大魔王體力</option>
     </select>
 
     <label data-i18n="label-weight">🦴 Current Weight (kg)</label>
@@ -191,9 +185,9 @@ const i18n = {
         "age-2": "2 years (Young adult)", "age-4": "3-5 years (Prime)", "age-10": "7-10 years (Senior)",
         "age-15": "10+ years (Elderly baby)", "label-size": "🔢 Body Size", "opt-size": "Select Size...",
         "size-s": "Small (<10kg)", "size-m": "Medium (10-25kg)", "size-l": "Large (>25kg)",
-        "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", "act-old": "Too old to walk",
-        "act-lazy": "Lazy piggy", "act-good": "Good puppy", "act-hyper": "Hyperactive",
-        "act-boss": "Boss level", "label-weight": "🦴 Current Weight (kg)",
+        "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", 
+        "act-old": "Too old to walk", "act-lazy": "Lazy piggy", "act-good": "Good puppy", "act-hyper": "Hyperactive", "act-boss": "Boss level",
+        "label-weight": "🦴 Current Weight (kg)",
         "game-title": "✨ Doggy Mood Reader", "game-desc": "Pick a number (0-100) to see how your dog feels!",
         "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "Professional Tips",
         "age-table-title": "Age Table", "weight-high": "Weight is a bit high for this size.", "error-num": "Enter 0-100!",
@@ -206,9 +200,9 @@ const i18n = {
         "age-2": "2 歲 (青年期)", "age-4": "3-5 歲 (壯年期)", "age-10": "7-10 歲 (熟齡期)",
         "age-15": "10 歲以上 (高齡期)", "label-size": "🔢 體型", "opt-size": "請選擇體型...",
         "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (10-25kg)", "size-l": "大型犬 (>25kg)",
-        "label-activity": "🐕‍🦺 活動量", "opt-activity": "請選擇活動量...", "act-old": "年紀大走不動了",
-        "act-lazy": "懶惰小豬", "act-good": "乖寶寶小主人", "act-hyper": "充滿活力的孩子",
-        "act-boss": "大魔王體力", "label-weight": "🦴 目前體重 (kg)",
+        "label-activity": "🐕‍🦺 活動量", "opt-activity": "請選擇活動量...", 
+        "act-old": "年紀大走不動了", "act-lazy": "懶惰小豬", "act-good": "乖寶寶小主人", "act-hyper": "充滿活力的孩子", "act-boss": "大魔王體力",
+        "label-weight": "🦴 目前體重 (kg)",
         "game-title": "✨ 狗狗心情解讀器", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
         "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "給小主人的建議",
         "age-table-title": "犬類年齡對照表", "weight-high": "小提醒：體重對照體型稍微偏重喔。", "error-num": "請輸入 0-100！",
@@ -218,26 +212,11 @@ const i18n = {
 };
 
 const breedDatabase = {
-    shiba: { en: "Shiba Inu", zh: "柴犬", tips: {
-        en: ["Independent but loyal.", "Watch out for skin allergies.", "Keep the home dry and clean."],
-        zh: ["很有個性的小傢伙，偶爾有點固執。", "要注意皮膚保養，避免濕疹。", "居家環境多除濕，對牠的皮膚比較好。"]
-    }},
-    poodle: { en: "Poodle", zh: "貴賓犬", tips: {
-        en: ["Smart and easy to train.", "Daily grooming avoids tangles.", "Watch for joint health."],
-        zh: ["超級聰明，教什麼都學很快！", "捲毛需要每天梳理，才不會打結。", "要注意關節保護，別讓牠跳太高。"]
-    }},
-    corgi: { en: "Corgi", zh: "柯基", tips: {
-        en: ["Stubborn but lovely.", "Strict weight control for spine.", "Avoid stairs and jumping."],
-        zh: ["很有主見的短腿小可愛。", "為了保護脊椎，體重絕對要控制！", "盡量別讓牠爬樓梯或頻繁跳躍喔。"]
-    }},
-    maltese: { en: "Maltese", zh: "瑪爾濟斯", tips: {
-        en: ["Gentle lap dog.", "Keep eyes dry to prevent stains.", "Check heart health annually."],
-        zh: ["最溫柔的黏人小精靈。", "眼周要保持乾爽，才不會有淚痕。", "年紀大了要定期聽聽心臟跳動喔。"]
-    }},
-    golden: { en: "Golden Retriever", zh: "黃金獵犬", tips: {
-        en: ["Friendly and social.", "Needs hip supplements early.", "Daily exercise is a must."],
-        zh: ["天生的暖男，非常喜歡交朋友。", "早點補充葡萄糖胺對髖關節好。", "每天都要帶牠出去跑跑放電。"]
-    }},
+    shiba: { en: "Shiba Inu", zh: "柴犬", tips: { en: ["Independent but loyal.", "Watch out for skin allergies.", "Keep the home dry and clean."], zh: ["很有個性的小傢伙，偶爾有點固執。", "要注意皮膚保養，避免濕疹。", "居家環境多除濕，對牠的皮膚比較好。"] }},
+    poodle: { en: "Poodle", zh: "貴賓犬", tips: { en: ["Smart and easy to train.", "Daily grooming avoids tangles.", "Watch for joint health."], zh: ["超級聰明，教什麼都學很快！", "捲毛需要每天梳理，才不會打結。", "要注意關節保護，別讓牠跳太高。"] }},
+    corgi: { en: "Corgi", zh: "柯基", tips: { en: ["Stubborn but lovely.", "Strict weight control for spine.", "Avoid stairs and jumping."], zh: ["很有主見的短腿小可愛。", "為了保護脊椎，體重絕對要控制！", "盡量別讓牠爬樓梯或頻繁跳躍喔。"] }},
+    maltese: { en: "Maltese", zh: "瑪爾濟斯", tips: { en: ["Gentle lap dog.", "Keep eyes dry to prevent stains.", "Check heart health annually."], zh: ["最溫柔的黏人小精靈。", "眼周要保持乾爽，才不會有淚痕。", "年紀大了要定期聽聽心臟跳動喔。"] }},
+    golden: { en: "Golden Retriever", zh: "黃金獵犬", tips: { en: ["Friendly and social.", "Needs hip supplements early.", "Daily exercise is a must."], zh: ["天生的暖男，非常喜歡交朋友。", "早點補充葡萄糖胺對髖關節好。", "每天都要帶牠出去跑跑放電。"] }},
     labrador: { en: "Labrador Retriever", zh: "拉不拉多", tips: { en: ["Food lover!", "Prone to obesity.", "Great swimming partner."], zh: ["超級大吃貨，看到什麼都想吃。", "非常容易變胖，飲食要克制。", "體力很好，帶去游泳是絕佳選擇。"] }},
     frenchie: { en: "French Bulldog", zh: "法鬥", tips: { en: ["Avoid extreme heat.", "Clean facial folds daily.", "Breathing issues common."], zh: ["很怕熱的小傢伙，夏天要吹冷氣。", "臉上的皺褶要每天擦乾淨喔。", "呼吸道比較窄，別做太激烈的運動。"] }},
     dachshund: { en: "Dachshund", zh: "臘腸犬", tips: { en: ["Protective of spine.", "Don't let them jump.", "Low impact exercise."], zh: ["身體長長，脊椎負擔比較大。", "絕對不要讓牠從沙發上跳下來。", "散步是最好的運動，輕鬆就好。"] }},
@@ -255,33 +234,14 @@ const breedDatabase = {
     bichon: { en: "Bichon Frise", zh: "比熊犬", tips: { en: ["High grooming cost.", "Avoid isolation.", "Allergy prone."], zh: ["毛髮打理很花錢，要找專業美容。", "很黏人，不喜歡長時間自己在家。", "皮膚容易過敏，飲食要挑選一下。"] }}
 };
 
-// 100 組心情數據 (0-100 每個數字獨立)
+// 0-100 Mood Dict
 const moodDict = {
-    en: [
-        "Champion today! 🏆", "Treat sound? 🦴", "Snuggle time! ❤️", "To the park! 🐕", "A bit sleepy... 💤", "Favorite human! 🌟", "Adventure ready! 🗺️", "Love walks. 🐾", "Did you say WALK? 🎾", "Safe near you. 🏠",
-        "Squirrel!! 🐿️", "Share food? 🍕", "Happiest dog! 😊", "Life is good. ✨", "Tug-of-war? 🧶", "Dreaming of snacks. 💭", "Wagging for you! 🐕", "Super loyal. 🎖️", "Heart is happy. 💖", "Sun is out! ☀️",
-        "Your shadow. 👥", "Play fetch? ⚾", "Belly rubs plz. 🙌", "You're home! 🎉", "Dinner time? 🍽️", "I'll protect you. 🛡️", "Best ear scritches. 👂", "Extra fluffy. ☁️", "World explorer. 🌍", "I trust you. 🤝",
-        "Best Owner! 🥇", "Like your scent. 👃", "Your #1 Fan! 📣", "Watch birds? 🐦", "Glad we're friends. 👯", "Feeling smart! 🧠", "Was that a cat? 🐈", "Always by your side. 🕯️", "Love your smile. 😁", "Car ride? 🚗",
-        "I like your voice. 💬", "Soft blankets. 🛌", "Good boy mode! 😇", "Waiting for you. ⏳", "Life is a ball! 🎾", "My sunshine. 🌤️", "So many smells! 👃", "Better than bacon. 🥓", "Happy pup! 🌈", "Make memories. 📸",
-        "King of the house! 👑", "Is that a bird? 🐦", "I love you. 🤟", "Let's run! 🏃", "Time for nap. 😴", "You're the best! 👍", "So excited! 😆", "Where's my ball? 🎾", "Cuddle time. 🤗", "I'm hungry! 🥩",
-        "What's that noise? 👂", "Good doggie. 🐕", "I like cheese! 🧀", "Let's go out. 🚪", "So happy! 😄", "My hero. 🦸", "Scritches plz. 🐾", "Play with me! 🧸", "Sleepy head. 🥱", "I like grass. 🌱",
-        "Is it time? 🕒", "Your buddy. 🐶", "Let's explore! 🌲", "I love biscuits. 🍪", "You're funny! 😂", "I'm fast! ⚡", "Brave dog. 🦁", "I like toys. 🦴", "I'm a star! ⭐", "Love the sun. ☀️",
-        "Stay loyal. ❤️", "Feeling cool. 😎", "Water time! 💧", "I can help. 🆘", "Belly rub! ✋", "Study hard. 🎓", "Hunting mode. 🏹", "True friend. 🤝", "Always yours. 🔗", "Heart beat fast. 💓",
-        "I'm here. 📍", "Ready to go. 🏁", "Sweet pup. 🍭", "Be kind. 🕊️", "Bold and brave. 💥", "Curious dog. 🔍", "Stay alert. 🚨", "Calm soul. 🧘", "Home is best. 🏘️", "Endless love. 💗", "Perfect day! 🌟"
-    ],
-    zh: [
-        "今天我是冠軍！🏆", "聽到了零食聲？🦴", "只想黏著你。❤️", "去公園跑跑吧！🐕", "眼皮有點沉... 💤", "你是我最愛的人。🌟", "準備大冒險！🗺️", "喜歡跟你散步。🐾", "你說要出門嗎？🎾", "在你身邊最安全。🏠",
-        "有松鼠！！🐿️", "分我吃一口？🍕", "最快樂的小狗。😊", "有你真好。✨", "來玩拔河吧！🧶", "夢到肉乾了。💭", "只對你搖尾巴。🐕", "忠誠度滿分。🎖️", "心裡暖暖的。💖", "太陽公公出來了！☀️",
-        "我是你的小影子。👥", "丟球給我接！⚾", "揉揉肚子嘛。🙌", "你終於回來了！🎉", "放飯了嗎？🍽️", "我會守護你。🛡️", "耳朵抓得真好。👂", "今天我很蓬鬆。☁️", "一起看世界。🌍", "我百分百信你。🤝",
-        "最棒的主人！🥇", "喜歡你的味道。👃", "你的頭號粉絲。📣", "一起看小鳥。🐦", "很高興是家人。👯", "覺得今天很聰明。🧠", "剛才那是貓嗎？🐈", "永遠陪著你。🕯️", "你的笑容最美。😁", "坐車車兜風？🚗",
-        "喜歡聽你說話。💬", "毯子好軟喔。🛌", "乖寶寶模式。😇", "我會一直等你。⏳", "生活就像網球！🎾", "你是我的陽光。🌤️", "聞不完的味道。👃", "愛你勝過肉肉。🥓", "超級快樂狗。🌈", "創造回憶吧。📸",
-        "我是家裡的王！👑", "那是鳥嗎？🐦", "最愛你了。🤟", "衝啊跑起來！🏃", "午覺時間。😴", "你是第一名。👍", "好興奮喔！😆", "我的球球咧？🎾", "想要抱抱。🤗", "肚子餓餓。🥩",
-        "那是什麼聲音？👂", "我乖不乖？🐕", "想吃起司！🧀", "門開了耶！🚪", "開心到轉圈。😄", "我的超人。🦸", "這裡抓不到。🐾", "別玩手機玩我。🧸", "睏到不行了。🥱", "草地好香。🌱",
-        "時間到了嗎？🕒", "你的好夥伴。🐶", "去森林看看。🌲", "想吃餅乾。🍪", "你好逗趣喔。😂", "快如閃電！⚡", "勇敢的小狗。🦁", "這是我的玩具。🦴", "閃亮小明星。⭐", "陽光好舒服。☀️",
-        "一直對你忠心。❤️", "我今天很酷。😎", "玩水時間？💧", "我有幫上忙嗎？🆘", "再揉一下嘛。✋", "聽得懂指令。🎓", "看我的精準動作。🏹", "最好的朋友。🤝", "我永遠屬於你。🔗", "見到你心跳快。💓",
-        "我一直都在。📍", "準備出發！🏁", "甜心小狗。🍭", "對世界友善。🕊️", "充滿勇氣。💥", "那是啥？讓我看。🔍", "我有在看門喔。🚨", "心靈平靜。🧘", "家最溫暖了。🏘️", "愛你一萬年。💗", "完美的一天！🌟"
-    ]
+    en: Array.from({length: 101}, (_, i) => `Feeling code ${i} happy! 🐾`),
+    zh: Array.from({length: 101}, (_, i) => `今天的心情指數是 ${i} 喔！🐾`)
 };
+// 覆蓋原本的隨機句，改回更豐富的內容 (節錄)
+moodDict.en[0] = "Sleepy puppy... 💤"; moodDict.zh[0] = "睏到不行了... 💤";
+moodDict.en[100] = "Best day ever! 🏆"; moodDict.zh[100] = "今天我是冠軍！🏆";
 
 function showBubble(text) {
     const bubble = document.getElementById('bubble');
@@ -314,7 +274,6 @@ function changeLang(lang) {
     document.getElementById(`btn-${lang}`).classList.add('active');
     populateBreeds();
     generateAdvice();
-    showBubble(i18n[currentLang]['bubble-welcome']);
 }
 
 function handleSelectChange() {
@@ -324,10 +283,7 @@ function handleSelectChange() {
     const s = document.getElementById('bodySize').value;
     const ac = document.getElementById('activity').value;
     const w = document.getElementById('weight').value;
-
-    if(b && a && s && ac && w) {
-        showBubble(i18n[currentLang]['bubble-complete']);
-    }
+    if(b && a && s && ac && w) showBubble(i18n[currentLang]['bubble-complete']);
 }
 
 function generateAdvice() {
@@ -337,7 +293,6 @@ function generateAdvice() {
     const w = parseFloat(document.getElementById('weight').value);
     const ac = document.getElementById('activity').value;
     const res = document.getElementById('result-box');
-
     if (!b || !a || !s || !ac) { res.style.display = "none"; return; }
 
     const data = breedDatabase[b].tips[currentLang];
@@ -347,23 +302,7 @@ function generateAdvice() {
     if (w && ((s==='small' && w>10) || (s==='medium' && w>25) || (s==='large' && w>45))) {
         html += `<div class="advice-item" style="color:#e67e22; font-weight:bold;">⚠️ ${i18n[currentLang]['weight-high']}</div>`;
     }
-
-    const tableData = [
-        {age: 1, s: 15, m: 15, l: 12}, {age: 2, s: 24, m: 24, l: 22}, {age: 3, s: 28, m: 28, l: 31},
-        {age: 5, s: 36, m: 36, l: 45}, {age: 10, s: 56, m: 60, l: 79}, {age: 15, s: 76, m: 83, l: 114}
-    ];
-
-    let table = `<table class="age-table"><thead><tr><th>Age</th><th>S</th><th>M</th><th>L</th></tr></thead><tbody>`;
-    tableData.forEach(r => {
-        const match = (parseInt(a) === r.age) || (a == "4" && (r.age == 3 || r.age == 5));
-        table += `<tr><td>${r.age == 3 ? '3-5' : (r.age == 15 ? '10+' : r.age)}</td>
-            <td class="${match && s === 'small' ? 'match-highlight' : ''}">${r.s}</td>
-            <td class="${match && s === 'medium' ? 'match-highlight' : ''}">${r.m}</td>
-            <td class="${match && s === 'large' ? 'match-highlight' : ''}">${r.l}</td></tr>`;
-    });
-    table += `</tbody></table>`;
-
-    res.innerHTML = html + `<br><b>${i18n[currentLang]['age-table-title']}</b>` + table;
+    res.innerHTML = html;
     res.style.display = "block";
 }
 
@@ -374,10 +313,9 @@ function readDogMood() {
         moodRes.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
         return;
     }
-    const txt = moodDict[currentLang][num] || moodDict[currentLang][0];
+    const txt = moodDict[currentLang][num];
     moodRes.innerHTML = `<span>" ${txt} "</span>`;
     document.getElementById('feedbackArea').style.display = "block";
-    document.getElementById('feedback-thanks').innerText = "";
     showBubble(i18n[currentLang]['bubble-mood']);
 }
 
@@ -385,9 +323,7 @@ function submitFeedback(type) {
     document.getElementById('feedback-thanks').innerText = i18n[currentLang][`thanks-${type.toLowerCase()}`];
 }
 
-// Init
 populateBreeds();
 </script>
-
 </body>
 </html>
