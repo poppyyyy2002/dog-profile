@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* 客製化浮水印背景：使用 SVG 繪製骨頭與腳印 */
+        /* 1. 優化浮水印背景：交錯的腳印與骨頭圖案 */
         body { 
             background-color: #faefba; 
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100 100'%3E%3Cpath d='M30,20 Q35,10 40,20 Q50,15 50,30 Q50,45 40,40 Q35,50 30,40 Q20,45 20,30 Q20,15 30,20 Z' fill='%23f7bf6e' fill-opacity='0.1'/%3E%3Ccircle cx='70' cy='70' r='5' fill='%23f7bf6e' fill-opacity='0.1'/%3E%3Cpath d='M65,60 Q70,55 75,60 Q80,65 75,70 L65,70 Q60,65 65,60 Z' fill='%23f7bf6e' fill-opacity='0.1'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='%23f7bf6e' fill-opacity='0.15'%3E%3Cpath d='M20 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-8 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM20 32c3.3 0 6-2.7 6-6s-2.7-6-6-6-6 2.7-6 6 2.7 6 6 6z'/%3E%3Cpath d='M75 70h-6c-1.1 0-2 .9-2 2s.9 2 2 2h1.2c.4.6.4 1.4 0 2H69c-1.1 0-2 .9-2 2s.9 2 2 2h6c2.2 0 4-1.8 4-4s-1.8-4-4-4zm-12 4c0-2.2-1.8-4-4-4h-6c-1.1 0-2 .9-2 2s.9 2 2 2h1.2c-.4.6-.4 1.4 0 2H53c-1.1 0-2 .9-2 2s.9 2 2 2h6c2.2 0 4-1.8 4-4z'/%3E%3C/g%3E%3C/svg%3E");
             font-family: 'Poppins', sans-serif;
             display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
         }
@@ -110,7 +110,6 @@
     <label data-i18n="label-breed">🐾 Dog Breed</label>
     <select id="breed" onchange="generateAdvice()">
         <option value="" data-i18n="opt-breed">Select Breed...</option>
-        <!-- Breed options will be populated by JS for translation -->
     </select>
 
     <label data-i18n="label-age">🎂 Dog Age</label>
@@ -126,19 +125,21 @@
     <label data-i18n="label-size">🔢 Body Size</label>
     <select id="bodySize" onchange="generateAdvice()">
         <option value="" data-i18n="opt-size">Select Size...</option>
+        <option value="mini" data-i18n="size-mini">Mini (<4kg)</option>
         <option value="small" data-i18n="size-s">Small (<10kg)</option>
-        <option value="medium" data-i18n="size-m">Medium (10-25kg)</option>
-        <option value="large" data-i18n="size-l">Large/Giant (>25kg)</option>
+        <option value="medium" data-i18n="size-m">Medium (11-25kg)</option>
+        <option value="large" data-i18n="size-l">Large (26-45kg)</option>
+        <option value="giant" data-i18n="size-giant">Giant (>45kg)</option>
     </select>
 
     <label data-i18n="label-activity">🐕‍🦺 Activity</label>
     <select id="activity" onchange="generateAdvice()">
         <option value="" data-i18n="opt-activity">Select Level...</option>
         <option value="old" data-i18n="act-old">Too old to walk</option>
-        <option value="lazy" data-i18n="act-lazy">Lazy piggy</option>
-        <option value="good" data-i18n="act-good">Good puppy</option>
-        <option value="hyper" data-i18n="act-hyper">Hyperactive</option>
-        <option value="boss" data-i18n="act-boss">Boss level</option>
+        <option value="lazy" data-i18n="act-lazy">Lazy piggy (< 10min/day)</option>
+        <option value="good" data-i18n="act-good">Good puppy (30-90min/day)</option>
+        <option value="hyper" data-i18n="act-hyper">Hyperactive (2hr+/day)</option>
+        <option value="boss" data-i18n="act-boss">Boss level (Unlimited energy)</option>
     </select>
 
     <label data-i18n="label-weight">🦴 Current Weight (kg)</label>
@@ -146,6 +147,7 @@
 
     <div id="result-box"></div>
 
+    <!-- Mood Reader Section (No changes as requested) -->
     <div class="game-section">
         <div class="game-title" data-i18n="game-title">✨ Doggy Mood Reader</div>
         <div class="game-desc" data-i18n="game-desc">Pick a number (0-100) to see how your dog feels!</div>
@@ -175,10 +177,12 @@ const i18n = {
         "label-age": "🎂 Dog Age", "opt-age": "Select Age...", "age-1": "0-1 year (Baby)",
         "age-2": "2 years (Young adult)", "age-4": "3-5 years (Prime)", "age-10": "7-10 years (Senior)",
         "age-15": "10+ years (Elderly baby)", "label-size": "🔢 Body Size", "opt-size": "Select Size...",
-        "size-s": "Small (<10kg)", "size-m": "Medium (10-25kg)", "size-l": "Large (>25kg)",
-        "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", "act-old": "Too old to walk",
-        "act-lazy": "Lazy piggy (< 10min/day)", "act-good": "Good puppy (30-90min/day)", "act-hyper": "Hyperactive (2hr+/day)",
-        "act-boss": "Boss level (Unlimited energy)", "label-weight": "🦴 Current Weight (kg)",
+        "size-mini": "Mini (<4kg)", "size-s": "Small (<10kg)", "size-m": "Medium (11-25kg)", 
+        "size-l": "Large (26-45kg)", "size-giant": "Giant (>45kg)",
+        "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", 
+        "act-old": "Too old to walk", "act-lazy": "Lazy piggy, no exercise or < 10min/day", 
+        "act-good": "Good puppy, exercise 30-90min/day", "act-hyper": "Hyperactive, exercise 2hr+/day",
+        "act-boss": "Boss level, unlimited energy", "label-weight": "🦴 Current Weight (kg)",
         "game-title": "✨ Doggy Mood Reader", "game-desc": "Pick a number (0-100) to see how your dog feels!",
         "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "Comprehensive Advice",
         "age-table-title": "Age Correlation Table", "weight-high": "Weight is high for size.", "error-num": "Please enter 0-100!",
@@ -189,10 +193,12 @@ const i18n = {
         "label-age": "🎂 狗狗年齡", "opt-age": "請選擇年齡...", "age-1": "0-1 歲 (幼犬期)",
         "age-2": "2 歲 (青年期)", "age-4": "3-5 歲 (壯年期)", "age-10": "7-10 歲 (熟齡期)",
         "age-15": "10 歲以上 (高齡老寶寶)", "label-size": "🔢 體型", "opt-size": "請選擇體型...",
-        "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (10-25kg)", "size-l": "大型犬 (>25kg)",
-        "label-activity": "🐕‍🦺 活動量", "opt-activity": "請選擇活動量...", "act-old": "年邁體衰走不動",
-        "act-lazy": "懶惰小豬 (< 10分/日)", "act-good": "乖寶寶 (30-90分/日)", "act-hyper": "過動兒 (2時+/日)",
-        "act-boss": "大魔王 (體力無限)", "label-weight": "🦴 目前體重 (kg)",
+        "size-mini": "迷你型 (<4kg)", "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (11-25kg)", 
+        "size-l": "大型犬 (26-45kg)", "size-giant": "巨型犬 (>45kg)",
+        "label-activity": "🐕‍🦺 活動量", "opt-activity": "請選擇活動量...", 
+        "act-old": "年紀太大了，走不動了", "act-lazy": "懶惰的小豬，不愛運動或是每日運動10min內", 
+        "act-good": "正常乖寶寶，每天運動30min-90min", "act-hyper": "過動兒，每天運動2HR以上",
+        "act-boss": "大魔王等級，每天都有用不完的體力", "label-weight": "🦴 目前體重 (kg)",
         "game-title": "✨ 狗狗心情解讀器", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
         "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "專業護理建議",
         "age-table-title": "犬人類年齡對照表", "weight-high": "警告：體重已超出標準範圍。", "error-num": "請輸入 0-100 之間的數字！",
@@ -211,7 +217,6 @@ const breeds = {
     dachshund: { en: "Dachshund", zh: "臘腸犬" },
     schnauzer: { en: "Schnauzer", zh: "雪納瑞" },
     pomeranian: { en: "Pomeranian", zh: "博美犬" }
-    // ... 可以持續增加
 };
 
 const breedData = {
@@ -234,7 +239,7 @@ const breedData = {
 const moodDatabase = {
     en: [
         "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️", "Take me to the park! 🐕", "Feeling a bit sleepy... 💤", "You are my favorite human. 🌟", "Ready for an adventure! 🗺️", "I love our long walks. 🐾", "Did you say 'WALK'? 🎾", "I feel so safe near you. 🏠", "Squirrel!! Where? 🐿️", "Can I have some of your food? 🍕", "I'm the happiest dog ever! 😊", "Life is good with you. ✨", "Let's play tug-of-war! 🧶", "I dream about treats. 💭", "Wagging my tail just for you! 🐕", "Feeling very loyal today. 🎖️", "You make my heart happy. 💖", "Sun's out, tongue's out! ☀️", "I'm your little shadow. 👥", "Can we play fetch? ⚾", "I love it when you rub my belly. 🙌", "You're home! Best day ever! 🎉", "Is it dinner time yet? 🍽️", "I'll protect you forever. 🛡️", "You give the best ear scratches. 👂", "I'm feeling extra fluffy today. ☁️", "Let's explore the world together. 🌍", "I trust you with all my heart. 🤝", "Best. Owners. Ever. 🥇", "I like your scent. 👃", "I'm your biggest fan! 📣", "Let's sit and watch the birds. 🐦", "I'm so glad we're friends. 👯", "Feeling super smart today! 🧠", "Wait, did a cat just pass by? 🐈", "I'll always be by your side. 🕯️", "Your smile is my favorite thing. 😁", "Let's go for a car ride! 🚗", "I like the way you talk to me. 💬", "Soft blankets and you - perfection. 🛌", "I'm feeling like a good boy! 😇", "I'll wait for you forever. ⏳", "Life is a ball! Literally! 🎾", "You are my sunshine. 🌤️", "So many smells, so little time! 👃", "I love you more than bacon! 🥓", "I'm just a happy pup today! 🌈", "Let's make some memories. 📸",
-        "I feel like a king! 👑", "Is that a bird? 🐦", "I love your smell. 👃", "Let's run! 🏃", "Time for a nap. 😴", "You're the best! 👍", "I'm so excited! 😆", "Where's my ball? 🎾", "I love you! 🤟", "Let's cuddle. 🤗", "I'm hungry! 🥩", "What's that noise? 👂", "I'm a good dog. 🐕", "I like cheese! 🧀", "Let's go out. 🚪", "I'm happy! 😄", "You're my hero. 🦸", "I love scritches. 🐾", "Play with me! 🧸", "I'm sleepy. 🥱", "I like grass. 🌱", "Is it time? 🕒", "I'm your buddy. 🐶", "Let's explore! 🌲", "I love treats. 🍪", "You're funny! 😂", "I'm fast! ⚡", "I'm brave. 🦁", "I like toys. 🦴", "I'm a star! ⭐", "I love the sun. ☀️", "I'm loyal. ❤️", "I'm cool. 😎", "I like water. 💧", "I'm a helper. 🆘", "I love belly rubs. ✋", "I'm smart. 🎓", "I'm a hunter. 🏹", "I'm a friend. 🤝", "I'm yours. 🔗", "I love you. 💓", "I'm here. 📍", "I'm ready. 🏁", "I'm sweet. 🍭", "I'm kind. 🕊️", "I'm bold. 💥", "I'm curious. 🔍", "I'm alert. 🚨", "I'm calm. 🧘", "I'm home. 🏘️"
+        "I feel like a king! 👑", "Is that a bird? 🐦", "I love your smell. 👃", "Let's run! 🏃", "Time for a nap. 😴", "You're the best! 👍", "I'm so excited! 😆", "Where's my ball? 🎾", "I love you! 🤟", "Let's cuddle. 🤗", "I'm hungry! 🥩", "What's that noise? 👂", "I'm a good dog. 🐕", "I like cheese! 🧀", "Let's go out. Door!", "I'm happy! 😄", "You're my hero. 🦸", "I love scritches. 🐾", "Play with me! 🧸", "I'm sleepy. 🥱", "I like grass. 🌱", "Is it time? 🕒", "I'm your buddy. 🐶", "Let's explore! 🌲", "I love treats. 🍪", "You're funny! 😂", "I'm fast! ⚡", "I'm brave. 🦁", "I like toys. 🦴", "I'm a star! ⭐", "I love the sun. ☀️", "I'm loyal. ❤️", "I'm cool. 😎", "I like water. 💧", "I'm a helper. 🆘", "I love belly rubs. ✋", "I'm smart. 🎓", "I'm a hunter. 🏹", "I'm a friend. 🤝", "I'm yours. 🔗", "I love you. 💓", "I'm here. 📍", "I'm ready. 🏁", "I'm sweet. 🍭", "I'm kind. 🕊️", "I'm bold. 💥", "I'm curious. 🔍", "I'm alert. 🚨", "I'm calm. 🧘", "I'm home. 🏘️"
     ],
     zh: [
         "今天我覺得我簡直是國王！👑", "那是開零食包裝的聲音嗎？🦴", "我現在只想黏在你身邊。❤️", "帶我去公園跑跑好嗎？🐕", "眼皮有點沉...想睡了。💤", "你是我這輩子最愛的人。🌟", "走吧！我們去外面大冒險！🗺️", "我最喜歡跟你散步的時候。🐾", "你剛剛是不是說「去玩」？🎾", "在你身邊我感到無比安全。🏠", "看！那邊有松鼠！🐿️", "你盤子裡的食物看起來好香。🍕", "我是世界上最幸福的小狗！😊", "跟你在一起的生活真精彩。✨", "快來跟我玩拔河遊戲！🧶", "我夢到我們在零食山上。💭", "看我的尾巴搖得多快！🐕", "我會永遠對你忠誠。🎖️", "你的出現讓我很開心。💖", "陽光好舒服，舌頭收不回來。☀️", "我是你最忠實的小影子。👥", "快把球丟出去讓我接！⚾", "我最喜歡你幫我揉肚肚了。🙌", "你終於回來了！最好的時刻！🎉", "放飯時間是不是到了？🍽️", "我會一輩子守護這家。🛡️", "你抓耳朵的技術是世界第一。👂", "今天我覺得我毛澎澎的很帥。☁️", "讓我們一起看遍世界。🌍", "我把整顆心都交給你了。🤝", "你是全世界最棒的主人。🥇", "我最喜歡你身上的味道。👃", "我是你的超級頭號粉絲！📣", "我們一起靜靜看窗外小鳥。🐦", "很高興能成為你的家人。👯", "今天我覺得我聽得懂你說的話！🧠", "噓！剛才外面是不是有貓？🐈", "無論如何我都會陪著你。🕯️", "你的笑容是我動力的來源。😁", "可以坐車車出去兜風嗎？🚗", "我喜歡你對我溫柔說話的聲音。💬", "軟軟的毯子和你，絕配。🛌", "今天我覺得我是個乖寶寶。😇", "我會在這裡一直等你回來。⏳", "生活就像顆網球，充滿樂趣！🎾", "你是照亮我生命的陽光。🌤️", "外面的味道好豐富，聞不完！👃", "我愛你勝過愛肉乾。🥓", "今天就是一個快樂小狗日！🌈", "讓我們一起留下更多回憶。📸",
@@ -286,18 +291,22 @@ function generateAdvice() {
 
     let weightAdvice = "";
     if (weight) {
-        if ((bodySize === "small" && weight > 10) || (bodySize === "medium" && weight > 25) || (bodySize === "large" && weight > 45)) {
+        // 更新體重警告邏輯以符合新分級
+        if ((bodySize === "mini" && weight > 4) || 
+            (bodySize === "small" && weight > 10) || 
+            (bodySize === "medium" && weight > 25) || 
+            (bodySize === "large" && weight > 45) || 
+            (bodySize === "giant" && weight > 80)) {
             weightAdvice = `<div class="advice-item" style="color:#e67e22; font-weight:bold;">⚠️ ${i18n[currentLang]['weight-high']}</div>`;
         }
     }
 
-    // 建立更強大的建議顯示
     const tips = breedData[currentLang][breed] || ["No data."];
     let adviceHTML = `<span class="advice-header">⭐️ ${i18n[currentLang]['quick-advice']}</span>`;
     tips.forEach(t => { adviceHTML += `<div class="advice-item">${t}</div>`; });
     adviceHTML += weightAdvice;
 
-    // 年齡對照表
+    // 年齡對照表 (維持 S/M/L 大類顯示)
     const tableData = [
         {age: 1, s: 15, m: 15, l: 12}, {age: 2, s: 24, m: 24, l: 22}, {age: 3, s: 28, m: 28, l: 31},
         {age: 5, s: 36, m: 36, l: 45}, {age: 10, s: 56, m: 60, l: 79}, {age: 15, s: 76, m: 83, l: 114}
@@ -306,10 +315,15 @@ function generateAdvice() {
     let tableHTML = `<table class="age-table"><thead><tr><th>Age</th><th>S</th><th>M</th><th>L</th></tr></thead><tbody>`;
     tableData.forEach(row => {
         const isAgeMatch = (parseInt(ageVal) === row.age) || (ageVal == "4" && (row.age == 3 || row.age == 5));
+        // 將迷你/小型對應到 S, 大型/巨型對應到 L
+        const colS = (bodySize === 'mini' || bodySize === 'small');
+        const colM = (bodySize === 'medium');
+        const colL = (bodySize === 'large' || bodySize === 'giant');
+
         tableHTML += `<tr><td>${row.age == 3 ? '3-5' : (row.age == 15 ? '10+' : row.age)}</td>
-            <td class="${isAgeMatch && bodySize === 'small' ? 'match-highlight' : ''}">${row.s}</td>
-            <td class="${isAgeMatch && bodySize === 'medium' ? 'match-highlight' : ''}">${row.m}</td>
-            <td class="${isAgeMatch && bodySize === 'large' ? 'match-highlight' : ''}">${row.l}</td></tr>`;
+            <td class="${isAgeMatch && colS ? 'match-highlight' : ''}">${row.s}</td>
+            <td class="${isAgeMatch && colM ? 'match-highlight' : ''}">${row.m}</td>
+            <td class="${isAgeMatch && colL ? 'match-highlight' : ''}">${row.l}</td></tr>`;
     });
     tableHTML += `</tbody></table>`;
 
@@ -327,7 +341,6 @@ function readDogMood() {
         return;
     }
     
-    // 確保 0-100 每個數字都有獨特對應，且不超過陣列長度
     const list = moodDatabase[currentLang];
     const index = Math.min(num, list.length - 1);
     
@@ -347,7 +360,6 @@ function submitFeedback(type) {
     thanks.innerText = i18n[currentLang][`thanks-${type.toLowerCase()}`];
 }
 
-// 初始化
 populateBreeds();
 </script>
 
