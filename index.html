@@ -8,10 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* 1. 優化背景：加入淡淡的腳印與骨頭浮水印 */
         body { 
             background-color: #faefba; 
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='%23f7bf6e' fill-opacity='0.15'%3E%3Cpath d='M20 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-8 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM20 32c3.3 0 6-2.7 6-6s-2.7-6-6-6-6 2.7-6 6 2.7 6 6 6z'/%3E%3Cpath d='M75 70h-6c-1.1 0-2 .9-2 2s.9 2 2 2h1.2c.4.6.4 1.4 0 2H69c-1.1 0-2 .9-2 2s.9 2 2 2h6c2.2 0 4-1.8 4-4s-1.8-4-4-4zm-12 4c0-2.2-1.8-4-4-4h-6c-1.1 0-2 .9-2 2s.9 2 2 2h1.2c-.4.6-.4 1.4 0 2H53c-1.1 0-2 .9-2 2s.9 2 2 2h6c2.2 0 4-1.8 4-4z'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill='%23f7bf6e' fill-opacity='0.15'%3E%3Cpath d='M20 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-8 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM20 32c3.3 0 6-2.7 6-6s-2.7-6-6-6-6 2.7-6 6 2.7 6 6 32z'/%3E%3C/g%3E%3C/svg%3E");
             font-family: 'Poppins', sans-serif;
             display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
         }
@@ -34,7 +33,7 @@
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .dog-logo { text-align: center; margin-bottom: 15px; }
-        .dog-logo img { width: 180px; height: auto; display: block; margin: 0 auto; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .dog-logo img { width: 180px; height: auto; display: block; margin: 0 auto; transition: 0.5s; }
 
         h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
         .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
@@ -54,19 +53,18 @@
 
         .advice-header {
             text-align: center; font-weight: 600; padding: 10px 20px; border-radius: 50px; 
-            display: block; width: fit-content; margin: 0 auto 20px auto; font-size: 14px;
+            display: block; width: fit-content; margin: 0 auto 20px auto; font-size: 15px;
+            background-color: #fef4d1; color: #b58105; border: 1px solid #f7bf6e;
         }
 
         .advice-item { margin-bottom: 15px; padding-left: 20px; position: relative; }
         .advice-item::before { content: '☕️'; position: absolute; left: -5px; font-size: 12px; }
 
-        /* Age Table */
         .age-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
         .age-table th, .age-table td { border: 1px solid #eee; padding: 10px; text-align: center; }
         .age-table th { background-color: #f9f9f9; color: #7B7B7B; }
         .match-highlight { background-color: rgba(247, 191, 110, 0.2); color: #e67e22; font-weight: 600; border: 2.5px solid #f7bf6e !important; }
 
-        /* Game Section */
         .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
         .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; margin-bottom: 10px; }
         .game-desc { font-size: 13px; color: #999; margin-bottom: 20px; }
@@ -175,15 +173,14 @@ const i18n = {
         "size-mini": "Mini (<4kg)", "size-s": "Small (<10kg)", "size-m": "Medium (11-25kg)", "size-l": "Large (26-45kg)", "size-giant": "Giant (>45kg)",
         "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", 
         "act-old": "Too old to walk", 
-        "act-lazy": "Lazy piggy, no exercise or < 10min/day", 
-        "act-good": "Good puppy, exercise 30-90min/day", 
-        "act-hyper": "Hyperactive, exercise 2hr+/day",
-        "act-boss": "Boss level, unlimited energy", "label-weight": "🦴 Current Weight (kg)",
+        "act-lazy": "Lazy piggy (< 10min/day)", 
+        "act-good": "Good puppy (30-90min/day)", 
+        "act-hyper": "Hyperactive (2hr+/day)",
+        "act-boss": "Boss level (Unlimited energy)", "label-weight": "🦴 Current Weight (kg)",
         "game-title": "✨ Doggy Mood Reader", "game-desc": "Pick a number (0-100) to see how your dog feels!",
-        "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "Comprehensive Advice",
+        "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "⭐️ A small suggestion",
         "age-table-title": "Age Correlation Table", "weight-high": "Weight is high for size.", "error-num": "Please enter 0-100!",
-        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅",
-        "vet-intro": "☕️ Just a few things I wanted to mention about your pup over coffee:"
+        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅"
     },
     zh: {
         title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
@@ -193,15 +190,14 @@ const i18n = {
         "size-mini": "迷你型 (<4kg)", "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (11-25kg)", "size-l": "大型犬 (26-45kg)", "size-giant": "巨型犬 (>45kg)",
         "label-activity": "🐕‍發 活動量", "opt-activity": "請選擇活動量...", 
         "act-old": "年紀太大了，走不動了", 
-        "act-lazy": "懶惰的小豬，不愛運動或是每日運動10min內", 
-        "act-good": "正常乖寶寶，每天運動30min-90min", 
-        "act-hyper": "過動兒，每天運動2HR以上",
-        "act-boss": "大魔王等級，每天都有用不完的體力", "label-weight": "🦴 目前體重 (kg)",
+        "act-lazy": "懶惰的小豬 (< 10min/day)", 
+        "act-good": "正常乖寶寶 (30-90min/day)", 
+        "act-hyper": "過動兒 (2HR以上)",
+        "act-boss": "大魔王等級 (用不完的體力)", "label-weight": "🦴 目前體重 (kg)",
         "game-title": "✨ 狗狗心情解讀器", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
-        "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "專業護理建議",
+        "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "⭐️ 小小建議",
         "age-table-title": "犬人類年齡對照表", "weight-high": "警告：體重已超出標準範圍。", "error-num": "請輸入 0-100 之間的數字！",
-        "thanks-happy": "太棒了！🐾", "thanks-neutral": "我們會持續優化算法！🦴", "thanks-angry": "看來今天的電波不太對！😅",
-        "vet-intro": "☕️ 剛好跟你聊到，我們一起注意這些小地方，讓狗狗過得更舒服："
+        "thanks-happy": "太棒了！🐾", "thanks-neutral": "我們會持續優化算法！🦴", "thanks-angry": "看來今天的電波不太對！😅"
     }
 };
 
@@ -238,7 +234,7 @@ const breedData = {
 const moodDatabase = {
     en: [
         "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️", "Take me to the park! 🐕", "Feeling a bit sleepy... 💤", "You are my favorite human. 🌟", "Ready for an adventure! 🗺️", "I love our long walks. 🐾", "Did you say 'WALK'? 🎾", "I feel so safe near you. 🏠", "Squirrel!! Where? 🐿️", "Can I have some of your food? 🍕", "I'm the happiest dog ever! 😊", "Life is good with you. ✨", "Let's play tug-of-war! 🧶", "I dream about treats. 💭", "Wagging my tail just for you! 🐕", "Feeling very loyal today. 🎖️", "You make my heart happy. 💖", "Sun's out, tongue's out! ☀️", "I'm your little shadow. 👥", "Can we play fetch? ⚾", "I love it when you rub my belly. 🙌", "You're home! Best day ever! 🎉", "Is it dinner time yet? 🍽️", "I'll protect you forever. 🛡️", "You give the best ear scratches. 👂", "I'm feeling extra fluffy today. ☁️", "Let's explore the world together. 🌍", "I trust you with all my heart. 🤝", "Best. Owners. Ever. 🥇", "I like your scent. 👃", "I'm your biggest fan! 📣", "Let's sit and watch the birds. 🐦", "I'm so glad we're friends. 👯", "Feeling super smart today! 🧠", "Wait, did a cat just pass by? 🐈", "I'll always be by your side. 🕯️", "Your smile is my favorite thing. 😁", "Let's go for a car ride! 🚗", "I like the way you talk to me. 💬", "Soft blankets and you - perfection. 🛌", "I'm feeling like a good boy! 😇", "I'll wait for you forever. ⏳", "Life is a ball! Literally! 🎾", "You are my sunshine. 🌤️", "So many smells, so little time! 👃", "I love you more than bacon! 🥓", "I'm just a happy pup today! 🌈", "Let's make some memories. 📸",
-        "I feel like a king! 👑", "Is that a bird? 🐦", "I love your smell. 👃", "Let's run! 🏃", "Time for a nap. 😴", "You're the best! 👍", "I'm so excited! 😆", "Where's my ball? 🎾", "I love you! 🤟", "Let's cuddle. 🤗", "I'm hungry! 🥩", "What's that noise? 👂", "I'm a good dog. 🐕", "I like cheese! 🧀", "Let's go out. Door!", "I'm happy! 😄", "You're my hero. 🦸", "I love scritches. 🐾", "Play with me! 🧸", "I'm sleepy. 🥱", "I like grass. 🌱", "Is it time? 🕒", "I'm your buddy. 🐶", "Let's explore! 🌲", "I love treats. 🍪", "You're funny! 😂", "I'm fast! ⚡", "I'm brave. 🦁", "I like toys. 🦴", "I'm a star! ⭐", "I love the sun. ☀️", "I'm loyal. ❤️", "I'm cool. 😎", "I like water. 💧", "I'm a helper. 🆘", "I love belly rubs. ✋", "I'm smart. 🎓", "I'm a hunter. 🏹", "I'm a friend. 🤝", "I'm yours. 🔗", "I love you. 💓", "I'm here. 📍", "I'm ready. 🏁", "I'm sweet. 🍭", "I'm kind. 🕊️", "I'm bold. 💥", "I'm curious. 🔍", "I'm alert. 🚨", "I'm calm. 🧘", "I'm home. 🏘️"
+        "I feel like a king! 👑", "Is that a bird? 🐦", "I love your smell. 100", "Let's run! 🏃", "Time for a nap. 😴", "You're the best! 👍", "I'm so excited! 😆", "Where's my ball? 🎾", "I love you! 🤟", "Let's cuddle. 🤗", "I'm hungry! 🥩", "What's that noise? 👂", "I'm a good dog. 🐕", "I like cheese! 🧀", "Let's go out. Door!", "I'm happy! 😄", "You're my hero. 🦸", "I love scritches. 🐾", "Play with me! 🧸", "I'm sleepy. 🥱", "I like grass. 🌱", "Is it time? 🕒", "I'm your buddy. 🐶", "Let's explore! 🌲", "I love treats. 🍪", "You're funny! 😂", "I'm fast! ⚡", "I'm brave. 🦁", "I like toys. 🦴", "I'm a star! ⭐", "I love the sun. ☀️", "I'm loyal. ❤️", "I'm cool. 😎", "I like water. 💧", "I'm a helper. 🆘", "I love belly rubs. ✋", "I'm smart. 🎓", "I'm a hunter. 🏹", "I'm a friend. 🤝", "I'm yours. 🔗", "I love you. 💓", "I'm here. 📍", "I'm ready. 🏁", "I'm sweet. 🍭", "I'm kind. 🕊️", "I'm bold. 💥", "I'm curious. 🔍", "I'm alert. 🚨", "I'm calm. 🧘", "I'm home. 🏘️"
     ],
     zh: [
         "今天我覺得我簡直是國王！👑", "那是開零食包裝的聲音嗎？🦴", "我現在只想黏在你身邊。❤️", "帶我去公園跑跑好嗎？🐕", "眼皮有點沉...想睡了。💤", "你是我這輩子最愛的人。🌟", "走吧！我們去外面大冒險！🗺️", "我最喜歡跟你散步的時候。🐾", "你剛剛是不是說「去玩」？🎾", "在你身邊我感到無比安全。🏠", "看！那邊有松鼠！🐿️", "你盤子裡的食物看起來好香。🍕", "我是世界上最幸福的小狗！😊", "跟你在一起的生活真精彩。✨", "快來跟我玩拔河遊戲！🧶", "我夢到我們在零食山上。💭", "看我的尾巴搖得多快！🐕", "我會永遠對你忠誠。🎖️", "你的出現讓我很開心。💖", "陽光好舒服，舌頭收不回來。☀️", "我是你最忠實的小影子。👥", "快把球丟出去讓我接！⚾", "我最喜歡你幫我揉肚肚了。🙌", "你終於回來了！最好的時刻！🎉", "放飯時間是不是到了？🍽️", "我會一輩子守護這家。🛡️", "你抓耳朵的技術是世界第一。👂", "今天我覺得我毛澎澎的很帥。☁️", "讓我們一起看遍世界。🌍", "我把整顆心都交給你了。🤝", "你是全世界最棒的主人。🥇", "我最喜歡你身上的味道。👃", "我是你的超級頭號粉絲！📣", "我們一起靜靜看窗外小鳥。🐦", "很高興能成為你的家人。👯", "今天我覺得我聽得懂你說的話！🧠", "噓！剛才外面是不是有貓？🐈", "無論如何我都會陪著你。🕯️", "你的笑容是我動力的來源。😁", "可以坐車車出去兜風嗎？🚗", "我喜歡你對我溫柔說話的聲音。💬", "軟軟的毯子和你，絕配。🛌", "今天我覺得我是個乖寶寶。😇", "我會在這裡一直等你回來。⏳", "生活就像顆網球，充滿樂趣！🎾", "你是照亮我生命的陽光。🌤️", "外面的味道好豐富，聞不完！👃", "我愛你勝過愛肉乾。🥓", "今天就是一個快樂小狗日！🌈", "讓我們一起留下更多回憶。📸",
@@ -305,7 +301,7 @@ function generateAdvice() {
     }
 
     const tips = breedData[currentLang][breed] || ["No data."];
-    let adviceHTML = `<span class="advice-header" style="background-color:#fef4d1; color:#b58105; border: 1px solid #f7bf6e;">${i18n[currentLang]['vet-intro']}</span>`;
+    let adviceHTML = `<span class="advice-header">${i18n[currentLang]['quick-advice']}</span>`;
     
     tips.forEach(t => { adviceHTML += `<div class="advice-item" style="font-style: italic; color: #555;">「${t}」</div>`; });
     
