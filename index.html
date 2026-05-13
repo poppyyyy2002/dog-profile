@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* 1. 優化：客製化浮水印背景：使用淡淡的狗腳印與骨頭圖案 */
+        /* 維持優化後的背景：狗腳印與骨頭 */
         body { 
             background-color: #faefba; 
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Cg fill='%23f7bf6e' fill-opacity='0.1'%3E%3Cpath d='M30 20c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm15 5c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-30 0c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm15-5c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm5 20c0-4.42-3.58-8-8-8s-8 3.58-8 8 3.58 8 8 8 8-3.58 8-8z'/%3E%3Cpath d='M80 70c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-2c0-1.1-.9-2-2-2h-4zm10 0c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2v-2c0-1.1-.9-2-2-2h-2z' transform='rotate(45 85 75)'/%3E%3C/g%3E%3C/svg%3E");
@@ -79,25 +79,16 @@
         .game-btn:hover { background-color: #e67e22; transform: translateY(-2px); }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
 
-        /* Feedback Symbols - 完全恢復原始設計（包含眼睛與嘴巴） */
+        /* Feedback Symbols - 完全還原至原始 CSS 設定 */
         .feedback-section { margin-top: 25px; display: none; }
         .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
         .face-btn { width: 42px; height: 42px; border-radius: 50%; border: 3.5px solid #ccc; position: relative; cursor: pointer; transition: 0.3s; }
         .face-btn:hover { transform: scale(1.2); }
-        .eye { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #ccc; top: 12px; }
-        .eye-left { left: 11px; }
-        .eye-right { right: 11px; }
-
         .face-happy { border-color: #3ebc8e; }
-        .face-happy .eye { background: #3ebc8e; }
         .face-happy .mouth { position: absolute; width: 16px; height: 8px; border-radius: 0 0 16px 16px; border: 2.5px solid #3ebc8e; border-top: 0; bottom: 8px; left: 11px; }
-
         .face-neutral { border-color: #999; }
-        .face-neutral .eye { background: #999; }
         .face-neutral .mouth { position: absolute; width: 16px; height: 2.5px; background: #999; bottom: 11px; left: 13px; }
-
         .face-angry { border-color: #f7bf6e; }
-        .face-angry .eye { background: #f7bf6e; }
         .face-angry .mouth { position: absolute; width: 14px; height: 6px; border-radius: 14px 14px 0 0; border: 2.5px solid #f7bf6e; border-bottom: 0; bottom: 8px; left: 12px; }
     </style>
 </head>
@@ -131,7 +122,7 @@
         <option value="15" data-i18n="age-15">10+ years (Elderly baby)</option>
     </select>
 
-    <!-- 2. 優化：🔢 Body Size 級距 -->
+    <!-- 維持優化後的體型級距邏輯 -->
     <label data-i18n="label-size">🔢 Body Size</label>
     <select id="bodySize" onchange="generateAdvice()">
         <option value="" data-i18n="opt-size">Select Size...</option>
@@ -167,15 +158,10 @@
         <div class="feedback-section" id="feedbackArea">
             <p style="font-size: 12px; color: #7B7B7B; margin-bottom: 10px;" data-i18n="is-accurate">Is this accurate?</p>
             <div class="symbol-container">
-                <div class="face-btn face-happy" onclick="submitFeedback('Happy')">
-                    <div class="eye eye-left"></div><div class="eye eye-right"></div><div class="mouth"></div>
-                </div>
-                <div class="face-btn face-neutral" onclick="submitFeedback('Neutral')">
-                    <div class="eye eye-left"></div><div class="eye eye-right"></div><div class="mouth"></div>
-                </div>
-                <div class="face-btn face-angry" onclick="submitFeedback('Angry')">
-                    <div class="eye eye-left"></div><div class="eye eye-right"></div><div class="mouth"></div>
-                </div>
+                <!-- 完全還原至原始 HTML 結構 -->
+                <div class="face-btn face-happy" onclick="submitFeedback('Happy')"><div class="mouth"></div></div>
+                <div class="face-btn face-neutral" onclick="submitFeedback('Neutral')"><div class="mouth"></div></div>
+                <div class="face-btn face-angry" onclick="submitFeedback('Angry')"><div class="mouth"></div></div>
             </div>
             <p id="feedback-thanks" style="font-size: 11px; color: #3ebc8e; margin-top: 15px; font-weight:600;"></p>
         </div>
