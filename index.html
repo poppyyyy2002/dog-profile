@@ -3,83 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dog Profile Assistant 🐾</title>
+    <title>Professional Dog Profile Assistant 🐾</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #3ebc8e;
+            --accent: #f7bf6e;
+            --bg-gradient: linear-gradient(135deg, #faefba 0%, #f5d97d 100%);
+        }
+
         body { 
-            background-color: #faefba; 
+            background: var(--bg-gradient); 
+            min-height: 100vh;
             font-family: 'Poppins', sans-serif;
-            display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
+            display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0;
         }
 
         .lang-switch { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 100; }
         .lang-btn {
-            background: white; border: 2px solid #3ebc8e; color: #3ebc8e;
+            background: white; border: 2px solid var(--primary); color: var(--primary);
             padding: 6px 15px; border-radius: 20px; cursor: pointer;
             font-weight: 600; font-size: 13px; transition: 0.3s;
         }
-        .lang-btn.active { background: #3ebc8e; color: white; }
+        .lang-btn.active { background: var(--primary); color: white; }
 
         .card { 
-            background: rgba(255, 255, 255, 0.96); width: 100%; max-width: 550px;
-            border-radius: 35px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-            padding: 40px; border: 4px solid #fff; box-sizing: border-box; margin-bottom: 20px;
-            position: relative; animation: fadeInUp 0.6s ease-out;
+            background: rgba(255, 255, 255, 0.98); width: 100%; max-width: 550px;
+            border-radius: 40px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            padding: 40px; border: 4px solid #fff; box-sizing: border-box; 
+            position: relative; animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
-        .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
+        /* Logo 互動 */
+        .dog-header { text-align: center; margin-bottom: 30px; }
+        .logo-container {
+            width: 100px; height: 100px; background: #fff5d1; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 15px; font-size: 50px; cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .logo-container:hover { transform: scale(1.1) rotate(10deg); }
 
-        label { font-weight: 600; color: #7B7B7B; display: block; margin-top: 22px; font-size: 14px; }
+        h2 { color: var(--primary); font-family: 'Fredoka', sans-serif; font-size: 38px; margin: 0; }
+        .author-tag { color: #BEBEBE; font-size: 12px; letter-spacing: 1px; }
+
+        label { font-weight: 600; color: #555; display: block; margin-top: 20px; font-size: 14px; }
         select, input { 
-            width: 100%; padding: 14px; margin-top: 10px; border: 2px solid #fcf2d1; 
-            border-radius: 15px; background-color: #fffdf5; font-size: 15px; outline: none;
+            width: 100%; padding: 14px; margin-top: 8px; border: 2px solid #eee; 
+            border-radius: 15px; background-color: #fafafa; font-size: 15px; outline: none;
             box-sizing: border-box; transition: 0.3s;
         }
+        select:focus, input:focus { border-color: var(--primary); background-color: #fff; }
 
-        /* ✨ Doggy Mood Reader 原始正確版本視覺設定 */
-        .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
-        .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; }
+        /* 建議區塊 */
+        #result-box { 
+            margin-top: 30px; padding: 25px; border-radius: 20px; 
+            background: #f0faf6; border-left: 5px solid var(--primary);
+            display: none; animation: slideIn 0.5s ease;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* Mood Reader 區塊 */
+        .game-section { border-top: 2px solid #eee; margin-top: 40px; padding-top: 30px; text-align: center; }
+        .game-title { font-family: 'Fredoka', sans-serif; color: var(--accent); font-size: 24px; margin-bottom: 15px; }
         
-        .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 25px; height: 70px; align-items: center; }
+        .mood-input-container { margin-bottom: 20px; }
+        #mood-score { width: 80px; text-align: center; font-weight: bold; font-size: 18px; border-color: var(--accent); }
+
+        .face-container { 
+            width: 80px; height: 80px; background: #fff; border: 4px solid #eee;
+            border-radius: 50%; margin: 15px auto; position: relative; transition: 0.5s;
+        }
+
+        /* 表情細節修復 */
+        .eye { 
+            position: absolute; width: 8px; height: 8px; background: #555; 
+            border-radius: 50%; top: 25px; transition: 0.3s;
+        }
+        .eye.left { left: 20px; }
+        .eye.right { right: 20px; }
         
-        .face-btn { 
-            width: 50px; height: 50px; border-radius: 50%; border: 3px solid #ccc; 
-            position: relative; cursor: pointer; transition: 0.3s;
+        .mouth { 
+            position: absolute; width: 30px; height: 15px; border-bottom: 4px solid #555;
+            border-radius: 0 0 30px 30px; bottom: 18px; left: 25px; transition: 0.5s;
         }
 
-        /* 眼睛：確保出現在上半部 */
-        .face-btn::before, .face-btn::after {
-            content: ''; position: absolute; width: 6px; height: 6px; 
-            background: #999; border-radius: 50%; top: 14px;
-        }
-        .face-btn::before { left: 12px; }
-        .face-btn::after { right: 12px; }
-
-        .face-happy { border-color: #3ebc8e; }
-        .face-happy::before, .face-happy::after { background: #3ebc8e; }
-        .face-happy .mouth { 
-            position: absolute; width: 22px; height: 11px; border-radius: 0 0 22px 22px; 
-            border: 3px solid #3ebc8e; border-top: 0; bottom: 8px; left: 11px; 
-        }
-
-        .face-neutral { border-color: #999; }
-        .face-neutral .mouth { 
-            position: absolute; width: 18px; height: 3px; background: #999; bottom: 13px; left: 13px; 
-        }
-
-        .face-angry { border-color: #f7bf6e; }
-        .face-angry::before, .face-angry::after { background: #f7bf6e; }
-        .face-angry .mouth { 
-            position: absolute; width: 18px; height: 8px; border-radius: 18px 18px 0 0; 
-            border: 3px solid #f7bf6e; border-bottom: 0; bottom: 10px; left: 13px; 
-        }
-
-        #feedback-thanks { font-size: 14px; color: #3ebc8e; margin-top: 15px; font-weight: 600; min-height: 20px; }
+        #feedback-text { font-weight: 600; color: #777; margin-top: 10px; height: 24px; }
     </style>
 </head>
 <body>
@@ -91,30 +105,39 @@
 
 <div class="card">
     <div class="dog-header">
+        <div class="logo-container" onclick="this.innerHTML = '🐶'">🐾</div>
         <h2 data-i18n="title">Dog Profile</h2>
         <span class="author-tag">Made by Poppy H.</span>
     </div>
 
     <label data-i18n="label-age">🎂 Dog Age</label>
-    <select id="age"></select>
+    <select id="age" onchange="updateView()"></select>
 
     <label data-i18n="label-size">🔢 Body Size</label>
-    <select id="size"></select>
+    <select id="size" onchange="updateView()"></select>
 
     <label data-i18n="label-activity">🐕‍🦺 Activity</label>
-    <select id="activity"></select>
+    <select id="activity" onchange="updateView()"></select>
 
     <label data-i18n="label-weight">🦴 Current Weight (kg)</label>
-    <input type="number" id="weight">
+    <input type="number" id="weight" placeholder="e.g. 10" oninput="updateView()">
+
+    <div id="result-box">
+        <strong id="result-title"></strong>
+        <p id="result-text" style="margin-top: 10px; line-height: 1.6;"></p>
+    </div>
 
     <div class="game-section">
         <div class="game-title" data-i18n="game-title">✨ Doggy Mood Reader</div>
-        <div class="symbol-container">
-            <div class="face-btn face-happy" onclick="submitFeedback('happy')"><div class="mouth"></div></div>
-            <div class="face-btn face-neutral" onclick="submitFeedback('neutral')"><div class="mouth"></div></div>
-            <div class="face-btn face-angry" onclick="submitFeedback('angry')"><div class="mouth"></div></div>
+        <div class="mood-input-container">
+            <input type="number" id="mood-score" min="1" max="100" placeholder="1-100" oninput="updateMood()">
         </div>
-        <p id="feedback-thanks"></p>
+        <div class="face-container" id="mood-face">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="mouth" id="mood-mouth"></div>
+        </div>
+        <p id="feedback-text"></p>
     </div>
 </div>
 
@@ -132,7 +155,7 @@ const i18n = {
         "age-10+": "Over 10 years old, a super old baby now",
         "label-size": "🔢 Body Size",
         "size-mini": "Mini (<4kg)", "size-small": "Small (<10kg)", "size-medium": "Medium (11-25kg)", "size-large": "Large (26-45kg)", "size-giant": "Extra Large/Giant (>45kg)",
-        "label-activity": "🐕‍🦺 Activity",
+        "label-activity": "🐕‍ Activity",
         "act-1": "Too old to walk",
         "act-2": "Lazy piggy, dislikes exercise or <10min daily",
         "act-3": "Normal good puppy, 30min-90min exercise daily",
@@ -140,7 +163,9 @@ const i18n = {
         "act-5": "Boss level, endless energy every day",
         "label-weight": "🦴 Current Weight (kg)",
         "game-title": "✨ Doggy Mood Reader",
-        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better!", "thanks-angry": "Sorry about that!"
+        "advice-title": "🐾 Professional Advice:",
+        "advice-text": "Maintain consistent nutrition and check your pet's energy levels daily!",
+        "mood-bad": "Someone is grumpy today...", "mood-ok": "Just a chill day.", "mood-great": "Super Happy Doggy!"
     },
     zh: {
         title: "狗狗檔案",
@@ -160,14 +185,16 @@ const i18n = {
         "act-5": "大魔王等級，每天都有用不完的體力",
         "label-weight": "🦴 目前體重 (kg)",
         "game-title": "✨ 狗狗心情解讀器",
-        "thanks-happy": "太棒了，你也懂我！🐾", "thanks-neutral": "我們會再接再厲！", "thanks-angry": "下次會更準的！"
+        "advice-title": "🐾 專業建議：",
+        "advice-text": "請根據目前的年齡與活動量提供穩定的營養，並注意關節健康！",
+        "mood-bad": "今天心情有點臭臭的喔...", "mood-ok": "心情平穩的一天。", "mood-great": "開心到飛起來了！"
     }
 };
 
 function populateDropdowns() {
     const ageSelect = document.getElementById('age');
     const ageVal = ageSelect.value;
-    ageSelect.innerHTML = "";
+    ageSelect.innerHTML = `<option value="">Select Age</option>`;
     ["age-1", "age-2", "age-3-5", "age-7-10", "age-10+"].forEach(key => {
         const opt = document.createElement('option');
         opt.value = key; opt.innerText = i18n[currentLang][key];
@@ -177,7 +204,7 @@ function populateDropdowns() {
 
     const sizeSelect = document.getElementById('size');
     const sizeVal = sizeSelect.value;
-    sizeSelect.innerHTML = "";
+    sizeSelect.innerHTML = `<option value="">Select Size</option>`;
     ["size-mini", "size-small", "size-medium", "size-large", "size-giant"].forEach(key => {
         const opt = document.createElement('option');
         opt.value = key; opt.innerText = i18n[currentLang][key];
@@ -187,13 +214,59 @@ function populateDropdowns() {
 
     const actSelect = document.getElementById('activity');
     const actVal = actSelect.value;
-    actSelect.innerHTML = "";
+    actSelect.innerHTML = `<option value="">Select Activity</option>`;
     for(let i=1; i<=5; i++) {
         const opt = document.createElement('option');
         opt.value = `act-${i}`; opt.innerText = i18n[currentLang][`act-${i}`];
         actSelect.appendChild(opt);
     }
     if(actVal) actSelect.value = actVal;
+}
+
+function updateView() {
+    const age = document.getElementById('age').value;
+    const act = document.getElementById('activity').value;
+    const box = document.getElementById('result-box');
+    
+    if (age && act) {
+        box.style.display = 'block';
+        document.getElementById('result-title').innerText = i18n[currentLang]['advice-title'];
+        document.getElementById('result-text').innerText = i18n[currentLang]['advice-text'];
+    }
+}
+
+function updateMood() {
+    const score = parseInt(document.getElementById('mood-score').value);
+    const mouth = document.getElementById('mood-mouth');
+    const face = document.getElementById('mood-face');
+    const feedback = document.getElementById('feedback-text');
+
+    if (isNaN(score)) return;
+
+    if (score < 40) {
+        mouth.style.borderRadius = "30px 30px 0 0";
+        mouth.style.borderBottom = "none";
+        mouth.style.borderTop = "4px solid #555";
+        mouth.style.bottom = "12px";
+        face.style.borderColor = "#f7bf6e";
+        feedback.innerText = i18n[currentLang]['mood-bad'];
+    } else if (score < 70) {
+        mouth.style.borderRadius = "0";
+        mouth.style.borderTop = "none";
+        mouth.style.borderBottom = "4px solid #999";
+        mouth.style.height = "0px";
+        mouth.style.bottom = "25px";
+        face.style.borderColor = "#eee";
+        feedback.innerText = i18n[currentLang]['mood-ok'];
+    } else {
+        mouth.style.borderRadius = "0 0 30px 30px";
+        mouth.style.borderTop = "none";
+        mouth.style.borderBottom = "4px solid #3ebc8e";
+        mouth.style.height = "15px";
+        mouth.style.bottom = "18px";
+        face.style.borderColor = "#3ebc8e";
+        feedback.innerText = i18n[currentLang]['mood-great'];
+    }
 }
 
 function changeLang(lang) {
@@ -203,12 +276,10 @@ function changeLang(lang) {
         if(i18n[lang][key]) el.innerText = i18n[lang][key];
     });
     populateDropdowns();
+    updateView();
+    updateMood();
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(`btn-${lang}`).classList.add('active');
-}
-
-function submitFeedback(type) {
-    document.getElementById('feedback-thanks').innerText = i18n[currentLang][`thanks-${type}`];
 }
 
 populateDropdowns();
