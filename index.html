@@ -79,28 +79,25 @@
         .game-btn:hover { background-color: #e67e22; transform: translateY(-2px); }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
 
-        /* Feedback Symbols - 修正眼睛部分 */
+        /* Feedback Symbols - 完全恢復原始設計（包含眼睛與嘴巴） */
         .feedback-section { margin-top: 25px; display: none; }
         .symbol-container { display: flex; justify-content: center; gap: 30px; margin-top: 15px; }
         .face-btn { width: 42px; height: 42px; border-radius: 50%; border: 3.5px solid #ccc; position: relative; cursor: pointer; transition: 0.3s; }
         .face-btn:hover { transform: scale(1.2); }
-        
-        .face-btn::before, .face-btn::after { 
-            content: ''; position: absolute; width: 4px; height: 4px; border-radius: 50%; top: 12px;
-        }
-        .face-btn::before { left: 11px; }
-        .face-btn::after { right: 11px; }
+        .eye { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #ccc; top: 12px; }
+        .eye-left { left: 11px; }
+        .eye-right { right: 11px; }
 
         .face-happy { border-color: #3ebc8e; }
-        .face-happy::before, .face-happy::after { background: #3ebc8e; }
+        .face-happy .eye { background: #3ebc8e; }
         .face-happy .mouth { position: absolute; width: 16px; height: 8px; border-radius: 0 0 16px 16px; border: 2.5px solid #3ebc8e; border-top: 0; bottom: 8px; left: 11px; }
-        
+
         .face-neutral { border-color: #999; }
-        .face-neutral::before, .face-neutral::after { background: #999; }
+        .face-neutral .eye { background: #999; }
         .face-neutral .mouth { position: absolute; width: 16px; height: 2.5px; background: #999; bottom: 11px; left: 13px; }
-        
+
         .face-angry { border-color: #f7bf6e; }
-        .face-angry::before, .face-angry::after { background: #f7bf6e; }
+        .face-angry .eye { background: #f7bf6e; }
         .face-angry .mouth { position: absolute; width: 14px; height: 6px; border-radius: 14px 14px 0 0; border: 2.5px solid #f7bf6e; border-bottom: 0; bottom: 8px; left: 12px; }
     </style>
 </head>
@@ -134,6 +131,7 @@
         <option value="15" data-i18n="age-15">10+ years (Elderly baby)</option>
     </select>
 
+    <!-- 2. 優化：🔢 Body Size 級距 -->
     <label data-i18n="label-size">🔢 Body Size</label>
     <select id="bodySize" onchange="generateAdvice()">
         <option value="" data-i18n="opt-size">Select Size...</option>
@@ -169,9 +167,15 @@
         <div class="feedback-section" id="feedbackArea">
             <p style="font-size: 12px; color: #7B7B7B; margin-bottom: 10px;" data-i18n="is-accurate">Is this accurate?</p>
             <div class="symbol-container">
-                <div class="face-btn face-happy" onclick="submitFeedback('Happy')"><div class="mouth"></div></div>
-                <div class="face-btn face-neutral" onclick="submitFeedback('Neutral')"><div class="mouth"></div></div>
-                <div class="face-btn face-angry" onclick="submitFeedback('Angry')"><div class="mouth"></div></div>
+                <div class="face-btn face-happy" onclick="submitFeedback('Happy')">
+                    <div class="eye eye-left"></div><div class="eye eye-right"></div><div class="mouth"></div>
+                </div>
+                <div class="face-btn face-neutral" onclick="submitFeedback('Neutral')">
+                    <div class="eye eye-left"></div><div class="eye eye-right"></div><div class="mouth"></div>
+                </div>
+                <div class="face-btn face-angry" onclick="submitFeedback('Angry')">
+                    <div class="eye eye-left"></div><div class="eye eye-right"></div><div class="mouth"></div>
+                </div>
             </div>
             <p id="feedback-thanks" style="font-size: 11px; color: #3ebc8e; margin-top: 15px; font-weight:600;"></p>
         </div>
