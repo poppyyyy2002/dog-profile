@@ -32,8 +32,35 @@
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .dog-logo { text-align: center; margin-bottom: 15px; }
-        .dog-logo img { width: 180px; height: auto; display: block; margin: 0 auto; transition: 0.5s; }
+        /* Logo and Speech Bubble */
+        .dog-logo-container { position: relative; width: 180px; margin: 0 auto 15px auto; text-align: center; }
+        .dog-logo img { width: 180px; height: auto; display: block; transition: transform 0.3s ease; cursor: pointer; }
+        .dog-logo img:hover { animation: shake 0.5s ease-in-out; }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(3deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .speech-bubble {
+            position: absolute; top: -20px; right: -40px;
+            background: #3ebc8e; color: white; padding: 6px 12px;
+            border-radius: 15px; font-size: 14px; font-weight: 600;
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            white-space: nowrap;
+        }
+        .speech-bubble::after {
+            content: ''; position: absolute; bottom: -8px; left: 15px;
+            border-width: 8px 8px 0; border-style: solid; border-color: #3ebc8e transparent;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
 
         h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
         .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
@@ -57,8 +84,8 @@
             background-color: #fef4d1; color: #b58105; border: 1px solid #f7bf6e;
         }
 
-        .advice-item { margin-bottom: 15px; padding-left: 20px; position: relative; }
-        .advice-item::before { content: '☕️'; position: absolute; left: -5px; font-size: 12px; }
+        .advice-item { margin-bottom: 15px; padding-left: 10px; position: relative; }
+        /* Removed advice-item::before emoji */
 
         .age-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
         .age-table th, .age-table td { border: 1px solid #eee; padding: 10px; text-align: center; }
@@ -94,8 +121,11 @@
 </div>
 
 <div class="card">
-    <div class="dog-logo">
-        <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
+    <div class="dog-logo-container">
+        <div class="speech-bubble" id="bubble" data-i18n="bubble-text">Woof!</div>
+        <div class="dog-logo">
+            <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
+        </div>
     </div>
 
     <h2 data-i18n="title">Dog Profile</h2>
@@ -180,7 +210,8 @@ const i18n = {
         "game-title": "✨ Doggy Mood Reader", "game-desc": "Pick a number (0-100) to see how your dog feels!",
         "game-btn": "Check Mood", "is-accurate": "Is this accurate?", "quick-advice": "⭐️ A small suggestion",
         "age-table-title": "Age Correlation Table", "weight-high": "Weight is high for size.", "error-num": "Please enter 0-100!",
-        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅"
+        "thanks-happy": "Glad you think so! 🐾", "thanks-neutral": "We'll try better! 🦴", "thanks-angry": "Doggy telepathy error! 😅",
+        "bubble-text": "Woof!"
     },
     zh: {
         title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
@@ -197,7 +228,8 @@ const i18n = {
         "game-title": "✨ 狗狗心情解讀器", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
         "game-btn": "查看心情", "is-accurate": "你覺得準嗎？", "quick-advice": "⭐️ 小小建議",
         "age-table-title": "犬人類年齡對照表", "weight-high": "警告：體重已超出標準範圍。", "error-num": "請輸入 0-100 之間的數字！",
-        "thanks-happy": "太棒了！🐾", "thanks-neutral": "我們會持續優化算法！🦴", "thanks-angry": "看來今天的電波不太對！😅"
+        "thanks-happy": "太棒了！🐾", "thanks-neutral": "我們會持續優化算法！🦴", "thanks-angry": "看來今天的電波不太對！😅",
+        "bubble-text": "嗨！"
     }
 };
 
@@ -255,6 +287,14 @@ function populateBreeds() {
     breedSelect.value = currentValue;
 }
 
+function updateBubbleText() {
+    const bubble = document.getElementById('bubble');
+    const texts = currentLang === 'en' ? ["Woof!", "Hi!"] : ["嗨！", "汪汪！"];
+    // Simple toggle between the two strings
+    let currentText = bubble.innerText;
+    bubble.innerText = currentText === texts[0] ? texts[1] : texts[0];
+}
+
 function changeLang(lang) {
     currentLang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -289,7 +329,7 @@ function generateAdvice() {
             (bodySize === "medium" && weight > 25) || 
             (bodySize === "large" && weight > 45) || 
             (bodySize === "giant" && weight > 80)) {
-            weightAdvice = `<div class="advice-item" style="color:#e67e22; font-weight:bold;">⚠️ ${i18n[currentLang]['weight-high']}</div>`;
+            weightAdvice = `<div class="advice-item" style="color:#e67e22; font-weight:bold;">Warning: ${i18n[currentLang]['weight-high']}</div>`;
         }
     }
 
@@ -303,9 +343,10 @@ function generateAdvice() {
     const tips = breedData[currentLang][breed] || ["No data."];
     let adviceHTML = `<span class="advice-header">${i18n[currentLang]['quick-advice']}</span>`;
     
+    // Advice items with no emoji
     tips.forEach(t => { adviceHTML += `<div class="advice-item" style="font-style: italic; color: #555;">「${t}」</div>`; });
     
-    if (ageBonus) adviceHTML += `<div class="advice-item" style="color:#3ebc8e; font-weight:600;">✨ ${ageBonus}</div>`;
+    if (ageBonus) adviceHTML += `<div class="advice-item" style="color:#3ebc8e; font-weight:600;">${ageBonus}</div>`;
     adviceHTML += weightAdvice;
 
     const tableData = [
@@ -356,7 +397,9 @@ function submitFeedback(type) {
     thanks.innerText = i18n[currentLang][`thanks-${type.toLowerCase()}`];
 }
 
+// Initialize
 populateBreeds();
+setInterval(updateBubbleText, 3000); // Toggles Woof/Hi every 3s
 </script>
 
 </body>
