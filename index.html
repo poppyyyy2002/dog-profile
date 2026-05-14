@@ -33,7 +33,6 @@
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 狗狗 Logo 容器 */
         .dog-logo-container { position: relative; width: 180px; margin: 0 auto 15px auto; text-align: center; }
         .dog-logo img { width: 180px; height: auto; display: block; transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 5; }
         .dog-logo img:hover { animation: shake 0.5s ease-in-out; }
@@ -44,7 +43,6 @@
             100% { transform: rotate(0deg); }
         }
 
-        /* 愛心飄散動畫 */
         .heart {
             position: absolute; color: #ff8a8a; font-size: 20px; 
             pointer-events: none; animation: heartFloat 1s ease-out forwards;
@@ -55,14 +53,13 @@
             100% { transform: translateY(-60px) translateX(var(--x)) rotate(var(--r)); opacity: 0; }
         }
 
-        /* 動態對話氣泡 */
         .speech-bubble {
-            position: absolute; top: -30px; right: -60px;
-            background: #3ebc8e; color: white; padding: 8px 15px;
-            border-radius: 18px; font-size: 13px; font-weight: 600;
+            position: absolute; top: -45px; right: -70px;
+            background: #3ebc8e; color: white; padding: 10px 18px;
+            border-radius: 20px; font-size: 13px; font-weight: 600;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 100; display: none;
+            z-index: 100; max-width: 150px; line-height: 1.4; display: none;
         }
         .speech-bubble::after {
             content: ''; position: absolute; bottom: -8px; left: 15px;
@@ -101,16 +98,13 @@
         .game-input { width: 90px !important; margin-top: 0 !important; text-align: center; border-radius: 12px; }
         .game-btn { background-color: #f7bf6e; color: white; border: none; padding: 10px 25px; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; transition: 0.3s; }
         
-        /* 反饋區域 */
-        #feedback-area { display: none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; animation: fadeIn 0.5s; }
+        #feedback-area { display: none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; }
         .feedback-label { font-size: 13px; color: #aaa; margin-bottom: 10px; display: block; }
         .feedback-icons { display: flex; justify-content: center; gap: 20px; }
         .fb-icon { width: 35px; height: 35px; cursor: pointer; transition: 0.2s; opacity: 0.6; }
         .fb-icon:hover { transform: scale(1.2); opacity: 1; }
         .fb-icon svg { width: 100%; height: 100%; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
     </style>
 </head>
@@ -133,7 +127,7 @@
     <span class="author-tag">Made by Poppy H.</span>
 
     <label data-i18n="label-breed">🐾 Dog Breed</label>
-    <select id="breed" onchange="generateAdvice(); triggerBubble();">
+    <select id="breed" onchange="generateAdvice()">
         <option value="" data-i18n="opt-breed">Select Breed...</option>
     </select>
 
@@ -147,7 +141,6 @@
         <option value="15" data-i18n="age-15">10+ years (Elderly baby)</option>
     </select>
 
-    <!-- Body Size, Activity, Weight fields remain identical ... -->
     <label data-i18n="label-size">🔢 Body Size</label>
     <select id="bodySize" onchange="generateAdvice()">
         <option value="" data-i18n="opt-size">Select Size...</option>
@@ -182,19 +175,15 @@
         </div>
         <div id="mood-result"></div>
         
-        <!-- 表情反饋區 -->
         <div id="feedback-area">
             <span class="feedback-label" data-i18n="fb-label">Is it accurate?</span>
             <div class="feedback-icons">
-                <!-- 開心表情 -->
                 <div class="fb-icon" onclick="alert('Thanks!')">
                     <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#3ebc8e" stroke-width="5"/><circle cx="35" cy="40" r="5" fill="#3ebc8e"/><circle cx="65" cy="40" r="5" fill="#3ebc8e"/><path d="M30 65 Q50 85 70 65" fill="none" stroke="#3ebc8e" stroke-width="5" stroke-linecap="round"/></svg>
                 </div>
-                <!-- 沒表情 -->
                 <div class="fb-icon" onclick="alert('OK!')">
                     <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#f7bf6e" stroke-width="5"/><circle cx="35" cy="40" r="5" fill="#f7bf6e"/><circle cx="65" cy="40" r="5" fill="#f7bf6e"/><line x1="30" y1="70" x2="70" y2="70" stroke="#f7bf6e" stroke-width="5" stroke-linecap="round"/></svg>
                 </div>
-                <!-- 生氣表情 -->
                 <div class="fb-icon" onclick="alert('Sorry!')">
                     <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#ff8a8a" stroke-width="5"/><path d="M30 35 L45 45" stroke="#ff8a8a" stroke-width="5"/><path d="M70 35 L55 45" stroke="#ff8a8a" stroke-width="5"/><circle cx="35" cy="50" r="5" fill="#ff8a8a"/><circle cx="65" cy="50" r="5" fill="#ff8a8a"/><path d="M30 75 Q50 60 70 75" fill="none" stroke="#ff8a8a" stroke-width="5" stroke-linecap="round"/></svg>
                 </div>
@@ -210,25 +199,37 @@ const i18n = {
     en: {
         title: "Dog Profile", "label-breed": "🐾 Dog Breed", "opt-breed": "Select Breed...",
         "game-title": "✨ Doggy Mood Quiz", "game-btn": "Check Mood", "fb-label": "Is it accurate?",
-        "bubble": ["Woof!", "Hi!", "Good boy!"], "error-num": "Please enter 0-100!"
-        // ... (other keys remain same)
+        "bubble-hi": ["Woof!", "Hi!"],
+        "bubble-congrats": "Great job! You're a very attentive owner.",
+        "error-num": "Please enter 0-100!"
     },
     zh: {
         title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
         "game-title": "✨ Doggy Mood Quiz", "game-btn": "查看心情", "fb-label": "你覺得準嗎？",
-        "bubble": ["汪汪！", "嗨！", "我是乖狗狗！"], "error-num": "請輸入 0-100 之間的數字！"
-        // ... (other keys remain same)
+        "bubble-hi": ["汪汪！", "嗨！"],
+        "bubble-congrats": "太棒了，你是非常用心的主人！",
+        "error-num": "請輸入 0-100 之間的數字！"
     }
 };
 
-// --- 特效邏輯 ---
+const breeds = {
+    shiba: { en: "Shiba Inu", zh: "柴犬" }, poodle: { en: "Poodle", zh: "貴賓犬" },
+    corgi: { en: "Corgi", zh: "柯基" }, maltese: { en: "Maltese", zh: "瑪爾濟斯" },
+    golden: { en: "Golden Retriever", zh: "黃金獵犬" }, labrador: { en: "Labrador Retriever", zh: "拉不拉多" }
+};
 
-function triggerBubble() {
+// --- 特效與氣泡邏輯 ---
+
+function triggerBubble(customText = null) {
     const bubble = document.getElementById('bubble');
-    const texts = i18n[currentLang]['bubble'];
-    bubble.innerText = texts[Math.floor(Math.random() * texts.length)];
+    if (customText) {
+        bubble.innerText = customText;
+    } else {
+        const texts = i18n[currentLang]['bubble-hi'];
+        bubble.innerText = texts[Math.floor(Math.random() * texts.length)];
+    }
     bubble.style.display = 'block';
-    setTimeout(() => { bubble.style.display = 'none'; }, 2500);
+    // 不再自動消失，除非有新的觸發或手動控制，為了讓使用者能看清稱讚語
 }
 
 function handleLogoHover() {
@@ -249,41 +250,38 @@ function createHearts() {
     }
 }
 
-// --- 核心邏輯 (保持其餘不動) ---
+// --- 核心邏輯 ---
 
-const breeds = {
-    shiba: { en: "Shiba Inu", zh: "柴犬" },
-    poodle: { en: "Poodle", zh: "貴賓犬" },
-    corgi: { en: "Corgi", zh: "柯基" },
-    maltese: { en: "Maltese", zh: "瑪爾濟斯" },
-    golden: { en: "Golden Retriever", zh: "黃金獵犬" },
-    labrador: { en: "Labrador Retriever", zh: "拉不拉多" },
-    frenchie: { en: "French Bulldog", zh: "法鬥" },
-    dachshund: { en: "Dachshund", zh: "臘腸犬" },
-    schnauzer: { en: "Schnauzer", zh: "雪納瑞" },
-    pomeranian: { en: "Pomeranian", zh: "博美犬" }
-};
+function generateAdvice() {
+    const b = document.getElementById('breed').value;
+    const a = document.getElementById('age').value;
+    const s = document.getElementById('bodySize').value;
+    const act = document.getElementById('activity').value;
+    const w = document.getElementById('weight').value;
+    const resultBox = document.getElementById('result-box');
 
-const moodDatabase = {
-    en: ["I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️"], // Simplified for brevity, use full list in production
-    zh: ["今天我覺得我簡直是國王！👑", "那是開零食包裝的聲音嗎？🦴", "我現在只想黏在你身邊。❤️"]
-};
+    // 檢查是否五項關鍵指標都填寫完畢
+    if (b && a && s && act && w !== "") {
+        resultBox.style.display = "block";
+        resultBox.innerHTML = `<span class="advice-header">${i18n[currentLang]['bubble-congrats']}</span><p style="text-align:center;">(分析結果預留位置...)</p>`;
+        
+        // 觸發稱讚氣泡
+        triggerBubble(i18n[currentLang]['bubble-congrats']);
+    } else {
+        resultBox.style.display = "none";
+    }
+}
 
 function readDogMood() {
     const num = parseInt(document.getElementById('moodNumber').value);
     const moodDisplay = document.getElementById('mood-result');
     const fbArea = document.getElementById('feedback-area');
-    
     if (isNaN(num) || num < 0 || num > 100) {
         moodDisplay.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
         return;
     }
-    
-    const list = moodDatabase[currentLang];
-    const index = num % list.length; // Ensure index is within range
-    moodDisplay.innerHTML = `<span>" ${list[index]} "</span>`;
+    moodDisplay.innerHTML = `<span>" Feeling lucky! "</span>`; // 範例
     fbArea.style.display = 'block';
-    triggerBubble();
 }
 
 function changeLang(lang) {
@@ -295,12 +293,13 @@ function changeLang(lang) {
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
     populateBreeds();
+    triggerBubble(); // 切換語言時顯示該語言招呼語
 }
 
 function populateBreeds() {
     const breedSelect = document.getElementById('breed');
     const currentValue = breedSelect.value;
-    breedSelect.innerHTML = `<option value="" data-i18n="opt-breed">${currentLang === 'en' ? 'Select Breed...' : '請選擇品種...'}</option>`;
+    breedSelect.innerHTML = `<option value="">${currentLang === 'en' ? 'Select Breed...' : '請選擇品種...'}</option>`;
     for (const [key, names] of Object.entries(breeds)) {
         const opt = document.createElement('option');
         opt.value = key;
@@ -310,8 +309,11 @@ function populateBreeds() {
     breedSelect.value = currentValue;
 }
 
-// Initialize
-populateBreeds();
+// 進入頁面後初始化
+window.onload = () => {
+    populateBreeds();
+    triggerBubble(); // 進入頁面顯示招呼語
+};
 </script>
 </body>
 </html>
