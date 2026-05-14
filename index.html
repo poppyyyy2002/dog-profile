@@ -37,13 +37,12 @@
         .dog-logo img { width: 180px; height: auto; display: block; transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 5; }
         .dog-logo img:hover { animation: shake 0.5s ease-in-out; }
 
-        /* 氣泡樣式優化：彈性長度與定位距離 */
         .speech-bubble {
             position: absolute;
-            top: -25px;       /* 拉近距離 */
-            left: 125px;      /* 拉近距離，相對於頭部斜上方 */
-            width: fit-content; /* 寬度隨內容彈性調整 */
-            white-space: nowrap; /* 確保簡單文字不換行 */
+            top: -25px;
+            left: 125px;
+            width: fit-content;
+            white-space: nowrap;
             background: #3ebc8e;
             color: white;
             padding: 8px 15px;
@@ -56,60 +55,26 @@
             line-height: 1.4;
             display: none;
         }
-        
-        /* 當稱讚文字過長時，允許換行並限制寬度 */
-        .speech-bubble.long-text {
-            white-space: normal;
-            min-width: 120px;
-            max-width: 180px;
-        }
-
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 15px;
-            border-width: 8px 8px 0;
-            border-style: solid;
-            border-color: #3ebc8e transparent;
-        }
+        .speech-bubble.long-text { white-space: normal; min-width: 120px; max-width: 180px; }
+        .speech-bubble::after { content: ''; position: absolute; bottom: -6px; left: 15px; border-width: 8px 8px 0; border-style: solid; border-color: #3ebc8e transparent; }
 
         @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 50% { transform: rotate(-5deg); } 75% { transform: rotate(3deg); } 100% { transform: rotate(0deg); } }
 
-        .heart {
-            position: absolute; color: #ff8a8a; font-size: 20px; 
-            pointer-events: none; animation: heartFloat 1s ease-out forwards;
-            z-index: 10;
-        }
-        @keyframes heartFloat {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-60px) translateX(var(--x)) rotate(var(--r)); opacity: 0; }
-        }
+        .heart { position: absolute; color: #ff8a8a; font-size: 20px; pointer-events: none; animation: heartFloat 1s ease-out forwards; z-index: 10; }
+        @keyframes heartFloat { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-60px) translateX(var(--x)) rotate(var(--r)); opacity: 0; } }
 
         h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
         .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
 
         label { font-weight: 600; color: #7B7B7B; display: block; margin-top: 22px; font-size: 14px; }
-        select, input { 
-            width: 100%; padding: 14px; margin-top: 10px; border: 2px solid #fcf2d1; 
-            border-radius: 15px; background-color: #fffdf5; font-size: 15px; outline: none;
-            font-family: 'Poppins', sans-serif; color: #444; box-sizing: border-box; transition: 0.3s;
-        }
+        select, input { width: 100%; padding: 14px; margin-top: 10px; border: 2px solid #fcf2d1; border-radius: 15px; background-color: #fffdf5; font-size: 15px; outline: none; font-family: 'Poppins', sans-serif; color: #444; box-sizing: border-box; transition: 0.3s; }
         select:focus, input:focus { border-color: #f7bf6e; background-color: #fff; }
 
-        #result-box { 
-            margin-top: 40px; padding: 30px; border-radius: 25px; background-color: #fff; 
-            border: 2px dashed #3ebc8e; color: #444; line-height: 1.8; display: none; font-size: 15px;
-        }
+        #result-box { margin-top: 40px; padding: 30px; border-radius: 25px; background-color: #fff; border: 2px dashed #3ebc8e; color: #444; line-height: 1.8; display: none; font-size: 15px; }
+        .advice-header { text-align: center; font-weight: 600; padding: 10px 20px; border-radius: 50px; display: block; width: fit-content; margin: 0 auto 20px auto; font-size: 15px; background-color: #fef4d1; color: #b58105; border: 1px solid #f7bf6e; }
 
-        .advice-header {
-            text-align: center; font-weight: 600; padding: 10px 20px; border-radius: 50px; 
-            display: block; width: fit-content; margin: 0 auto 20px auto; font-size: 15px;
-            background-color: #fef4d1; color: #b58105; border: 1px solid #f7bf6e;
-        }
-
-        /* ✨ Doggy Mood Quiz Section - 保持原樣 */
+        /* ✨ Doggy Mood Quiz Section */
         .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
         .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; margin-bottom: 10px; font-weight: bold; }
         .game-desc { font-size: 13px; color: #999; margin-bottom: 20px; }
@@ -123,6 +88,9 @@
         .fb-icon:hover { transform: scale(1.2); opacity: 1; }
         .fb-icon svg { width: 100%; height: 100%; }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
+        
+        /* 表情點擊後的文字回饋樣式 */
+        #fb-text { margin-top: 15px; font-size: 13px; font-weight: 600; transition: 0.3s; min-height: 20px; }
     </style>
 </head>
 <body>
@@ -183,7 +151,6 @@
 
     <div id="result-box"></div>
 
-    <!-- ✨ Doggy Mood Quiz Section -->
     <div class="game-section">
         <div class="game-title" data-i18n="game-title">✨ Doggy Mood Quiz</div>
         <div class="game-desc" data-i18n="game-desc">Pick a number (0-100) to see how your dog feels!</div>
@@ -195,16 +162,17 @@
         <div id="feedback-area">
             <span class="feedback-label" data-i18n="fb-label">Is it accurate?</span>
             <div class="feedback-icons">
-                <div class="fb-icon" onclick="alert('Thanks!')">
+                <div class="fb-icon" onclick="giveFeedback('happy')">
                     <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#3ebc8e" stroke-width="5"/><circle cx="35" cy="40" r="5" fill="#3ebc8e"/><circle cx="65" cy="40" r="5" fill="#3ebc8e"/><path d="M30 65 Q50 85 70 65" fill="none" stroke="#3ebc8e" stroke-width="5" stroke-linecap="round"/></svg>
                 </div>
-                <div class="fb-icon" onclick="alert('OK!')">
+                <div class="fb-icon" onclick="giveFeedback('neutral')">
                     <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#f7bf6e" stroke-width="5"/><circle cx="35" cy="40" r="5" fill="#f7bf6e"/><circle cx="65" cy="40" r="5" fill="#f7bf6e"/><line x1="30" y1="70" x2="70" y2="70" stroke="#f7bf6e" stroke-width="5" stroke-linecap="round"/></svg>
                 </div>
-                <div class="fb-icon" onclick="alert('Sorry!')">
+                <div class="fb-icon" onclick="giveFeedback('sad')">
                     <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#ff8a8a" stroke-width="5"/><path d="M30 35 L45 45" stroke="#ff8a8a" stroke-width="5"/><path d="M70 35 L55 45" stroke="#ff8a8a" stroke-width="5"/><circle cx="35" cy="50" r="5" fill="#ff8a8a"/><circle cx="65" cy="50" r="5" fill="#ff8a8a"/><path d="M30 75 Q50 60 70 75" fill="none" stroke="#ff8a8a" stroke-width="5" stroke-linecap="round"/></svg>
                 </div>
             </div>
+            <div id="fb-text"></div>
         </div>
     </div>
 </div>
@@ -219,7 +187,10 @@ const i18n = {
         "congrats": "Great job! You're a very attentive owner.",
         "error-num": "Please enter 0-100!",
         "greeting": ["Woof!", "Hi!"],
-        "full_congrats": "Great job! You're a very attentive owner."
+        "full_congrats": "Great job! You're a very attentive owner.",
+        "fb_happy": "Awesome! I really know your dog ❤️",
+        "fb_neutral": "Got it! I'll keep trying to read those vibes 🐾",
+        "fb_sad": "Oops... I'll try to do better next time 🥺"
     },
     zh: {
         title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
@@ -227,7 +198,10 @@ const i18n = {
         "congrats": "太棒了，你是非常用心的主人！",
         "error-num": "請輸入 0-100 之間的數字！",
         "greeting": ["汪汪！", "嗨！"],
-        "full_congrats": "太棒了，你是非常用心的主人！"
+        "full_congrats": "太棒了，你是非常用心的主人！",
+        "fb_happy": "太棒了！看來我真的很懂你的狗狗 ❤️",
+        "fb_neutral": "收到！我會繼續努力觀察狗狗的心情 🐾",
+        "fb_sad": "哎呀... 沒準到。我會再多多改進學習的 🥺"
     }
 };
 
@@ -240,18 +214,12 @@ const breeds = {
 function showBubble(text) {
     const bubble = document.getElementById('speech-bubble');
     bubble.innerText = text;
-    // 判斷文字長度來切換樣式
-    if (text.length > 10) {
-        bubble.classList.add('long-text');
-    } else {
-        bubble.classList.remove('long-text');
-    }
+    if (text.length > 10) bubble.classList.add('long-text');
+    else bubble.classList.remove('long-text');
     bubble.style.display = 'block';
 }
 
-function handleLogoHover() {
-    createHearts();
-}
+function handleLogoHover() { createHearts(); }
 
 function createHearts() {
     const container = document.querySelector('.dog-logo-container');
@@ -268,32 +236,41 @@ function createHearts() {
 }
 
 function generateAdvice() {
-    const b = document.getElementById('breed').value;
-    const a = document.getElementById('age').value;
-    const s = document.getElementById('bodySize').value;
-    const act = document.getElementById('activity').value;
-    const w = document.getElementById('weight').value;
+    const b = document.getElementById('breed').value, a = document.getElementById('age').value, s = document.getElementById('bodySize').value, act = document.getElementById('activity').value, w = document.getElementById('weight').value;
     const resultBox = document.getElementById('result-box');
-
     if (b && a && s && act && w !== "") {
         resultBox.style.display = "block";
         resultBox.innerHTML = `<span class="advice-header">${i18n[currentLang]['congrats']}</span><p style="text-align:center;">(Analyzing complete...)</p>`;
         showBubble(i18n[currentLang]['full_congrats']);
-    } else {
-        resultBox.style.display = "none";
-    }
+    } else resultBox.style.display = "none";
 }
 
 function readDogMood() {
     const num = parseInt(document.getElementById('moodNumber').value);
     const moodDisplay = document.getElementById('mood-result');
     const fbArea = document.getElementById('feedback-area');
+    document.getElementById('fb-text').innerText = ""; // 重設反饋文字
     if (isNaN(num) || num < 0 || num > 100) {
         moodDisplay.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
         return;
     }
     moodDisplay.innerHTML = `<span>" Feeling lucky! "</span>`;
     fbArea.style.display = 'block';
+}
+
+// ✨ 優化表情反饋邏輯
+function giveFeedback(type) {
+    const fbText = document.getElementById('fb-text');
+    if (type === 'happy') {
+        fbText.innerText = i18n[currentLang]['fb_happy'];
+        fbText.style.color = "#3ebc8e";
+    } else if (type === 'neutral') {
+        fbText.innerText = i18n[currentLang]['fb_neutral'];
+        fbText.style.color = "#b58105";
+    } else {
+        fbText.innerText = i18n[currentLang]['fb_sad'];
+        fbText.style.color = "#ff8a8a";
+    }
 }
 
 function changeLang(lang) {
@@ -305,17 +282,9 @@ function changeLang(lang) {
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
     populateBreeds();
-    
-    // 如果已有結果，顯示稱讚，否則顯示隨機招呼
-    const b = document.getElementById('breed').value;
-    const a = document.getElementById('age').value;
-    const s = document.getElementById('bodySize').value;
-    const act = document.getElementById('activity').value;
-    const w = document.getElementById('weight').value;
-    
-    if (b && a && s && act && w !== "") {
-        showBubble(i18n[currentLang]['full_congrats']);
-    } else {
+    document.getElementById('fb-text').innerText = ""; // 切換語言重設反饋文字
+    generateAdvice();
+    if (!document.getElementById('result-box').style.display || document.getElementById('result-box').style.display === "none") {
         const greetings = i18n[currentLang]['greeting'];
         showBubble(greetings[Math.floor(Math.random() * greetings.length)]);
     }
