@@ -33,24 +33,38 @@
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 狗狗 Logo 與氣泡絕對定位區 */
+        /* 狗狗與對話氣泡容器 */
         .dog-logo-container { position: relative; width: 180px; margin: 0 auto 15px auto; }
         .dog-logo img { width: 180px; height: auto; display: block; transition: transform 0.3s ease; cursor: pointer; position: relative; z-index: 5; }
         .dog-logo img:hover { animation: shake 0.5s ease-in-out; }
 
+        /* 動態對話氣泡樣式 */
         .speech-bubble {
-            position: absolute; 
-            top: -35px;    /* 調整至 Logo 斜上方 */
-            right: -85px;  /* 調整至 Logo 斜上方 */
-            background: #3ebc8e; color: white; padding: 10px 18px;
-            border-radius: 20px; font-size: 13px; font-weight: 600;
+            position: absolute;
+            top: -40px;
+            right: -100px;
+            background: #3ebc8e;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 100; min-width: 80px; max-width: 160px; line-height: 1.4; display: none;
+            z-index: 100;
+            min-width: 80px;
+            max-width: 180px;
+            line-height: 1.4;
+            display: none;
         }
         .speech-bubble::after {
-            content: ''; position: absolute; bottom: -8px; left: 20px;
-            border-width: 8px 8px 0; border-style: solid; border-color: #3ebc8e transparent;
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 20px;
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #3ebc8e transparent;
         }
 
         @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -88,7 +102,7 @@
             background-color: #fef4d1; color: #b58105; border: 1px solid #f7bf6e;
         }
 
-        /* ✨ Doggy Mood Quiz Section - 保持不動 */
+        /* ✨ Doggy Mood Quiz Section - 不許動 */
         .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
         .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; margin-bottom: 10px; font-weight: bold; }
         .game-desc { font-size: 13px; color: #999; margin-bottom: 20px; }
@@ -113,10 +127,10 @@
 
 <div class="card">
     <div class="dog-logo-container">
-        <!-- 氣泡位置現在完全相對於此容器 -->
-        <div class="speech-bubble" id="bubble">Woof!</div>
+        <!-- 對話氣泡 -->
+        <div id="speech-bubble" class="speech-bubble">Woof!</div>
         <div class="dog-logo" onmouseenter="handleLogoHover()">
-            <img src="S__155754498-removebg-preview.png" alt="Dog Logo" onclick="triggerBubble()">
+            <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
         </div>
     </div>
 
@@ -163,7 +177,7 @@
 
     <div id="result-box"></div>
 
-    <!-- ✨ Doggy Mood Quiz - 嚴格保持原狀 -->
+    <!-- ✨ Doggy Mood Quiz Section -->
     <div class="game-section">
         <div class="game-title" data-i18n="game-title">✨ Doggy Mood Quiz</div>
         <div class="game-desc" data-i18n="game-desc">Pick a number (0-100) to see how your dog feels!</div>
@@ -196,16 +210,18 @@ const i18n = {
     en: {
         title: "Dog Profile", "label-breed": "🐾 Dog Breed", "opt-breed": "Select Breed...",
         "game-title": "✨ Doggy Mood Quiz", "game-btn": "Check Mood", "fb-label": "Is it accurate?",
-        "bubble-hi": ["Woof!", "Hi!"],
-        "bubble-congrats": "Great job! You're a very attentive owner.",
-        "error-num": "Please enter 0-100!"
+        "congrats": "Great job! You're a very attentive owner.",
+        "error-num": "Please enter 0-100!",
+        "greeting": ["Woof!", "Hi!"],
+        "full_congrats": "Great job! You're a very attentive owner."
     },
     zh: {
         title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
         "game-title": "✨ Doggy Mood Quiz", "game-btn": "查看心情", "fb-label": "你覺得準嗎？",
-        "bubble-hi": ["汪汪！", "嗨！"],
-        "bubble-congrats": "太棒了，你是非常用心的主人！",
-        "error-num": "請輸入 0-100 之間的數字！"
+        "congrats": "太棒了，你是非常用心的主人！",
+        "error-num": "請輸入 0-100 之間的數字！",
+        "greeting": ["汪汪！", "嗨！"],
+        "full_congrats": "太棒了，你是非常用心的主人！"
     }
 };
 
@@ -215,20 +231,16 @@ const breeds = {
     golden: { en: "Golden Retriever", zh: "黃金獵犬" }, labrador: { en: "Labrador Retriever", zh: "拉不拉多" }
 };
 
-// --- 特效與氣泡邏輯 ---
-
-function triggerBubble(customText = null) {
-    const bubble = document.getElementById('bubble');
-    if (customText) {
-        bubble.innerText = customText;
-    } else {
-        const texts = i18n[currentLang]['bubble-hi'];
-        bubble.innerText = texts[Math.floor(Math.random() * texts.length)];
-    }
+// --- 氣泡控制邏輯 ---
+function showBubble(text) {
+    const bubble = document.getElementById('speech-bubble');
+    bubble.innerText = text;
     bubble.style.display = 'block';
 }
 
-function handleLogoHover() { createHearts(); }
+function handleLogoHover() {
+    createHearts();
+}
 
 function createHearts() {
     const container = document.querySelector('.dog-logo-container');
@@ -254,14 +266,15 @@ function generateAdvice() {
 
     if (b && a && s && act && w !== "") {
         resultBox.style.display = "block";
-        resultBox.innerHTML = `<span class="advice-header">${currentLang === 'en' ? 'Analysis Complete' : '分析完成'}</span><p style="text-align:center;">${i18n[currentLang]['bubble-congrats']}</p>`;
-        triggerBubble(i18n[currentLang]['bubble-congrats']);
+        resultBox.innerHTML = `<span class="advice-header">${i18n[currentLang]['congrats']}</span><p style="text-align:center;">(Analyzing complete...)</p>`;
+        // 指標填寫完畢，顯示稱讚氣泡
+        showBubble(i18n[currentLang]['full_congrats']);
     } else {
         resultBox.style.display = "none";
     }
 }
 
-// ✨ Doggy Mood Quiz Logic - 保持不動
+// ✨ Doggy Mood Quiz Logic - 不許動
 function readDogMood() {
     const num = parseInt(document.getElementById('moodNumber').value);
     const moodDisplay = document.getElementById('mood-result');
@@ -283,7 +296,13 @@ function changeLang(lang) {
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
     populateBreeds();
-    triggerBubble();
+    
+    // 切換語言時重新隨機招呼
+    const greetings = i18n[currentLang]['greeting'];
+    showBubble(greetings[Math.floor(Math.random() * greetings.length)]);
+    
+    // 如果已經顯示結果，更新氣泡
+    generateAdvice();
 }
 
 function populateBreeds() {
@@ -301,7 +320,9 @@ function populateBreeds() {
 
 window.onload = () => {
     populateBreeds();
-    triggerBubble();
+    // 初始顯示招呼
+    const greetings = i18n[currentLang]['greeting'];
+    showBubble(greetings[Math.floor(Math.random() * greetings.length)]);
 };
 </script>
 </body>
