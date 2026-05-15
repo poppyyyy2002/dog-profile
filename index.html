@@ -32,9 +32,25 @@
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .dog-logo-container { width: 180px; margin: 0 auto 15px auto; text-align: center; }
+        .dog-logo-container { width: 180px; margin: 0 auto 15px auto; text-align: center; position: relative; }
         .dog-logo img { width: 180px; height: auto; display: block; transition: transform 0.3s ease; cursor: pointer; }
         .dog-logo img:hover { animation: shake 0.5s ease-in-out; }
+
+        /* 復原互動愛心與氣泡框 CSS */
+        .bubble {
+            position: absolute; top: -20px; right: -30px; background: #3ebc8e; color: white;
+            padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            opacity: 0; transform: translateY(10px); transition: 0.3s; pointer-events: none;
+        }
+        .dog-logo:hover .bubble { opacity: 1; transform: translateY(0); }
+        .heart {
+            position: absolute; font-size: 20px; color: #ff6b6b; pointer-events: none;
+            animation: floatUp 1s ease-out forwards; z-index: 100;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
 
         @keyframes shake {
             0% { transform: rotate(0deg); }
@@ -92,7 +108,8 @@
 
 <div class="card">
     <div class="dog-logo-container">
-        <div class="dog-logo">
+        <div class="dog-logo" onclick="createHeart(event)">
+            <div class="bubble" data-i18n="logo-bubble">Woof! ❤️</div>
             <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
         </div>
     </div>
@@ -170,7 +187,7 @@ const i18n = {
         "game-title": "✨ Doggy Mood Quiz", "game-desc": "Pick a number (0-100) to see how your dog feels!",
         "game-btn": "Check Mood", "quick-advice": "⭐️ A small suggestion",
         "age-table-title": "Age Correlation Table", "weight-high": "Weight is high for size.", "error-num": "Please enter 0-100!",
-        "human_age": "Dog & Human Age Comparison", "age_col1": "Dog Age", "age_col2": "Human Age",
+        "logo-bubble": "Woof! ❤️", "human_age": "Dog & Human Age Comparison", "age_col1": "Dog Age", "age_col2": "Human Age",
         "vet_title": "Professional Veterinary Advice"
     },
     zh: {
@@ -188,7 +205,7 @@ const i18n = {
         "game-title": "✨ Doggy Mood Quiz", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
         "game-btn": "查看心情", "quick-advice": "⭐️ 小小建議",
         "age-table-title": "犬人類年齡對照表", "weight-high": "警告：體重已超出標準範圍。", "error-num": "請輸入 0-100 之間的數字！",
-        "human_age": "狗與人類年齡對照表", "age_col1": "狗狗年齡", "age_col2": "人類年齡",
+        "logo-bubble": "汪！我愛你 ❤️", "human_age": "狗與人類年齡對照表", "age_col1": "狗狗年齡", "age_col2": "人類年齡",
         "vet_title": "專業獸醫建議"
     }
 };
@@ -225,7 +242,7 @@ const breedData = {
 
 const moodDatabase = {
     en: [
-        "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️", "Take me to the park! 🐕", "Feeling a bit sleepy... 💤", "You are my favorite human. 🌟", "Ready for an adventure! 🗺️", "I love our long walks. 🐾", "Did you say 'WALK'? 🎾", "I feel so safe near you. 🏠", "Squirrel!! Where? 🐿️", "Can I have some of your food? 🍕", "I'm the happiest dog ever! 😊", "Life is good with you. ✨", "Let's play tug-of-war! 🧶", "I dream about treats. 💭", "Wagging my tail just for you! 🐕", "Feeling very loyal today. 🎖️", "You make my heart happy. 💖", "Sun's out, tongue's out! ☀️", "I'm your little shadow. 👥", "Can we play fetch? ⚾", "I love it when you rub my belly. 🙌", "You're home! Best day ever! 🎉", "Is it dinner time yet? 🍽️", "I'll protect you forever. 🛡️", "You give the best ear scratches. 👂", "I'm feeling extra fluffy today. ☁️", "Let's explore the world together. 🌍", "I trust you with all my heart. 🤝", "Best. Owners. Ever. 🥇", "I like your scent. 👃", "I'm your biggest fan! 📣", "Let's sit and watch the birds. 🐦", "I'm so glad we're friends. 👯", "Feeling super smart today! 🧠", "Wait, did a cat just pass by? 🐈", "I'll always be by your side. 🕯️", "Your smile is my favorite thing. 😁", "Let's go for a car ride! 🚗", "I like the way you talk to me. 💬", "Soft blankets and you - perfection. 🛌", "I'm feeling like a good boy! 😇", "I'll wait for you forever. ⏳", "Life is a ball! Literally! 🎾", "You are my sunshine. 🌤️", "So many smells, so little time! 👃", "I love you more than bacon! 🥓", "I'm just a happy pup today! 🌈", "Let's make some memories. 📸",
+        "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️", "Take me to the park! 🐕", "Feeling a bit sleepy... 💤", "You are my favorite human. 🌟", "Ready for an adventure! 🗺️", "I love our long walks. 🐾", "Did you say 'WALK'? 🎾", "I feel so safe near you. 🏠", "Squirrel!! Where? 🐿️", "Can I have some of your food? 🍕", "I'm the happiest dog ever! 😊", "Life is good with you. ✨", "Let's play tug-of-war! 🧶", "I dream about treats. 💭", "Wagging my tail just for you! 🐕", "Feeling very loyal today. 🎖️", "You make my heart happy. 💖", "Sun's out, tongue's out! ☀️", "I'm your little shadow. 👥", "Can we play fetch? ⚾", "I love it when you rub my belly. 🙌", "You're home! Best day ever! 🎉", "Is it dinner time yet? 🍽️", "I'll protect you forever. 🛡️", "You give the best ear scratches. 👂", "I'm feeling extra fluffy today. ☁️", "Let's explore the world together. 🌍", "I trust you with all my heart. 🤝", "Best. Owners. Ever. 🥇", "I like your scent. 👃", "I'm your biggest fan! 📣", "Let's sit and watch the birds. 🐦", "I'm so glad we're friends. 👯", "Feeling super smart today! 🧠", "Wait, did a cat just pass by? 🐈", "I'll always be by your side. 🕯️", "Your smile is my favorite thing. 😁", "Let's go for a car ride! 🚗", "I like the way you talk to me. 💬", "Soft blankets and you - perfection. 🛌", "I'm feeling like a good boy! 😇", "I'll wait for you forever. ⏳", "Life is a ball! Literally! 🎾", "You are my sunshine. 🌤️", "So many smells, so little time! 獨", "I love you more than bacon! 🥓", "I'm just a happy pup today! 🌈", "Let's make some memories. 📸",
         "I feel like a king! 👑", "Is that a bird? 🐦", "I love your smell. 100", "Let's run! 🏃", "Time for a nap. 😴", "You're the best! 👍", "I'm so excited! 😆", "Where's my ball? 🎾", "I love you! 🤟", "Let's cuddle. 🤗", "I'm hungry! 🥩", "What's that noise? 👂", "I'm a good dog. 🐕", "I like cheese! 🧀", "Let's go out. Door!", "I'm happy! 😄", "You're my hero. 🦸", "I love scritches. 🐾", "Play with me! 🧸", "I'm sleepy. 🥱", "I like grass. 🌱", "Is it time? 🕒", "I'm your buddy. 🐶", "Let's explore! 🌲", "I love treats. 🍪", "You're funny! 😂", "I'm fast! ⚡", "I'm brave. 🦁", "I like toys. 🦴", "I'm a star! ⭐", "I love the sun. ☀️", "I'm loyal. ❤️", "I'm cool. 😎", "I like water. 💧", "I'm a helper. 🆘", "I love belly rubs. ✋", "I'm smart. 🎓", "I'm a hunter. 🏹", "I'm a friend. 🤝", "I'm yours. 🔗", "I love you. 💓", "I'm here. 📍", "I'm ready. 🏁", "I'm sweet. 🍭", "I'm kind. 🕊️", "I'm bold. 💥", "I'm curious. 🔍", "I'm alert. 🚨", "I'm calm. 🧘", "I'm home. 🏘️"
     ],
     zh: [
@@ -261,7 +278,19 @@ function changeLang(lang) {
     generateAdvice();
 }
 
-// 根據體型和年齡計算人犬年齡對照
+// 復原愛心互動
+function createHeart(e) {
+    const dogLogo = document.querySelector('.dog-logo');
+    const heart = document.createElement('div');
+    heart.innerHTML = '❤️';
+    heart.classList.add('heart');
+    const rect = dogLogo.getBoundingClientRect();
+    heart.style.left = (e.clientX - rect.left) + 'px';
+    heart.style.top = (e.clientY - rect.top) + 'px';
+    dogLogo.appendChild(heart);
+    setTimeout(() => heart.remove(), 1000);
+}
+
 function calculateHumanAge(dogAge, size) {
     if (dogAge <= 1) return Math.round(dogAge * 15);
     if (dogAge === 2) return 24;
@@ -277,7 +306,6 @@ function generateAdvice() {
     const activityVal = document.getElementById('activity').value;
     const resultBox = document.getElementById('result-box');
 
-    // 檢查欄位是否填齊
     if (!breed || isNaN(ageVal) || !bodySize || !activityVal || isNaN(weight)) {
         resultBox.style.display = "none";
         return;
@@ -286,37 +314,29 @@ function generateAdvice() {
     resultBox.style.display = "block";
     const hAge = calculateHumanAge(ageVal, bodySize);
     
-    // 小小建議標題
     let html = `<span class="advice-header">${i18n[currentLang]['quick-advice']}</span>`;
     
-    // 1. 專業年齡對照表
     html += `<b style="color:#7B7B7B;">📊 ${i18n[currentLang].human_age}</b>`;
     html += `<table class="age-table">
         <tr><th style="background:#fcf2d1">${i18n[currentLang].age_col1}</th><th style="background:#fcf2d1">${i18n[currentLang].age_col2}</th></tr>
         <tr class="match-highlight"><td>${ageVal} yr</td><td>~ ${hAge} yrs old</td></tr>
     </table><br>`;
 
-    // 2. 專業獸醫建議邏輯
     html += `<b style="color:#3ebc8e;">🩺 ${i18n[currentLang].vet_title}</b><ul style="padding-left: 20px; margin-top: 10px; font-size: 14px;">`;
     
-    // 品種建議
     const tips = breedData[currentLang][breed] || [];
-    tips.forEach(t => { html += `<li style="font-style: italic; color: #555; margin-bottom:5px;">${t}</li>`; });
+    tips.forEach(t => { html += `<li style="color: #555; margin-bottom:5px;">${t}</li>`; }); // 移除斜體字
 
-    // 年齡段建議
     if (ageVal <= 1) html += `<li>${currentLang === 'en' ? "Growth Phase: Ensure high-calcium diet and complete vaccinations." : "成長期：確保高鈣飲食並按時完成基礎疫苗接種。"}</li>`;
     else if (ageVal >= 7) html += `<li>${currentLang === 'en' ? "Senior Care: Suggest biannual blood tests and joint supplements." : "高齡照護：建議每半年進行血液檢查，並開始補充關節營養品。"}</li>`;
     
-    // 活動量與體重警告
     if (activityVal === 'lazy' || activityVal === 'old') html += `<li>${currentLang === 'en' ? "Activity: Low exercise detected. Watch for obesity to avoid heart issues." : "活動量建議：運動量偏低，需嚴格控制體重以減輕心血管與關節負擔。"}</li>`;
     
-    // 體重與體型警告
     if ((bodySize === "mini" && weight > 4) || (bodySize === "small" && weight > 10) || (bodySize === "medium" && weight > 25) || (bodySize === "large" && weight > 45)) {
         html += `<li style="color:#e67e22; font-weight:bold;">${i18n[currentLang]['weight-high']}</li>`;
     }
     
     html += `</ul>`;
-    
     resultBox.innerHTML = html;
 }
 
