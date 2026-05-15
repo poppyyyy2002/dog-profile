@@ -1,411 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dog Profile Pro 🐾</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            background-color: #faefba; 
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 100 100'%3E%3Cg fill='%23fcd979' fill-opacity='0.15'%3E%3Cg transform='translate(10,15) rotate(-20) scale(2.2)'%3E%3Cpath d='M3 4c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm0 4.5c.8 0 1.5-.8 1.5-1.7s-.7-1.7-1.5-1.7-1.5 .8-1.5 1.7 .7 1.7 1.5 1.7z'/%3E%3C/g%3E%3Cg transform='translate(70,40) rotate(50) scale(2.1)'%3E%3Cpath d='M3 4c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm0 4.5c.8 0 1.5-.8 1.5-1.7s-.7-1.7-1.5-1.7-1.5 .8-1.5 1.7 .7 1.7 1.5 1.7z'/%3E%3C/g%3E%3Cg transform='translate(25,70) rotate(-100) scale(2.4)'%3E%3Cpath d='M3 4c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm0 4.5c.8 0 1.5-.8 1.5-1.7s-.7-1.7-1.5-1.7-1.5 .8-1.5 1.7 .7 1.7 1.5 1.7z'/%3E%3C/g%3E%3Cg transform='translate(80,80) rotate(15) scale(2.0)'%3E%3Cpath d='M3 4c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm2-1c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm0 4.5c.8 0 1.5-.8 1.5-1.7s-.7-1.7-1.5-1.7-1.5 .8-1.5 1.7 .7 1.7 1.5 1.7z'/%3E%3C/g%3E%3Cg%3E%3C/svg%3E");
-            font-family: 'Poppins', sans-serif;
-            display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
-        }
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fffdf0;
+  }
+  .dog-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* 柔和的黃色圓潤主體 */
+  .face {
+    width: 160px;
+    height: 145px;
+    background-color: #FFD54F;
+    border-radius: 80px 80px 70px 70px;
+    position: relative;
+    border: 5px solid #FBC02D;
+  }
+  /* 圓潤的耳朵 */
+  .ear {
+    width: 50px;
+    height: 60px;
+    background-color: #FFD54F;
+    border: 5px solid #FBC02D;
+    position: absolute;
+    top: -15px;
+    border-radius: 30px 30px 10px 10px;
+    z-index: -1;
+  }
+  .ear.left { left: 15px; transform: rotate(-15deg); }
+  .ear.right { right: 15px; transform: rotate(15deg); }
 
-        .lang-switch { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 10; }
-        .lang-btn {
-            background: white; border: 2px solid #3ebc8e; color: #3ebc8e;
-            padding: 6px 15px; border-radius: 20px; cursor: pointer;
-            font-weight: 600; font-size: 13px; transition: 0.3s;
-        }
-        .lang-btn.active { background: #3ebc8e; color: white; }
+  /* 粗細一致的五官線條 */
+  .eye {
+    width: 12px;
+    height: 12px;
+    background-color: #6D4C41;
+    border-radius: 50%;
+    position: absolute;
+    top: 65px;
+  }
+  .eye.left { left: 45px; }
+  .eye.right { right: 45px; }
 
-        .card { 
-            background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 550px;
-            border-radius: 35px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            padding: 40px; border: 4px solid #fff; box-sizing: border-box; margin-bottom: 20px;
-            position: relative; animation: fadeInUp 0.6s ease-out;
-        }
+  .nose {
+    width: 16px;
+    height: 10px;
+    background-color: #6D4C41;
+    border-radius: 10px;
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .dog-logo-container { width: 180px; margin: 0 auto 15px auto; text-align: center; position: relative; }
-        .dog-logo img { width: 180px; height: auto; display: block; transition: transform 0.3s ease; cursor: pointer; }
-        .dog-logo img:hover { animation: shake 0.5s ease-in-out; }
-
-        .bubble {
-            position: absolute; top: -20px; right: -30px; background: #3ebc8e; color: white;
-            padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 600;
-            opacity: 0; transform: translateY(10px); transition: 0.3s; pointer-events: none;
-            white-space: nowrap;
-        }
-        .dog-logo:hover .bubble, .bubble.show { opacity: 1; transform: translateY(0); }
-
-        .heart {
-            position: absolute; font-size: 20px; color: #ff6b6b; pointer-events: none;
-            animation: floatUp 1s ease-out forwards; z-index: 100;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-        }
-
-        @keyframes shake {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            50% { transform: rotate(-5deg); }
-            75% { transform: rotate(3deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        h2 { text-align: center; color: #3ebc8e; font-family: 'Fredoka', sans-serif; font-size: 42px; margin: 10px 0 5px 0; }
-        .author-tag { text-align: center; color: #BEBEBE; font-size: 13px; margin-bottom: 35px; display: block; }
-
-        label { font-weight: 600; color: #7B7B7B; display: block; margin-top: 22px; font-size: 14px; }
-        select, input { 
-            width: 100%; padding: 14px; margin-top: 10px; border: 2px solid #fcf2d1; 
-            border-radius: 15px; background-color: #fffdf5; font-size: 15px; outline: none;
-            font-family: 'Poppins', sans-serif; color: #444; box-sizing: border-box; transition: 0.3s;
-        }
-        select:focus, input:focus { border-color: #f7bf6e; background-color: #fff; }
-
-        #result-box { 
-            margin-top: 40px; padding: 30px; border-radius: 25px; background-color: #fff; 
-            border: 2px dashed #3ebc8e; color: #444; line-height: 1.8; display: none; font-size: 15px;
-        }
-
-        .advice-header {
-            text-align: center; font-weight: 600; padding: 10px 20px; border-radius: 50px; 
-            display: block; width: fit-content; margin: 0 auto 20px auto; font-size: 15px;
-            background-color: #fef4d1; color: #b58105; border: 1px solid #f7bf6e;
-        }
-
-        .age-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
-        .age-table th, .age-table td { border: 1px solid #eee; padding: 10px; text-align: center; }
-        .age-table th { background-color: #f9f9f9; color: #7B7B7B; }
-        .match-highlight { background-color: rgba(247, 191, 110, 0.2); color: #e67e22; font-weight: 600; border: 2.5px solid #f7bf6e !important; }
-
-        .game-section { border-top: 2.5px solid #faefba; margin-top: 40px; padding-top: 30px; text-align: center; }
-        .game-title { font-family: 'Fredoka', sans-serif; color: #f7bf6e; font-size: 26px; margin-bottom: 10px; font-weight: bold; }
-        .game-desc { font-size: 13px; color: #999; margin-bottom: 20px; }
-        .game-input-group { display: flex; gap: 10px; justify-content: center; }
-        .game-input { width: 90px !important; margin-top: 0 !important; text-align: center; border-radius: 12px; }
-        .game-btn { background-color: #f7bf6e; color: white; border: none; padding: 10px 25px; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .game-btn:hover { background-color: #e67e22; transform: translateY(-2px); }
-        #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
-        
-        /* 彩色線條表情優化 */
-        .mood-feedback { display: flex; justify-content: center; gap: 20px; margin-top: 15px; }
-        .face-btn { 
-            width: 50px; height: 50px; border-radius: 50%; 
-            background: transparent; position: relative; cursor: pointer; transition: 0.2s; 
-            border: 2px solid;
-        }
-        .face-btn:hover { transform: scale(1.1); }
-        
-        .line-element { position: absolute; border-style: solid; border-width: 0; }
-
-        /* 開心：綠色線條 */
-        .happy-face { border-color: #27ae60; }
-        .happy-face::before, .happy-face::after {
-            content: ''; position: absolute; width: 6px; height: 6px;
-            border-top: 2px solid #27ae60; border-left: 2px solid #27ae60;
-            top: 15px; border-radius: 2px; transform: rotate(45deg);
-        }
-        .happy-face::before { left: 12px; }
-        .happy-face::after { right: 12px; }
-        .happy-face .mouth {
-            width: 20px; height: 10px; border-bottom: 2px solid #27ae60;
-            border-radius: 0 0 15px 15px; bottom: 8px; left: 14px; position: absolute;
-        }
-
-        /* 沒表情：黃色線條 */
-        .neutral-face { border-color: #f1c40f; }
-        .neutral-face::before, .neutral-face::after {
-            content: ''; position: absolute; width: 8px; height: 2px;
-            background: #f1c40f; top: 18px;
-        }
-        .neutral-face::before { left: 10px; }
-        .neutral-face::after { right: 10px; }
-        .neutral-face .mouth {
-            width: 18px; height: 2px; background: #f1c40f;
-            bottom: 12px; left: 15px; position: absolute;
-        }
-
-        /* 生氣：紅色線條 */
-        .angry-face { border-color: #e74c3c; }
-        .angry-face .eye {
-            width: 6px; height: 6px; border-bottom: 2px solid #e74c3c;
-            border-left: 2px solid #e74c3c; position: absolute; top: 18px;
-            transform: rotate(-135deg);
-        }
-        .angry-face .eye.left { left: 12px; }
-        .angry-face .eye.right { right: 12px; }
-        .angry-face .brow {
-            width: 12px; height: 2px; background: #e74c3c; position: absolute; top: 12px;
-        }
-        .angry-face .brow.left { left: 8px; transform: rotate(20deg); }
-        .angry-face .brow.right { right: 8px; transform: rotate(-20deg); }
-        .angry-face .mouth {
-            width: 16px; height: 8px; border-top: 2px solid #e74c3c;
-            border-radius: 10px 10px 0 0; bottom: 6px; left: 16px; position: absolute;
-        }
-
-        #feedback-text { margin-top: 15px; font-size: 14px; color: #3ebc8e; font-weight: 600; height: 20px; }
-    </style>
+  .mouth-line {
+    width: 35px;
+    height: 5px;
+    border-bottom: 5px solid #6D4C41;
+    border-radius: 0 0 10px 10px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
 </head>
 <body>
 
-<div class="lang-switch">
-    <button class="lang-btn active" id="btn-en" onclick="changeLang('en')">EN</button>
-    <button class="lang-btn" id="btn-zh" onclick="changeLang('zh')">繁中</button>
+<div class="dog-container">
+  <div class="ear left"></div>
+  <div class="ear right"></div>
+  <div class="face">
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <div class="nose"></div>
+    <div class="mouth-line"></div>
+  </div>
 </div>
 
-<div class="card">
-    <div class="dog-logo-container">
-        <div class="dog-logo" onclick="createHeart(event)">
-            <div id="dog-bubble" class="bubble" data-i18n="logo-bubble">Woof! ❤️</div>
-            <img src="S__155754498-removebg-preview.png" alt="Dog Logo">
-        </div>
-    </div>
-
-    <h2 data-i18n="title">Dog Profile</h2>
-    <span class="author-tag">Made by Poppy H.</span>
-
-    <label data-i18n="label-breed">🐾 Dog Breed</label>
-    <select id="breed" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-breed">Select Breed...</option>
-    </select>
-
-    <label data-i18n="label-age">🎂 Dog Age</label>
-    <select id="age" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-age">Select Age...</option>
-        <option value="1" data-i18n="age-1">0-1 year (Baby)</option>
-        <option value="2" data-i18n="age-2">2 years (Young adult)</option>
-        <option value="4" data-i18n="age-4">3-5 years (Prime)</option>
-        <option value="10" data-i18n="age-10">7-10 years (Senior)</option>
-        <option value="15" data-i18n="age-15">10+ years (Elderly baby)</option>
-    </select>
-
-    <label data-i18n="label-size">🔢 Body Size</label>
-    <select id="bodySize" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-size">Select Size...</option>
-        <option value="mini" data-i18n="size-mini">Mini (<4kg)</option>
-        <option value="small" data-i18n="size-s">Small (<10kg)</option>
-        <option value="medium" data-i18n="size-m">Medium (11-25kg)</option>
-        <option value="large" data-i18n="size-l">Large (26-45kg)</option>
-        <option value="giant" data-i18n="size-giant">Giant (>45kg)</option>
-    </select>
-
-    <label data-i18n="label-activity">🐕‍🦺 Activity</label>
-    <select id="activity" onchange="generateAdvice()">
-        <option value="" data-i18n="opt-activity">Select Level...</option>
-        <option value="old" data-i18n="act-old">Too old to walk</option>
-        <option value="lazy" data-i18n="act-lazy">Lazy piggy (< 10min/day)</option>
-        <option value="good" data-i18n="act-good">Good puppy (30-90min/day)</option>
-        <option value="hyper" data-i18n="act-hyper">Hyperactive (2hr+/day)</option>
-        <option value="boss" data-i18n="act-boss">Boss level (Unlimited energy)</option>
-    </select>
-
-    <label data-i18n="label-weight">🦴 Current Weight (kg)</label>
-    <input type="number" id="weight" placeholder="Enter weight" oninput="generateAdvice()">
-
-    <div id="result-box"></div>
-
-    <div class="game-section">
-        <div class="game-title" data-i18n="game-title">✨ Doggy Mood Quiz</div>
-        <div class="game-desc" data-i18n="game-desc">Pick a number (0-100) to see how your dog feels!</div>
-        <div class="game-input-group">
-            <input type="number" id="moodNumber" class="game-input" placeholder="0-100" min="0" max="100">
-            <button class="game-btn" onclick="readDogMood()" data-i18n="game-btn">Check Mood</button>
-        </div>
-        <div id="mood-result"></div>
-        
-        <div id="mood-feedback-container" class="mood-feedback" style="display:none;">
-            <div class="face-btn happy-face" onclick="setFeedback('happy')">
-                <div class="mouth"></div>
-            </div>
-            <div class="face-btn neutral-face" onclick="setFeedback('neutral')">
-                <div class="mouth"></div>
-            </div>
-            <div class="face-btn angry-face" onclick="setFeedback('angry')">
-                <div class="brow left"></div><div class="brow right"></div>
-                <div class="eye left"></div><div class="eye right"></div>
-                <div class="mouth"></div>
-            </div>
-        </div>
-        <div id="feedback-text"></div>
-    </div>
-</div>
-
-<script>
-let currentLang = 'en';
-
-const i18n = {
-    en: {
-        title: "Dog Profile", "label-breed": "🐾 Dog Breed", "opt-breed": "Select Breed...",
-        "label-age": "🎂 Dog Age", "opt-age": "Select Age...", "age-1": "0-1 year (Baby)",
-        "age-2": "2 years (Young adult)", "age-4": "3-5 years (Prime)", "age-10": "7-10 years (Senior)",
-        "age-15": "10+ years (Elderly baby)", "label-size": "🔢 Body Size", "opt-size": "Select Size...",
-        "size-mini": "Mini (<4kg)", "size-s": "Small (<10kg)", "size-m": "Medium (11-25kg)", "size-l": "Large (26-45kg)", "size-giant": "Giant (>45kg)",
-        "label-activity": "🐕‍🦺 Activity", "opt-activity": "Select Level...", 
-        "act-old": "Too old to walk", "act-lazy": "Lazy piggy (< 10min/day)", 
-        "act-good": "Good puppy (30-90min/day)", "act-hyper": "Hyperactive (2hr+/day)",
-        "act-boss": "Boss level (Unlimited energy)", "label-weight": "🦴 Current Weight (kg)",
-        "game-title": "✨ Doggy Mood Quiz", "game-desc": "Pick a number (0-100) to see how your dog feels!",
-        "game-btn": "Check Mood", "quick-advice": "⭐️ A small suggestion",
-        "error-num": "Please enter 0-100!", "logo-bubble": "Woof! ❤️", "logo-done": "Awesome! ✨", 
-        "human_age": "Dog & Human Age Comparison", "age_col1": "Dog Age", "age_col2": "Human Age",
-        "vet_title": "Professional Veterinary Advice",
-        "fb-happy": "Glad you like it! 😊", "fb-neutral": "We'll keep improving! 👍", "fb-angry": "Oh no, we will do better! 🛠️"
-    },
-    zh: {
-        title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
-        "label-age": "🎂 狗狗年齡", "opt-age": "請選擇年齡...", "age-1": "0-1 歲 (幼犬期)",
-        "age-2": "2 歲 (青年期)", "age-4": "3-5 歲 (壯年期)", "age-10": "7-10 歲 (熟齡期)",
-        "age-15": "10 歲以上 (高齡老寶寶)", "label-size": "🔢 體型", "opt-size": "請選擇體型...",
-        "size-mini": "迷你型 (<4kg)", "size-s": "小型犬 (<10kg)", "size-m": "中型犬 (11-25kg)", "size-l": "大型犬 (26-45kg)", "size-giant": "巨型犬 (>45kg)",
-        "label-activity": "🐕‍發 活動量", "opt-activity": "請選擇活動量...", 
-        "act-old": "年紀太大了，走不動了", "act-lazy": "懶惰的小豬 (< 10min/day)", 
-        "act-good": "正常乖寶寶 (30-90min/day)", "act-hyper": "過動兒 (2HR以上)",
-        "act-boss": "大魔王等級 (用不完的體力)", "label-weight": "🦴 目前體重 (kg)",
-        "game-title": "✨ Doggy Mood Quiz", "game-desc": "輸入 0-100 的數字，看看狗狗今天的心情！",
-        "game-btn": "查看心情", "quick-advice": "⭐️ 小小建議",
-        "error-num": "請輸入 0-100 之間的數字！", "logo-bubble": "汪！我愛你 ❤️", "logo-done": "填得好棒！✨", 
-        "human_age": "狗與人類年齡對照表", "age_col1": "狗狗年齡", "age_col2": "人類年齡",
-        "vet_title": "專業獸醫建議",
-        "fb-happy": "太棒了，很高興你喜歡！😊", "fb-neutral": "我們會繼續努力改進！👍", "fb-angry": "喔不！我們會再改進的！🛠️"
-    }
-};
-
-const breeds = {
-    shiba: { en: "Shiba Inu", zh: "柴犬" },
-    poodle: { en: "Poodle", zh: "貴賓犬" },
-    corgi: { en: "Corgi", zh: "柯基" },
-    maltese: { en: "Maltese", zh: "瑪爾濟斯" },
-    golden: { en: "Golden Retriever", zh: "黃金獵犬" },
-    labrador: { en: "Labrador Retriever", zh: "拉不拉多" },
-    frenchie: { en: "French Bulldog", zh: "法鬥" },
-    dachshund: { en: "Dachshund", zh: "臘腸犬" },
-    schnauzer: { en: "Schnauzer", zh: "雪納瑞" },
-    pomeranian: { en: "Pomeranian", zh: "博美犬" }
-};
-
-const breedData = {
-    en: {
-        shiba: ["They are such independent thinkers.", "Check joints and skin sensitivity."],
-        poodle: ["Clever companions needing mental puzzles.", "Watch for tracheal health."],
-        corgi: ["Protect their long backs from jumping.", "Strict weight control is vital."],
-        maltese: ["Monitor heart health as they age.", "Filtered water helps tear stains."],
-        golden: ["Start joint support early.", "Regular full-body checks for lumps."]
-    },
-    zh: {
-        shiba: ["柴柴很有主見，像貓一樣獨立。", "注意皮膚潮濕引發的發炎與膝蓋保護。"],
-        poodle: ["非常聰明，需要益智玩具。", "留意氣管健康，建議使用胸背帶。"],
-        corgi: ["脊椎負擔重，禁止跳沙發。", "體重控制是健康首要任務。"],
-        maltese: ["熟齡後注意心臟瓣膜。", "喝過濾水可改善淚腺問題。"],
-        golden: ["大狗關節保養要趁早。", "洗澡時常摸全身檢查有無腫塊。"]
-    }
-};
-
-const moodDatabase = {
-    en: [ "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️" ],
-    zh: [ "今天我覺得我簡直是國王！👑", "那是開零食包裝的聲音嗎？🦴", "我現在只想黏在你身邊。❤️" ]
-};
-
-function populateBreeds() {
-    const breedSelect = document.getElementById('breed');
-    const currentValue = breedSelect.value;
-    breedSelect.innerHTML = `<option value="" data-i18n="opt-breed">${i18n[currentLang]['opt-breed']}</option>`;
-    for (const [key, names] of Object.entries(breeds)) {
-        const opt = document.createElement('option');
-        opt.value = key; opt.innerText = names[currentLang];
-        breedSelect.appendChild(opt);
-    }
-    breedSelect.value = currentValue;
-}
-
-function changeLang(lang) {
-    currentLang = lang;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(i18n[lang][key]) el.innerText = i18n[lang][key];
-    });
-    populateBreeds();
-    generateAdvice();
-}
-
-function createHeart(e) {
-    const dogLogo = document.querySelector('.dog-logo');
-    const heart = document.createElement('div');
-    heart.innerHTML = '❤️'; heart.classList.add('heart');
-    const rect = dogLogo.getBoundingClientRect();
-    heart.style.left = (e.clientX - rect.left) + 'px';
-    heart.style.top = (e.clientY - rect.top) + 'px';
-    dogLogo.appendChild(heart);
-    setTimeout(() => heart.remove(), 1000);
-}
-
-function calculateHumanAge(dogAge, size) {
-    if (dogAge <= 1) return Math.round(dogAge * 15);
-    if (dogAge === 2) return 24;
-    let factor = (size === 'large' || size === 'giant') ? 7 : 4;
-    return 24 + (dogAge - 2) * factor;
-}
-
-function generateAdvice() {
-    const breed = document.getElementById('breed').value;
-    const ageVal = parseFloat(document.getElementById('age').value);
-    const bodySize = document.getElementById('bodySize').value;
-    const weight = parseFloat(document.getElementById('weight').value);
-    const activityVal = document.getElementById('activity').value;
-    const resultBox = document.getElementById('result-box');
-    const bubble = document.getElementById('dog-bubble');
-
-    if (!breed || isNaN(ageVal) || !bodySize || !activityVal || isNaN(weight)) {
-        resultBox.style.display = "none";
-        bubble.classList.remove('show');
-        return;
-    }
-
-    bubble.innerText = i18n[currentLang]['logo-done'];
-    bubble.classList.add('show');
-    resultBox.style.display = "block";
-    const hAge = calculateHumanAge(ageVal, bodySize);
-    
-    let html = `<span class="advice-header">${i18n[currentLang]['quick-advice']}</span>`;
-    html += `<b>📊 ${i18n[currentLang].human_age}</b>`;
-    html += `<table class="age-table"><tr><th>Age</th><th>Human</th></tr><tr class="match-highlight"><td>${ageVal}</td><td>~ ${hAge}</td></tr></table><br>`;
-    html += `<b>🩺 ${i18n[currentLang].vet_title}</b><ul>`;
-    const tips = breedData[currentLang][breed] || [];
-    tips.forEach(t => { html += `<li>${t}</li>`; });
-    html += `</ul>`;
-    resultBox.innerHTML = html;
-}
-
-function readDogMood() {
-    const num = parseInt(document.getElementById('moodNumber').value);
-    const moodDisplay = document.getElementById('mood-result');
-    const feedback = document.getElementById('mood-feedback-container');
-
-    if (isNaN(num) || num < 0 || num > 100) {
-        moodDisplay.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
-        feedback.style.display = "none";
-        return;
-    }
-    const list = moodDatabase[currentLang];
-    moodDisplay.innerHTML = `<span>" ${list[num % list.length]} "</span>`;
-    feedback.style.display = "flex";
-}
-
-function setFeedback(type) {
-    document.getElementById('feedback-text').innerText = i18n[currentLang]['fb-' + type];
-}
-
-window.onload = populateBreeds;
-</script>
 </body>
 </html>
