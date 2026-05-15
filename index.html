@@ -10,11 +10,11 @@
     <style>
         body { 
             background-color: #faefba; 
-            /* 優化：加入不規則腳印浮水印背景 */
+            /* 優化：腳印背景裝飾（確保不交疊） */
             background-image: 
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M30 40c2 0 4-2 4-4s-2-4-4-4-4 2-4 4 2 4 4 4zm20-5c2 0 4-2 4-4s-2-4-4-4-4 2-4 4 2 4 4 4zm-30 5c3 0 6-3 6-6s-3-6-6-6-6 3-6 6 3 6 6 6zm40 5c3 0 6-3 6-6s-3-6-6-6-6 3-6 6 3 6 6 6zm-20 15c5 0 10-4 10-9s-4-9-10-9-10 4-10 9 4 9 10 9z' fill='%23fcd979' fill-opacity='0.2' transform='rotate(15 50 50)'/%3E%3C/svg%3E"),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'%3E%3Cpath d='M30 40c2 0 4-2 4-4s-2-4-4-4-4 2-4 4 2 4 4 4zm20-5c2 0 4-2 4-4s-2-4-4-4-4 2-4 4 2 4 4 4zm-30 5c3 0 6-3 6-6s-3-6-6-6-6 3-6 6 3 6 6 6zm40 5c3 0 6-3 6-6s-3-6-6-6-6 3-6 6 3 6 6 6zm-20 15c5 0 10-4 10-9s-4-9-10-9-10 4-10 9 4 9 10 9z' fill='%23fcd979' fill-opacity='0.15' transform='rotate(-25 50 50)'/%3E%3C/svg%3E");
-            background-position: 0 0, 50px 60px;
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M30 40c2 0 4-2 4-4s-2-4-4-4-4 2-4 4 2 4 4 4zm20-5c2 0 4-2 4-4s-2-4-4-4-4 2-4 4 2 4 4 4zm-30 5c3 0 6-3 6-6s-3-6-6-6-6 3-6 6 3 6 6 6zm40 5c3 0 6-3 6-6s-3-6-6-6-6 3-6 6 3 6 6 6zm-20 15c5 0 10-4 10-9s-4-9-10-9-10 4-10 9 4 9 10 9z' fill='%23fcd979' fill-opacity='0.2' transform='rotate(15 50 50) scale(0.6)'/%3E%3C/svg%3E");
+            background-size: 150px 150px;
+            background-repeat: repeat;
             font-family: 'Poppins', sans-serif;
             display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0;
         }
@@ -101,11 +101,21 @@
         .game-btn:hover { background-color: #e67e22; transform: translateY(-2px); }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
 
-        /* 新增：表情反饋機制樣式 */
-        .feedback-group { display: none; justify-content: center; gap: 20px; margin-top: 15px; animation: fadeInUp 0.4s ease; }
-        .feedback-btn { font-size: 28px; cursor: pointer; transition: transform 0.2s; filter: grayscale(0.3); }
-        .feedback-btn:hover { transform: scale(1.3); filter: grayscale(0); }
-        .feedback-btn.selected { transform: scale(1.3); filter: grayscale(0); }
+        /* 優化：自定義繪製表情反饋機制 */
+        .feedback-group { display: none; justify-content: center; gap: 25px; margin-top: 20px; }
+        .draw-face { width: 40px; height: 40px; border: 3px solid #6D4C41; border-radius: 50%; position: relative; cursor: pointer; transition: 0.2s; }
+        .draw-face:hover { transform: scale(1.15); border-color: #3ebc8e; }
+        .draw-face::before, .draw-face::after { content: ''; position: absolute; background: #6D4C41; height: 3px; border-radius: 3px; }
+        
+        /* 開心 */
+        .happy::before { width: 6px; height: 6px; border-radius: 50%; left: 9px; top: 12px; box-shadow: 16px 0 0 #6D4C41; }
+        .happy::after { width: 18px; height: 9px; border: 3px solid #6D4C41; border-top: 0; border-radius: 0 0 15px 15px; left: 50%; transform: translateX(-50%); top: 22px; background: transparent; }
+        /* 沒表情 */
+        .neutral::before { width: 6px; height: 6px; border-radius: 50%; left: 9px; top: 12px; box-shadow: 16px 0 0 #6D4C41; }
+        .neutral::after { width: 16px; left: 50%; transform: translateX(-50%); top: 26px; }
+        /* 生氣 */
+        .angry::before { width: 10px; height: 3px; left: 6px; top: 14px; transform: rotate(20deg); box-shadow: 18px -6px 0 #6D4C41; }
+        .angry-after { position: absolute; width: 14px; height: 7px; border: 3px solid #6D4C41; border-bottom: 0; border-radius: 10px 10px 0 0; left: 50%; transform: translateX(-50%); top: 24px; }
     </style>
 </head>
 <body>
@@ -174,11 +184,11 @@
             <button class="game-btn" onclick="readDogMood()" data-i18n="game-btn">Check Mood</button>
         </div>
         <div id="mood-result"></div>
-        <!-- 新增：反饋按鈕容器 -->
+        <!-- 優化：表情反饋機制（自定義繪製） -->
         <div id="feedback-section" class="feedback-group">
-            <span class="feedback-btn" onclick="giveFeedback('happy')">😆</span>
-            <span class="feedback-btn" onclick="giveFeedback('neutral')">😐</span>
-            <span class="feedback-btn" onclick="giveFeedback('angry')">💢</span>
+            <div class="draw-face happy" onclick="selectFeedback(this)"></div>
+            <div class="draw-face neutral" onclick="selectFeedback(this)"></div>
+            <div class="draw-face angry" onclick="selectFeedback(this)"><div class="angry-after"></div></div>
         </div>
     </div>
 </div>
@@ -339,15 +349,12 @@ function readDogMood() {
     const list = moodDatabase[currentLang];
     moodDisplay.innerHTML = `<span>" ${list[num % list.length]} "</span>`;
     
-    // 產出結果後顯示反饋機制
     feedbackSection.style.display = "flex";
 }
 
-function giveFeedback(type) {
-    const btns = document.querySelectorAll('.feedback-btn');
-    btns.forEach(btn => btn.classList.remove('selected'));
-    // 這裡可以加入收集反饋的邏輯，目前僅作 UI 互動
-    console.log("Mood feedback:", type);
+function selectFeedback(el) {
+    document.querySelectorAll('.draw-face').forEach(face => face.style.borderColor = "#6D4C41");
+    el.style.borderColor = "#3ebc8e";
 }
 
 window.onload = populateBreeds;
