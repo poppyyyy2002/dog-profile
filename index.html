@@ -97,9 +97,27 @@
         .game-btn:hover { background-color: #e67e22; transform: translateY(-2px); }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
         
-        .mood-feedback { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
-        .mood-emoji { font-size: 24px; cursor: pointer; transition: 0.3s; filter: grayscale(1); }
-        .mood-emoji:hover { transform: scale(1.3); filter: grayscale(0); }
+        /* 繪製表情符號樣式 */
+        .mood-feedback { display: flex; justify-content: center; gap: 20px; margin-top: 15px; }
+        .face-btn { width: 40px; height: 40px; border-radius: 50%; background: #fcd979; position: relative; cursor: pointer; transition: 0.3s; border: 2px solid #e67e22; }
+        .face-btn:hover { transform: scale(1.2); }
+        
+        /* 眼睛通用 */
+        .eye { width: 4px; height: 4px; background: #444; border-radius: 50%; position: absolute; top: 12px; }
+        .eye.left { left: 10px; }
+        .eye.right { right: 10px; }
+        
+        /* 開心口型 */
+        .mouth-happy { width: 20px; height: 10px; border-bottom: 3px solid #444; border-radius: 0 0 15px 15px; position: absolute; bottom: 8px; left: 10px; }
+        /* 無表情口型 */
+        .mouth-neutral { width: 15px; height: 3px; background: #444; position: absolute; bottom: 12px; left: 12.5px; }
+        /* 生氣口型與眉毛 */
+        .mouth-angry { width: 20px; height: 8px; border-top: 3px solid #444; border-radius: 15px 15px 0 0; position: absolute; bottom: 5px; left: 10px; }
+        .brow { width: 10px; height: 2px; background: #444; position: absolute; top: 8px; }
+        .brow.left { left: 8px; transform: rotate(20deg); }
+        .brow.right { right: 8px; transform: rotate(-20deg); }
+
+        #feedback-text { margin-top: 15px; font-size: 14px; color: #3ebc8e; font-weight: 600; height: 20px; }
     </style>
 </head>
 <body>
@@ -168,11 +186,24 @@
             <button class="game-btn" onclick="readDogMood()" data-i18n="game-btn">Check Mood</button>
         </div>
         <div id="mood-result"></div>
+        
+        <!-- 繪製的三個表情反饋 -->
         <div id="mood-feedback-container" class="mood-feedback" style="display:none;">
-            <span class="mood-emoji" onclick="this.style.filter='grayscale(0)'">😍</span>
-            <span class="mood-emoji" onclick="this.style.filter='grayscale(0)'">😆</span>
-            <span class="mood-emoji" onclick="this.style.filter='grayscale(0)'">✨</span>
+            <div class="face-btn" onclick="setFeedback('happy')">
+                <div class="eye left"></div><div class="eye right"></div>
+                <div class="mouth-happy"></div>
+            </div>
+            <div class="face-btn" onclick="setFeedback('neutral')">
+                <div class="eye left"></div><div class="eye right"></div>
+                <div class="mouth-neutral"></div>
+            </div>
+            <div class="face-btn" onclick="setFeedback('angry')">
+                <div class="brow left"></div><div class="brow right"></div>
+                <div class="eye left"></div><div class="eye right"></div>
+                <div class="mouth-angry"></div>
+            </div>
         </div>
+        <div id="feedback-text"></div>
     </div>
 </div>
 
@@ -196,7 +227,8 @@ const i18n = {
         "game-btn": "Check Mood", "quick-advice": "⭐️ A small suggestion",
         "age-table-title": "Age Correlation Table", "weight-high": "Weight is high for size.", "error-num": "Please enter 0-100!",
         "logo-bubble": "Woof! ❤️", "logo-done": "Awesome! ✨", "human_age": "Dog & Human Age Comparison", "age_col1": "Dog Age", "age_col2": "Human Age",
-        "vet_title": "Professional Veterinary Advice"
+        "vet_title": "Professional Veterinary Advice",
+        "fb-happy": "Glad you like it! 😊", "fb-neutral": "We'll keep improving! 👍", "fb-angry": "Oh no, we will do better! 🛠️"
     },
     zh: {
         title: "狗狗檔案", "label-breed": "🐾 狗狗品種", "opt-breed": "請選擇品種...",
@@ -214,7 +246,8 @@ const i18n = {
         "game-btn": "查看心情", "quick-advice": "⭐️ 小小建議",
         "age-table-title": "犬人類年齡對照表", "weight-high": "警告：體重已超出標準範圍。", "error-num": "請輸入 0-100 之間的數字！",
         "logo-bubble": "汪！我愛你 ❤️", "logo-done": "填得好棒！✨", "human_age": "狗與人類年齡對照表", "age_col1": "狗狗年齡", "age_col2": "人類年齡",
-        "vet_title": "專業獸醫建議"
+        "vet_title": "專業獸醫建議",
+        "fb-happy": "太棒了，很高興你喜歡！😊", "fb-neutral": "我們會繼續努力改進！👍", "fb-angry": "喔不！我們會再改進的！🛠️"
     }
 };
 
@@ -249,14 +282,8 @@ const breedData = {
 };
 
 const moodDatabase = {
-    en: [
-        "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️", "Take me to the park! 🐕", "Feeling a bit sleepy... 💤", "You are my favorite human. 🌟", "Ready for an adventure! 🗺️", "I love our long walks. 🐾", "Did you say 'WALK'? 🎾", "I feel so safe near you. 🏠", "Squirrel!! Where? 🐿️", "Can I have some of your food? 🍕", "I'm the happiest dog ever! 😊", "Life is good with you. ✨", "Let's play tug-of-war! 🧶", "I dream about treats. 💭", "Wagging my tail just for you! 🐕", "Feeling very loyal today. 🎖️", "You make my heart happy. 💖", "Sun's out, tongue's out! ☀️", "I'm your little shadow. 👥", "Can we play fetch? ⚾", "I love it when you rub my belly. 🙌", "You're home! Best day ever! 🎉", "Is it dinner time yet? 🍽️", "I'll protect you forever. 🛡️", "You give the best ear scratches. 👂", "I'm feeling extra fluffy today. ☁️", "Let's explore the world together. 🌍", "I trust you with all my heart. 🤝", "Best. Owners. Ever. 🥇", "I like your scent. 👃", "I'm your biggest fan! 📣", "Let's sit and watch the birds. 🐦", "I'm so glad we're friends. 👯", "Feeling super smart today! 🧠", "Wait, did a cat just pass by? 🐈", "I'll always be by your side. 🕯️", "Your smile is my favorite thing. 😁", "Let's go for a car ride! 🚗", "I like the way you talk to me. 💬", "Soft blankets and you - perfection. 🛌", "I'm feeling like a good boy! 😇", "I'll wait for you forever. ⏳", "Life is a ball! Literally! 🎾", "You are my sunshine. 🌤️", "So many smells, so little time! 👃", "I love you more than bacon! 🥓", "I'm just a happy pup today! 🌈", "Let's make some memories. 📸",
-        "I feel like a king! 👑", "Is that a bird? 🐦", "I love your smell. 👃", "Let's run! 🏃", "Time for a nap. 😴", "You're the best! 👍", "I'm so excited! 😆", "Where's my ball? 🎾", "I love you! 🤟", "Let's cuddle. 🤗", "I'm hungry! 🥩", "What's that noise? 👂", "I'm a good dog. 🐕", "I like cheese! 🧀", "Let's go out. Door!", "I'm happy! 😄", "You're my hero. 🦸", "I love scritches. 🐾", "Play with me! 🧸", "I'm sleepy. 🥱", "I like grass. 🌱", "Is it time? 🕒", "I'm your buddy. 🐶", "Let's explore! 🌲", "I love treats. 🍪", "You're funny! 😂", "I'm fast! ⚡", "I'm brave. 🦁", "I like toys. 🦴", "I'm a star! ⭐", "I love the sun. ☀️", "I'm loyal. ❤️", "I'm cool. 😎", "I like water. 💧", "I'm a helper. 🆘", "I love belly rubs. ✋", "I'm smart. 🎓", "I'm a hunter. 🏹", "I'm a friend. 🤝", "I'm yours. 🔗", "I love you. 💓", "I'm here. 📍", "I'm ready. 🏁", "I'm sweet. 🍭", "I'm kind. 🕊️", "I'm bold. 💥", "I'm curious. 🔍", "I'm alert. 🚨", "I'm calm. 🧘", "I'm home. 🏘️"
-    ],
-    zh: [
-        "今天我覺得我簡直是國王！👑", "那是開零食包裝的聲音嗎？🦴", "我現在只想黏在你身邊。❤️", "帶我去公園跑跑好嗎？🐕", "眼皮有點沉...想睡了。💤", "你是我這輩子最愛的人。🌟", "走吧！我們去外面大冒險！🗺️", "我最喜歡跟你散步的時候。🐾", "你剛剛是不是說「去玩」？🎾", "在你身邊我感到無比安全。🏠", "看！那邊有松鼠！🐿️", "你盤子裡的食物看起來好香。🍕", "我是世界上最幸福的小狗！😊", "跟你在一起的生活真精彩。✨", "快來跟我玩拔河遊戲！🧶", "我夢到我們在零食山上。💭", "看我的尾巴搖得多快！🐕", "我會永遠對你忠誠。🎖️", "你的出現讓我很開心。💖", "陽光好舒服，舌頭收不回來。☀️", "我是你最忠實的小影子。👥", "快把球丟出去讓我接！⚾", "我最喜歡你幫我揉肚肚了。🙌", "你終於回來了！最好的時刻！🎉", "放飯時間是不是到了？🍽️", "我會一輩子守護這家。🛡️", "你抓耳朵的技術是世界第一。👂", "今天我覺得我毛澎澎的很帥。☁️", "讓我們一起看遍世界。🌍", "我把整顆心都交給你了。🤝", "你是全世界最棒的主人。🥇", "我最喜歡你身上的味道。👃", "我是你的超級頭號粉絲！📣", "我們一起靜靜看窗外小鳥。🐦", "很高興能成為你的家人。👯", "今天我覺得我聽得懂你說的話！🧠", "噓！剛才外面是不是有貓？🐈", "無論如何我都會陪著你。🕯️", "你的笑容是我動力的來源。😁", "可以坐車車出去兜風嗎？🚗", "我喜歡你對我溫柔說話的聲音。💬", "軟軟的毯子和你，絕配。🛌", "今天我覺得我是個乖寶寶。😇", "我會在這裡一直等你回來。⏳", "生活就像顆網球，充滿樂趣！🎾", "你是照亮我生命的陽光。🌤️", "外面的味道好豐富，聞不完！👃", "我愛你勝過愛肉乾。🥓", "今天就是一個快樂小狗日！🌈", "讓我們一起留下更多回憶。📸",
-        "我覺得我今天帥呆了！😎", "那是什麼味道？好香！👃", "我想聽你跟我說話。💬", "快點快點，我們走！🏃", "午睡時間到了。😴", "你是我的唯一。☝️", "好興奮啊啊啊！😆", "我的玩具去哪了？🧸", "我最愛你了。🤟", "抱我一下。🤗", "肚子餓得咕嚕叫。🥩", "外面有奇怪的聲音。👂", "我是是不是最乖的？🐕", "我想吃起司！🧀", "門開了！要出去嗎？🚪", "開心到想轉圈圈！😄", "你是我的超人。🦸", "這裡抓不到，幫我抓抓。🐾", "別玩手機了，玩我！🧸", "睏到不行了。🥱", "草地的味道真好。🌱", "時間到了嗎？吃飯嗎？🕒", "我是你的好夥伴。🐶", "我們去那邊看看。🌲", "我想念我的骨頭。🍪", "你好逗趣喔。😂", "我跑得跟閃電一樣快。⚡", "我會勇敢保護你。🦁", "這是我的寶貝玩具。🦴", "我是閃亮的小明星。⭐", "陽光灑在毛上好舒服。☀️", "我會一直等你。❤️", "我今天心情超酷。😎", "玩水時間到了嗎？💧", "我有幫上忙嗎？🆘", "再揉一下肚肚。✋", "我覺得我聽得懂指令。🎓", "看我精準的狩獵動作。🏹", "我是你最好的朋友。🤝", "我永遠屬於你。🔗", "心跳好快，因為見到你。💓", "我一直都在這裡。📍", "我準備好要出發了。🏁", "我是個甜心小狗。🍭", "我會對每個人都很友善。🕊️", "今天我有滿滿的勇氣。💥", "那是什麼？讓我看看。🔍", "我有在認真看門喔。🚨", "心靈平靜的時刻。🧘", "有你在的地方就是家。🏘️"
-    ]
+    en: [ "I feel like a champion today! 🏆", "Is that a treat I hear? 🦴", "I just want to snuggle you! ❤️", "Take me to the park! 🐕", "Feeling a bit sleepy... 💤", "You are my favorite human. 🌟", "Ready for an adventure! 🗺️", "I love our long walks. 🐾", "Did you say 'WALK'? 🎾", "I feel so safe near you. 🏠", "Squirrel!! Where? 🐿️", "Can I have some of your food? 🍕", "I'm the happiest dog ever! 😊", "Life is good with you. ✨", "Let's play tug-of-war! 🧶", "I dream about treats. 💭", "Wagging my tail just for you! 🐕", "Feeling very loyal today. 🎖️", "You make my heart happy. 💖", "Sun's out, tongue's out! ☀️", "I'm your little shadow. 👥", "Can we play fetch? ⚾", "I love it when you rub my belly. 🙌", "You're home! Best day ever! 🎉", "Is it dinner time yet? 🍽️", "I'll protect you forever. 🛡️", "You give the best ear scratches. 👂", "I'm feeling extra fluffy today. ☁️", "Let's explore the world together. 🌍", "I trust you with all my heart. 🤝", "Best. Owners. Ever. 🥇", "I like your scent. 👃", "I'm your biggest fan! 📣", "Let's sit and watch the birds. 🐦", "I'm so glad we're friends. 👯", "Feeling super smart today! 🧠", "Wait, did a cat just pass by? 🐈", "I'll always be by your side. 🕯️", "Your smile is my favorite thing. 😁", "Let's go for a car ride! 🚗", "I like the way you talk to me. 💬", "Soft blankets and you - perfection. 🛌", "I'm feeling like a good boy! 😇", "I'll wait for you forever. ⏳", "Life is a ball! Literally! 🎾", "You are my sunshine. 🌤️", "So many smells, so little time! 👃", "I love you more than bacon! 🥓", "I'm just a happy pup today! 🌈", "Let's make some memories. 📸" ],
+    zh: [ "今天我覺得我簡直是國王！👑", "那是開零食包裝的聲音嗎？🦴", "我現在只想黏在你身邊。❤️", "帶我去公園跑跑好嗎？🐕", "眼皮有點沉...想睡了。💤", "你是我這輩子最愛的人。🌟", "走吧！我們去外面大冒險！🗺️", "我最喜歡跟你散步的時候。🐾", "你剛剛是不是說「去玩」？🎾", "在你身邊我感到無比安全。🏠", "看！那邊有松鼠！🐿️", "你盤子裡的食物看起來好香。🍕", "我是世界上最幸福的小狗！😊", "跟你在一起的生活真精彩。✨", "快來跟我玩拔河遊戲！🧶", "我夢到我們在零食山上。💭", "看我的尾巴搖得多快！🐕", "我會永遠對你忠誠。🎖️", "你的出現讓我很開心。💖", "陽光好舒服，舌頭收不回來。☀️", "我是你最忠實的小影子。👥", "快把球丟出去讓我接！⚾", "我最喜歡你幫我揉肚肚了。🙌", "你終於回來了！最好的時刻！🎉", "放飯時間是不是到了？🍽️", "我會一輩子守護這家。🛡️", "你抓耳朵的技術是世界第一。👂", "今天我覺得我毛澎澎的很帥。☁️", "讓我們一起看遍世界。🌍", "我把整顆心都交給你了。🤝", "你是全世界最棒的主人。🥇", "我最喜歡你身上的味道。👃", "我是你的超級頭號粉絲！📣", "我們一起靜靜看窗外小鳥。🐦", "很高興能成為你的家人。👯", "今天我覺得我聽得懂你說的話！🧠", "噓！剛才外面是不是有貓？🐈", "無論如何我都會陪著你。🕯️", "你的笑容是我動力的來源。😁", "可以坐車車出去兜風嗎？🚗", "我喜歡你對我溫柔說話的聲音。💬", "軟軟的毯子和你，絕配。🛌", "今天我覺得我是個乖寶寶。😇", "我會在這裡一直等你回來。⏳", "生活就像顆網球，充滿樂趣！🎾", "你是照亮我生命的陽光。🌤️", "外面的味道好豐富，聞不完！👃", "我愛你勝過愛肉乾。🥓", "今天就是一個快樂小狗日！🌈", "讓我們一起留下更多回憶。📸" ]
 };
 
 function populateBreeds() {
@@ -265,8 +292,7 @@ function populateBreeds() {
     breedSelect.innerHTML = `<option value="" data-i18n="opt-breed">${i18n[currentLang]['opt-breed']}</option>`;
     for (const [key, names] of Object.entries(breeds)) {
         const opt = document.createElement('option');
-        opt.value = key;
-        opt.innerText = names[currentLang];
+        opt.value = key; opt.innerText = names[currentLang];
         breedSelect.appendChild(opt);
     }
     breedSelect.value = currentValue;
@@ -289,8 +315,7 @@ function changeLang(lang) {
 function createHeart(e) {
     const dogLogo = document.querySelector('.dog-logo');
     const heart = document.createElement('div');
-    heart.innerHTML = '❤️';
-    heart.classList.add('heart');
+    heart.innerHTML = '❤️'; heart.classList.add('heart');
     const rect = dogLogo.getBoundingClientRect();
     heart.style.left = (e.clientX - rect.left) + 'px';
     heart.style.top = (e.clientY - rect.top) + 'px';
@@ -321,34 +346,19 @@ function generateAdvice() {
         return;
     }
 
-    // 當所有資料填寫完成，顯示稱讚氣泡框
     bubble.innerText = i18n[currentLang]['logo-done'];
     bubble.classList.add('show');
-
     resultBox.style.display = "block";
     const hAge = calculateHumanAge(ageVal, bodySize);
     
     let html = `<span class="advice-header">${i18n[currentLang]['quick-advice']}</span>`;
     html += `<b style="color:#7B7B7B;">📊 ${i18n[currentLang].human_age}</b>`;
-    html += `<table class="age-table">
-        <tr><th style="background:#fcf2d1">${i18n[currentLang].age_col1}</th><th style="background:#fcf2d1">${i18n[currentLang].age_col2}</th></tr>
-        <tr class="match-highlight"><td>${ageVal} yr</td><td>~ ${hAge} yrs old</td></tr>
-    </table><br>`;
-
+    html += `<table class="age-table"><tr><th style="background:#fcf2d1">${i18n[currentLang].age_col1}</th><th style="background:#fcf2d1">${i18n[currentLang].age_col2}</th></tr><tr class="match-highlight"><td>${ageVal} yr</td><td>~ ${hAge} yrs old</td></tr></table><br>`;
     html += `<b style="color:#3ebc8e;">🩺 ${i18n[currentLang].vet_title}</b><ul style="padding-left: 20px; margin-top: 10px; font-size: 14px;">`;
-    
     const tips = breedData[currentLang][breed] || [];
     tips.forEach(t => { html += `<li style="color: #555; margin-bottom:5px;">${t}</li>`; });
-
-    if (ageVal <= 1) html += `<li>${currentLang === 'en' ? "Growth Phase: Ensure high-calcium diet and complete vaccinations." : "成長期：確保高鈣飲食並按時完成基礎疫苗接種。"}</li>`;
-    else if (ageVal >= 7) html += `<li>${currentLang === 'en' ? "Senior Care: Suggest biannual blood tests and joint supplements." : "高齡照護：建議每半年進行血液檢查，並開始補充關節營養品。"}</li>`;
-    
-    if (activityVal === 'lazy' || activityVal === 'old') html += `<li>${currentLang === 'en' ? "Activity: Low exercise detected. Watch for obesity to avoid heart issues." : "活動量建議：運動量偏低，需嚴格控制體重以減輕心血管與關節負擔。"}</li>`;
-    
-    if ((bodySize === "mini" && weight > 4) || (bodySize === "small" && weight > 10) || (bodySize === "medium" && weight > 25) || (bodySize === "large" && weight > 45)) {
-        html += `<li style="color:#e67e22; font-weight:bold;">${i18n[currentLang]['weight-high']}</li>`;
-    }
-    
+    if (ageVal <= 1) html += `<li>${currentLang === 'en' ? "Growth Phase: Ensure high-calcium diet." : "成長期：確保高鈣飲食。"}</li>`;
+    if ((bodySize === "mini" && weight > 4) || (bodySize === "small" && weight > 10)) html += `<li style="color:#e67e22; font-weight:bold;">${i18n[currentLang]['weight-high']}</li>`;
     html += `</ul>`;
     resultBox.innerHTML = html;
 }
@@ -357,27 +367,29 @@ function readDogMood() {
     const num = parseInt(document.getElementById('moodNumber').value);
     const moodDisplay = document.getElementById('mood-result');
     const feedback = document.getElementById('mood-feedback-container');
+    const fbText = document.getElementById('feedback-text');
 
     if (isNaN(num) || num < 0 || num > 100) {
         moodDisplay.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
         feedback.style.display = "none";
+        fbText.innerText = "";
         return;
     }
     const list = moodDatabase[currentLang];
-    const index = Math.min(num, list.length - 1);
+    const index = num % list.length;
     
-    moodDisplay.style.opacity = 0;
-    setTimeout(() => {
-        moodDisplay.innerHTML = `<span>" ${list[index]} "</span>`;
-        moodDisplay.style.opacity = 1;
-        moodDisplay.style.transition = "0.5s";
-        feedback.style.display = "flex"; // 顯示三個回饋表情
-    }, 200);
+    moodDisplay.innerHTML = `<span>" ${list[index]} "</span>`;
+    feedback.style.display = "flex";
+    fbText.innerText = "";
 }
 
-window.onload = () => {
-    populateBreeds();
-};
+// 設定表情反饋文字
+function setFeedback(type) {
+    const fbText = document.getElementById('feedback-text');
+    fbText.innerText = i18n[currentLang]['fb-' + type];
+}
+
+window.onload = populateBreeds;
 </script>
 
 </body>
