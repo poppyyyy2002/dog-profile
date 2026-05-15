@@ -8,84 +8,63 @@
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #fffdf0;
+    background-color: #f0f0f0;
   }
-  .dog-container {
-    position: relative;
-    width: 200px;
-    height: 200px;
+  .canvas {
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   }
-  /* 柔和的黃色圓潤主體 */
-  .face {
-    width: 160px;
-    height: 145px;
-    background-color: #FFD54F;
-    border-radius: 80px 80px 70px 70px;
-    position: relative;
-    border: 5px solid #FBC02D;
-  }
-  /* 圓潤的耳朵 */
-  .ear {
-    width: 50px;
-    height: 60px;
-    background-color: #FFD54F;
-    border: 5px solid #FBC02D;
-    position: absolute;
-    top: -15px;
-    border-radius: 30px 30px 10px 10px;
-    z-index: -1;
-  }
-  .ear.left { left: 15px; transform: rotate(-15deg); }
-  .ear.right { right: 15px; transform: rotate(15deg); }
-
-  /* 粗細一致的五官線條 */
-  .eye {
-    width: 12px;
-    height: 12px;
-    background-color: #6D4C41;
+  .yellow-ball {
+    width: 150px;
+    height: 150px;
+    background-color: #FFEB3B;
     border-radius: 50%;
-    position: absolute;
-    top: 65px;
+    position: relative;
+    border: 6px solid #FBC02D;
+    box-shadow: inset -5px -5px 0px rgba(0,0,0,0.05);
   }
-  .eye.left { left: 45px; }
-  .eye.right { right: 45px; }
-
-  .nose {
-    width: 16px;
-    height: 10px;
-    background-color: #6D4C41;
+  .eyes {
+    position: absolute;
+    top: 55px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 35px;
+    box-sizing: border-box;
+  }
+  .eye {
+    width: 14px;
+    height: 14px;
+    background-color: #5D4037;
+    border-radius: 50%;
+  }
+  .mouth {
+    position: absolute;
+    bottom: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background-color: #5D4037;
     border-radius: 10px;
-    position: absolute;
-    top: 85px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .mouth-line {
-    width: 35px;
-    height: 5px;
-    border-bottom: 5px solid #6D4C41;
-    border-radius: 0 0 10px 10px;
-    position: absolute;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
   }
 </style>
 </head>
 <body>
 
-<div class="dog-container">
-  <div class="ear left"></div>
-  <div class="ear right"></div>
-  <div class="face">
-    <div class="eye left"></div>
-    <div class="eye right"></div>
-    <div class="nose"></div>
-    <div class="mouth-line"></div>
+<div class="canvas">
+  <div class="yellow-ball">
+    <div class="eyes">
+      <div class="eye"></div>
+      <div class="eye"></div>
+    </div>
+    <div class="mouth"></div>
   </div>
 </div>
 
