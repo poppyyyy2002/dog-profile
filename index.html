@@ -97,25 +97,55 @@
         .game-btn:hover { background-color: #e67e22; transform: translateY(-2px); }
         #mood-result { margin-top: 25px; font-weight: 600; color: #444; min-height: 45px; font-size: 17px; padding: 0 10px; }
         
-        /* 繪製表情符號樣式 */
+        /* 彩色線條表情樣式 */
         .mood-feedback { display: flex; justify-content: center; gap: 20px; margin-top: 15px; }
-        .face-btn { width: 40px; height: 40px; border-radius: 50%; background: #fcd979; position: relative; cursor: pointer; transition: 0.3s; border: 2px solid #e67e22; }
-        .face-btn:hover { transform: scale(1.2); }
+        .face-btn { 
+            width: 50px; height: 50px; border-radius: 50%; 
+            background: transparent; position: relative; cursor: pointer; transition: 0.3s; 
+            border-width: 3px; border-style: solid;
+        }
+        .face-btn:hover { transform: scale(1.15); }
         
-        /* 眼睛通用 */
-        .eye { width: 4px; height: 4px; background: #444; border-radius: 50%; position: absolute; top: 12px; }
-        .eye.left { left: 10px; }
-        .eye.right { right: 10px; }
-        
-        /* 開心口型 */
-        .mouth-happy { width: 20px; height: 10px; border-bottom: 3px solid #444; border-radius: 0 0 15px 15px; position: absolute; bottom: 8px; left: 10px; }
-        /* 無表情口型 */
-        .mouth-neutral { width: 15px; height: 3px; background: #444; position: absolute; bottom: 12px; left: 12.5px; }
-        /* 生氣口型與眉毛 */
-        .mouth-angry { width: 20px; height: 8px; border-top: 3px solid #444; border-radius: 15px 15px 0 0; position: absolute; bottom: 5px; left: 10px; }
-        .brow { width: 10px; height: 2px; background: #444; position: absolute; top: 8px; }
-        .brow.left { left: 8px; transform: rotate(20deg); }
-        .brow.right { right: 8px; transform: rotate(-20deg); }
+        /* 眼睛與表情元素通用 */
+        .line-eye { width: 5px; height: 5px; border-radius: 50%; position: absolute; top: 15px; }
+        .line-mouth { position: absolute; border-style: solid; }
+
+        /* 開心：綠色線條 */
+        .happy-face { border-color: #3ebc8e; }
+        .happy-face .line-eye { background: #3ebc8e; }
+        .happy-face .left { left: 12px; }
+        .happy-face .right { right: 12px; }
+        .happy-face .line-mouth { 
+            width: 22px; height: 11px; border-color: #3ebc8e; 
+            border-width: 0 0 3px 0; border-radius: 0 0 15px 15px; 
+            bottom: 10px; left: 12px; border-bottom-width: 3px;
+        }
+
+        /* 沒表情：灰色線條 */
+        .neutral-face { border-color: #999; }
+        .neutral-face .line-eye { background: #999; }
+        .neutral-face .left { left: 12px; }
+        .neutral-face .right { right: 12px; }
+        .neutral-face .line-mouth { 
+            width: 20px; height: 0; border-color: #999; 
+            border-width: 3px 0 0 0; bottom: 15px; left: 15px; 
+        }
+
+        /* 生氣：紅色線條 */
+        .angry-face { border-color: #ff6b6b; }
+        .angry-face .line-eye { background: #ff6b6b; }
+        .angry-face .left { left: 12px; }
+        .angry-face .right { right: 12px; }
+        .angry-face .line-mouth { 
+            width: 22px; height: 11px; border-color: #ff6b6b; 
+            border-width: 3px 0 0 0; border-radius: 15px 15px 0 0; 
+            bottom: 5px; left: 12px; 
+        }
+        .angry-face .brow { 
+            width: 10px; height: 3px; background: #ff6b6b; position: absolute; top: 10px; 
+        }
+        .angry-face .brow.left { left: 8px; transform: rotate(25deg); }
+        .angry-face .brow.right { right: 8px; transform: rotate(-25deg); }
 
         #feedback-text { margin-top: 15px; font-size: 14px; color: #3ebc8e; font-weight: 600; height: 20px; }
     </style>
@@ -187,20 +217,19 @@
         </div>
         <div id="mood-result"></div>
         
-        <!-- 繪製的三個表情反饋 -->
         <div id="mood-feedback-container" class="mood-feedback" style="display:none;">
-            <div class="face-btn" onclick="setFeedback('happy')">
-                <div class="eye left"></div><div class="eye right"></div>
-                <div class="mouth-happy"></div>
+            <div class="face-btn happy-face" onclick="setFeedback('happy')">
+                <div class="line-eye left"></div><div class="line-eye right"></div>
+                <div class="line-mouth"></div>
             </div>
-            <div class="face-btn" onclick="setFeedback('neutral')">
-                <div class="eye left"></div><div class="eye right"></div>
-                <div class="mouth-neutral"></div>
+            <div class="face-btn neutral-face" onclick="setFeedback('neutral')">
+                <div class="line-eye left"></div><div class="line-eye right"></div>
+                <div class="line-mouth"></div>
             </div>
-            <div class="face-btn" onclick="setFeedback('angry')">
+            <div class="face-btn angry-face" onclick="setFeedback('angry')">
                 <div class="brow left"></div><div class="brow right"></div>
-                <div class="eye left"></div><div class="eye right"></div>
-                <div class="mouth-angry"></div>
+                <div class="line-eye left"></div><div class="line-eye right"></div>
+                <div class="line-mouth"></div>
             </div>
         </div>
         <div id="feedback-text"></div>
@@ -304,10 +333,6 @@ function changeLang(lang) {
         const key = el.getAttribute('data-i18n');
         if(i18n[lang][key]) el.innerText = i18n[lang][key];
     });
-    document.getElementById('moodNumber').placeholder = "0-100";
-    document.getElementById('weight').placeholder = lang === 'en' ? "Enter weight" : "輸入重量";
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
     populateBreeds();
     generateAdvice();
 }
@@ -342,7 +367,6 @@ function generateAdvice() {
     if (!breed || isNaN(ageVal) || !bodySize || !activityVal || isNaN(weight)) {
         resultBox.style.display = "none";
         bubble.classList.remove('show');
-        bubble.innerText = i18n[currentLang]['logo-bubble'];
         return;
     }
 
@@ -357,8 +381,6 @@ function generateAdvice() {
     html += `<b style="color:#3ebc8e;">🩺 ${i18n[currentLang].vet_title}</b><ul style="padding-left: 20px; margin-top: 10px; font-size: 14px;">`;
     const tips = breedData[currentLang][breed] || [];
     tips.forEach(t => { html += `<li style="color: #555; margin-bottom:5px;">${t}</li>`; });
-    if (ageVal <= 1) html += `<li>${currentLang === 'en' ? "Growth Phase: Ensure high-calcium diet." : "成長期：確保高鈣飲食。"}</li>`;
-    if ((bodySize === "mini" && weight > 4) || (bodySize === "small" && weight > 10)) html += `<li style="color:#e67e22; font-weight:bold;">${i18n[currentLang]['weight-high']}</li>`;
     html += `</ul>`;
     resultBox.innerHTML = html;
 }
@@ -367,30 +389,22 @@ function readDogMood() {
     const num = parseInt(document.getElementById('moodNumber').value);
     const moodDisplay = document.getElementById('mood-result');
     const feedback = document.getElementById('mood-feedback-container');
-    const fbText = document.getElementById('feedback-text');
 
     if (isNaN(num) || num < 0 || num > 100) {
         moodDisplay.innerHTML = `<span style='color:red;'>${i18n[currentLang]['error-num']}</span>`;
         feedback.style.display = "none";
-        fbText.innerText = "";
         return;
     }
-    const list = moodDatabase[currentLang];
-    const index = num % list.length;
-    
-    moodDisplay.innerHTML = `<span>" ${list[index]} "</span>`;
+    const index = num % moodDatabase[currentLang].length;
+    moodDisplay.innerHTML = `<span>" ${moodDatabase[currentLang][index]} "</span>`;
     feedback.style.display = "flex";
-    fbText.innerText = "";
 }
 
-// 設定表情反饋文字
 function setFeedback(type) {
-    const fbText = document.getElementById('feedback-text');
-    fbText.innerText = i18n[currentLang]['fb-' + type];
+    document.getElementById('feedback-text').innerText = i18n[currentLang]['fb-' + type];
 }
 
 window.onload = populateBreeds;
 </script>
-
 </body>
 </html>
